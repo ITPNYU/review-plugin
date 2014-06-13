@@ -34,6 +34,7 @@ if (isset($result) && isset($result['objects'])) {
   foreach ($result['objects'] as $e) {
     array_push($review_entries, $e);
   }
+  var_dump($review_entries);
 }
 
 function rp_review_seen_callback($e) {
