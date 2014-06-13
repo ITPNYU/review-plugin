@@ -37,7 +37,6 @@ function rp_gravity_public_key_callback() {
 
 function rp_menu() {
   $page_hook = add_management_page( 'ITP Review', 'ITP Review', 'manage_options', 'rp-review', 'rp_page');
-  add_action('admin_print_scripts-' . $page_hook, 'rp_script_load');
 }
 
 function rp_page() {
