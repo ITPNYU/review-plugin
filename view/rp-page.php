@@ -45,7 +45,7 @@ $review_seen = array_map('rp_review_seen_callback', $review_entries);
 $to_load = array_diff($form_seen, $review_seen);
 
 foreach ($form_entries as $f) {
-  if (!in_array($f['id'], $to_load)) {
+  if (in_array($f['id'], $to_load)) {
     $result = NULL;
     $ret = http_post_data($review_query, 
       json_encode($input),
