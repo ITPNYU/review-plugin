@@ -53,12 +53,14 @@ foreach ($form_entries as $f) {
     );
     $result = NULL;
     $ret = http_post_data($review_query, 
-      urlencode(json_encode($input)),
+      json_encode($input),
       array('headers' => array('Content-Type' => 'application/json'))
     );
+    var_dump($ret);
     if ($ret != FALSE) {
       $result = json_decode(http_parse_message($ret)->body, TRUE);
     }
+    var_dump($result);
   }
 }
 
