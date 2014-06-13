@@ -37,7 +37,7 @@ if (isset($result) && isset($result['objects'])) {
 }
 
 function rp_review_seen_callback($e) {
-  return $e['entry_id'];
+  return $e['external_id'];
 }
 $review_seen = array_map('rp_review_seen_callback', $review_entries);
 
@@ -46,6 +46,11 @@ $to_load = array_diff($form_seen, $review_seen);
 
 foreach ($form_entries as $f) {
   if (in_array($f['id'], $to_load)) {
+    $input = array(
+      'name' => $f['1'] . ' ' . $f['2'] . ' <' . $f['3'] . '>',
+      'external_id' => $f['id'],
+      'collection_id' => get_option('rp_review_api_collection')
+    );
     $result = NULL;
     $ret = http_post_data($review_query, 
       json_encode($input),
