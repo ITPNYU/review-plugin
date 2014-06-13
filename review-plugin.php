@@ -60,7 +60,16 @@ function rp_textarea_setting_callback($arg) {
   echo "<textarea name=\"$option_name\" id=\"$option_name\" rows=\"20\" cols=\"60\" />$option_data</textarea>";
 }
 
-function rp_review_section() {
+function rp_message_section() {
+}
+
+function rp_gravity_section() {
+}
+
+function rp_review_api_section() {
+}
+
+function rp_paytrack_api_section() {
 }
 
 function rp_settings() {
