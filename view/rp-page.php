@@ -31,10 +31,11 @@ if ($ret != FALSE) {
   $result = json_decode(http_parse_message($ret)->body, TRUE);
 }
 if (isset($result) && isset($result['objects'])) {
+  var_dump($result);
   foreach ($result['objects'] as $e) {
     array_push($review_entries, $e);
   }
-  var_dump($review_entries);
+  //var_dump($review_entries);
 }
 
 function rp_review_seen_callback($e) {
