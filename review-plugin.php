@@ -44,8 +44,17 @@ function rp_page() {
   echo file_get_contents(plugin_dir_path(__FILE__) . '/view/rp-page.php');
 }
 
+function rp_input_setting_callback($arg) {
+  $option_name = $arg[0];
+  $option_data = get_option($option_name);
+  $val = '';
+  if (isset($option_data)) {
+    $val = 'value="' . $option_data . '"';
+  }
+  echo "<input name=\"$option_name\" id=\"$option_name\" type=\"text\" " . $val . " />";
+}
 
-function rp_review_setting_callback($arg) {
+function rp_textarea_setting_callback($arg) {
   $option_name = $arg[0];
   $option_data = get_option($option_name);
   echo "<textarea name=\"$option_name\" id=\"$option_name\" rows=\"20\" cols=\"60\" />$option_data</textarea>";
@@ -55,33 +64,33 @@ function rp_review_section() {
 }
 
 function rp_settings() {
-  add_settings_section('rp_review_section',
-    'ITP Review Settings',
-    'rp_review_section',
+  add_settings_section('rp_message_section',
+    'ITP Review: Message Settings',
+    'rp_message_section',
     'general'
   );
 
   add_settings_field('rp_message_accept',
     'Acceptance Message',
-    'rp_review_setting_callback',
+    'rp_textarea_setting_callback',
     'general',
-    'rp_review_section',
+    'rp_message_section',
     array('rp_message_accept')
   );
 
   add_settings_field('rp_message_comp',
     'Comp Message',
-    'rp_review_setting_callback',
+    'rp_textarea_setting_callback',
     'general',
-    'rp_review_section',
+    'rp_message_section',
     array('rp_message_comp')
   );
 
   add_settings_field('rp_message_reject',
     'Reject Message',
-    'rp_review_setting_callback',
+    'rp_textarea_setting_callback',
     'general',
-    'rp_review_section',
+    'rp_message_section',
     array('rp_message_reject')
   );
 
@@ -91,7 +100,7 @@ function rp_settings() {
 
   // Gravity Forms API settings
   add_settings_section('rp_gravity_section',
-    'ITP Review Gravity Settings',
+    'ITP Review: Gravity Settings',
     'rp_gravity_section',
     'general'
   );
@@ -112,6 +121,51 @@ function rp_settings() {
 
   register_setting( 'general', 'rp_gravity_public_key');
   register_setting( 'general', 'rp_gravity_private_key');
+
+  // ITP Paytrack and Review API settings
+  add_settings_section('rp_paytrack_api_section',
+    'ITP Review: Paytrack API Settings',
+    'rp_paytrack_api_section',
+    'general'
+  );
+  add_settings_section('rp_review_api_section',
+    'ITP Review: Review API Settings',
+    'rp_review_api_section',
+    'general'
+  );
+
+  add_settings_field('rp_paytrack_api_url',
+    'ITP Review: Paytrack API URL',
+    'rp_input_setting_callback',
+    'rp_paytrack_api_section',
+    array('rp_paytrack_api_url')
+  );
+
+  add_settings_field('rp_paytrack_api_key',
+    'ITP Review: Paytrack API Key',
+    'rp_input_setting_callback',
+    'rp_paytrack_api_section',
+    array('rp_paytrack_api_key')
+  );
+
+  add_settings_field('rp_review_api_url',
+    'ITP Review: Review API URL',
+    'rp_input_setting_callback',
+    'rp_review_api_section',
+    array('rp_review_api_url')
+  );
+
+  add_settings_field('rp_review_api_key',
+    'ITP Review: Review API Key',
+    'rp_input_setting_callback',
+    'rp_review_api_section',
+    array('rp_review_api_key')
+  );
+
+  register_setting ('general', 'rp_paytrack_api_url');
+  register_setting ('general', 'rp_paytrack_api_key');
+  register_setting ('general', 'rp_review_api_url');
+  register_setting ('general', 'rp_review_api_key');
 }
 
 function rp_setup() {
@@ -120,6 +174,10 @@ function rp_setup() {
   add_option('rp_message_reject');
   add_option('rp_gravity_public_key');
   add_option('rp_gravity_private_key');
+  add_option('rp_paytrack_api_url');
+  add_option('rp_paytrack_api_key');
+  add_option('rp_review_api_url');
+  add_option('rp_review_api_key');
 } 
 
 ?>
