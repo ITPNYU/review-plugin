@@ -26,7 +26,7 @@ $form_seen = array_map('rp_form_seen_callback', $form_entries);
 // find all entries in the ITP Review API
 $review_query = get_option('rp_review_api_url') . '/entry' . '?key=' . get_option('rp_review_api_key');
 $result = NULL;
-$ret = http_get($rp_review_query, array('Accept' => 'application/json'));
+$ret = http_get($review_query, array('Accept' => 'application/json'));
 if ($ret != FALSE) {
   $result = json_decode(http_parse_message($ret)->body, TRUE);
 }
@@ -34,14 +34,12 @@ if (isset($result) && isset($result['objects'])) {
   foreach ($result['objects'] as $e) {
     array_push($review_entries, $e);
   }
-  var_dump($review_entries);
 }
 
 function rp_review_seen_callback($e) {
   return $e['external_id'];
 }
 $review_seen = array_map('rp_review_seen_callback', $review_entries);
-var_dump($review_seen);
 
 // find any new form entries that need a corresponding entry in the Review API
 $to_load = array_diff($form_seen, $review_seen);
