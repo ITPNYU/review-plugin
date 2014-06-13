@@ -5,7 +5,7 @@ $form_entries = array();
 $review_entries = array();
 
 // find all entries in Gravity for the target form
-$gravity_query = gravity_query('forms/' . get_option('rp_gravity_form') . '/entries');
+$gravity_query = rp_gravity_query('forms/' . get_option('rp_gravity_form') . '/entries');
 $result = NULL;
 $ret = http_get($gravity_query, array('Accept' => 'application/json'));
 if ($ret != FALSE) {
