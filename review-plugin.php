@@ -51,7 +51,7 @@ function rp_input_setting_callback($arg) {
   if (isset($option_data)) {
     $val = 'value="' . $option_data . '"';
   }
-  echo "<input name=\"$option_name\" id=\"$option_name\" type=\"text\" " . $val . " />";
+  echo "<input name=\"$option_name\" id=\"$option_name\" type=\"text\" $val />";
 }
 
 function rp_textarea_setting_callback($arg) {
@@ -146,6 +146,7 @@ function rp_settings() {
   add_settings_field('rp_paytrack_api_url',
     'ITP Review: Paytrack API URL',
     'rp_input_setting_callback',
+    'general',
     'rp_paytrack_api_section',
     array('rp_paytrack_api_url')
   );
@@ -153,6 +154,7 @@ function rp_settings() {
   add_settings_field('rp_paytrack_api_key',
     'ITP Review: Paytrack API Key',
     'rp_input_setting_callback',
+    'general',
     'rp_paytrack_api_section',
     array('rp_paytrack_api_key')
   );
@@ -160,6 +162,7 @@ function rp_settings() {
   add_settings_field('rp_review_api_url',
     'ITP Review: Review API URL',
     'rp_input_setting_callback',
+    'general',
     'rp_review_api_section',
     array('rp_review_api_url')
   );
@@ -167,6 +170,7 @@ function rp_settings() {
   add_settings_field('rp_review_api_key',
     'ITP Review: Review API Key',
     'rp_input_setting_callback',
+    'general',
     'rp_review_api_section',
     array('rp_review_api_key')
   );
