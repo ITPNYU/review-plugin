@@ -131,7 +131,7 @@ function rp_settings() {
   );
 
   add_settings_field('rp_gravity_form',
-    'Gravity Form to Review (form number)',
+    'Gravity Form to Review (number)',
     'rp_input_setting_callback',
     'general',
     'rp_gravity_section',
@@ -187,10 +187,10 @@ function rp_settings() {
   );
 
   add_settings_field('rp_review_api_collection',
-    'ITP Review: Review API Collection ID (collection number)',
+    'ITP Review: Review API Collection ID (number)',
     'rp_input_setting_callback',
     'general',
-    'rp_review_api_collection',
+    'rp_review_api_section',
     array('rp_review_api_collection')
   );
 
