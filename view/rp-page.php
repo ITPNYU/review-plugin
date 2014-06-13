@@ -31,9 +31,8 @@ if ($ret != FALSE) {
   $result = json_decode(http_parse_message($ret)->body, TRUE);
 }
 if (isset($result) && isset($result['objects'])) {
-  //var_dump($result);
+  echo $result['objects'][0]['id'] . "<br />\n";
   foreach ($result['objects'] as $e) {
-    var_dump($e);
     array_push($review_entries, $e);
   }
   //var_dump($review_entries);
