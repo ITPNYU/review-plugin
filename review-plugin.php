@@ -116,20 +116,31 @@ function rp_settings() {
 
   add_settings_field('rp_gravity_public_key',
     'Gravity Forms API Public Key',
-    'rp_gravity_public_key_callback',
+    'rp_input_setting_callback',
     'general',
-    'rp_gravity_section'
+    'rp_gravity_section',
+    array('rp_gravity_public_key')
   );
   
   add_settings_field('rp_gravity_private_key',
     'Gravity Forms API Private Key',
-    'rp_gravity_private_key_callback',
+    'rp_input_setting_callback',
     'general',
-    'rp_gravity_section'
+    'rp_gravity_section',
+    array('rp_gravity_private_key')
   );
 
-  register_setting( 'general', 'rp_gravity_public_key');
-  register_setting( 'general', 'rp_gravity_private_key');
+  add_settings_field('rp_gravity_form',
+    'Gravity Form to Review (form number)',
+    'rp_input_setting_callback',
+    'general',
+    'rp_gravity_section',
+    array('rp_gravity_form')
+  );
+
+  register_setting('general', 'rp_gravity_public_key');
+  register_setting('general', 'rp_gravity_private_key');
+  register_setting('general', 'rp_gravity_form');
 
   // ITP Paytrack and Review API settings
   add_settings_section('rp_paytrack_api_section',
