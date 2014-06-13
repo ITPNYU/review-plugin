@@ -186,10 +186,19 @@ function rp_settings() {
     array('rp_review_api_key')
   );
 
+  add_settings_field('rp_review_api_collection',
+    'ITP Review: Review API Collection ID (collection number)',
+    'rp_input_setting_callback',
+    'general',
+    'rp_review_api_collection',
+    array('rp_review_api_collection')
+  );
+
   register_setting ('general', 'rp_paytrack_api_url');
   register_setting ('general', 'rp_paytrack_api_key');
   register_setting ('general', 'rp_review_api_url');
   register_setting ('general', 'rp_review_api_key');
+  register_setting ('general', 'rp_review_api_collection');
 }
 
 function rp_setup() {
