@@ -43,5 +43,18 @@ $review_seen = array_map('rp_review_seen_callback', $review_entries);
 
 // find any new form entries that need a corresponding entry in the Review API
 $to_load = array_diff($form_seen, $review_seen);
-var_dump($to_load);
+
+foreach ($form_entries as $f) {
+  if (!in_array($f['id'], $to_load)) {
+    $result = NULL;
+    $ret = http_post_data($review_query, 
+      json_encode($input),
+      array('headers' => array('Content-Type' => 'application/json'))
+    );
+    if ($ret != FALSE) {
+      $result = json_decode(http_parse_message($ret)->body, TRUE);
+    }
+  }
+}
+
 ?>
