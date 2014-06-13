@@ -207,10 +207,12 @@ function rp_setup() {
   add_option('rp_message_reject');
   add_option('rp_gravity_public_key');
   add_option('rp_gravity_private_key');
+  add_option('rp_gravity_form');
   add_option('rp_paytrack_api_url');
   add_option('rp_paytrack_api_key');
   add_option('rp_review_api_url');
   add_option('rp_review_api_key');
+  add_option('rp_review_api_collection');
 } 
 
 ?>
