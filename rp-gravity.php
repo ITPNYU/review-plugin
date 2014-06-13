@@ -9,8 +9,8 @@ function calculate_signature($string, $private_key) {
 
 function rp_gravity_query($route) {
   # From Gravity Forms API
-  $public_key = get_option('ifr_gravity_public_key');
-  $private_key = get_option('ifr_gravity_private_key');
+  $public_key = get_option('rp_gravity_public_key');
+  $private_key = get_option('rp_gravity_private_key');
   $method = "GET";
   date_default_timezone_set('America/New_York'); # FIXME: get from Wordpress
   $expires = strtotime("+300 mins");
