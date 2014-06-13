@@ -41,7 +41,7 @@ function rp_menu() {
 }
 
 function rp_page() {
-  echo file_get_contents(plugin_dir_path(__FILE__) . '/view/rp-page.php');
+  include (plugin_dir_path(__FILE__) . '/view/rp-page.php');
 }
 
 function rp_input_setting_callback($arg) {
