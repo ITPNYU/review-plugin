@@ -53,7 +53,7 @@ foreach ($form_entries as $f) {
     );
     $result = NULL;
     $ret = http_post_data($review_query, 
-      json_encode($input),
+      urlencode(json_encode($input)),
       array('headers' => array('Content-Type' => 'application/json'))
     );
     if ($ret != FALSE) {
