@@ -1,11 +1,17 @@
 <h2>ITP Review</h2>
 
 <?php 
-$rp_gravity = json_decode(rp_gravity_query('forms/' . get_option('rp_gravity_form') . '/entries'), TRUE);
-var_dump($rp_gravity);
+$rp_gravity_query = rp_gravity_query('forms/' . get_option('rp_gravity_form') . '/entries');
 
-//foreach ($rp_gravity['response']['entries'] as $g) {
-//  var_dump($g);
-//}
+$result = NULL;
+$ret = http_get($rp_gravity_query);
+if ($ret != FALSE) {
+  $result = json_decode(http_parse_message($ret)->body, TRUE);
+}
+if (isset($result)) {
+  foreach ($result['response']['entries'] as $g) {
+    echo $g['id'] . "\n";
+  }
+}
 
 ?>
