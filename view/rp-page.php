@@ -34,10 +34,8 @@ if ($ret != FALSE) {
 }
 if (isset($result) && isset($result['objects'])) {
   foreach ($result['objects'] as $e) {
-    echo $e['id'] . "<br />\n";
     array_push($review_entries, $e);
   }
-  //var_dump($review_entries);
 }
 
 function rp_review_seen_callback($e) {
@@ -64,6 +62,8 @@ foreach ($form_entries as $f) {
       $result = json_decode(http_parse_message($ret)->body, TRUE);
     }
   }
+  
 }
 
 ?>
+<p>The review process is being built here.</p>
