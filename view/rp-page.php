@@ -17,6 +17,7 @@ if (isset($result) && isset($result['response']) && isset($result['response']['e
   }
 }
 
+// used in array_map call to pull out form entry ID
 function rp_form_seen_callback($e) {
   return $e['id'];
 }
@@ -41,6 +42,7 @@ function get_reviews() {
   return $review_entries;
 }
 
+// used in array_map call to pull out review database ID
 function rp_review_seen_callback($e) {
   return $e['external_id'];
 }
@@ -70,13 +72,19 @@ foreach ($form_entries as $f) {
   }
 }
 
+function render_form_entry($f) {
+  $output = '<tr><td>' . $f['id'] . '</td><td><button name="Accept" /><button name="Reject" /><button name="Comp" /></tr>' . "\n";
+  return $output;
+
+}
+
 foreach ($form_entries as $f) {
 ?>
 <div class="entry-<?php echo $f['id']; ?>">
   entry: <?php echo $f['id']; ?>
 </div>
 <?php
+  echo $render_form_entry($f);
 }
 
 ?>
-<p>The review process is being built here.</p>
