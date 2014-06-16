@@ -26,6 +26,7 @@ $form_seen = array_map('rp_form_seen_callback', $form_entries);
 
 // find all entries in the ITP Review API
 function get_review_entries() {
+  $review_entries = array();
   $review_query = get_option('rp_review_api_url') . '/entry'
     . '?key=' . get_option('rp_review_api_key')
     . '&results_per_page=300';
