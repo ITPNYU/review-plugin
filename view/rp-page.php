@@ -73,9 +73,13 @@ foreach ($form_entries as $f) {
 }
 
 function render_form_entry($f) {
-  $output = '<tr><td>' . $f['id'] . '</td><td><button type="button" class="btn btn-success">Accept</button>
+  $output = '<tr>
+<td>' . $f['id'] . ': ' . $f['1'] . ' ' . $f['2'] . ' - ' . $f['3'] . '</td>
+<td><button type="button" class="btn btn-success">Accept</button>
 <button type="button" class="btn btn-danger">Reject</button>
-<button type="button" class="btn btn-default">Comp</button></td>
+<button type="button" class="btn btn-default">Comp</button>
+</td>
+
 </tr>' . "\n";
   return $output;
 
