@@ -41,10 +41,6 @@ function get_reviews() {
   return $review_entries;
 }
 
-function render_entry($f) {
-  include(plugin_dir_path(__FILE__) . '/view/rp-entry.php');
-}
-
 function rp_review_seen_callback($e) {
   return $e['external_id'];
 }
@@ -72,9 +68,15 @@ foreach ($form_entries as $f) {
       $result = json_decode(http_parse_message($ret)->body, TRUE);
     }
   }
-  render_entry($f);
 }
 
+foreach ($form_entries as $f) {
+?>
+<div class="entry-<?php echo $f['id']; ?>">
+  entry: <?php echo $f['id']; ?>
+</div>
+<?php
+}
 
 ?>
 <p>The review process is being built here.</p>
