@@ -85,11 +85,6 @@ function render_form_entry($f) {
 <table class="table table-striped">
 <?php
 foreach ($form_entries as $f) {
-?>
-<div class="entry-<?php echo $f['id']; ?>">
-  entry: <?php echo $f['id']; ?>
-</div>
-<?php
   echo render_form_entry($f);
 }
 
