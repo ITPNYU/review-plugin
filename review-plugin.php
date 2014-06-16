@@ -42,6 +42,7 @@ function rp_menu() {
 
 function rp_script_load() {
   wp_enqueue_style('bootstrap', '//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css');
+  wp_enqueue_style('bootstrap-theme', '//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css');
   wp_register_script('bootstrap', '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js');
   wp_enqueue_script('bootstrap');
 }
