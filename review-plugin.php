@@ -78,6 +78,14 @@ function rp_settings() {
     'general'
   );
 
+  add_settings_field('rp_register_url',
+    'Register URL',
+    'rp_input_setting_callback',
+    'general',
+    'rp_message_section',
+    array('rp_register_url')
+  );
+
   add_settings_field('rp_message_accept',
     'Acceptance Message',
     'rp_textarea_setting_callback',
@@ -102,6 +110,7 @@ function rp_settings() {
     array('rp_message_reject')
   );
 
+  register_setting('general', 'rp_register_url');
   register_setting('general', 'rp_message_accept');
   register_setting('general', 'rp_message_comp');
   register_setting('general', 'rp_message_reject');
@@ -201,6 +210,7 @@ function rp_settings() {
 }
 
 function rp_setup() {
+  add_option('rp_register_url');
   add_option('rp_message_accept');
   add_option('rp_message_comp');
   add_option('rp_message_reject');
