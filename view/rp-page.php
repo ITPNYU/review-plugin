@@ -78,7 +78,7 @@ foreach ($form_entries as $f) {
 
 function has_decision($f, $review_entries) {
   foreach ($review_entries as $r) {
-    if (isset($r['decision'])) {
+    if (($r['external_id'] == $f['id']) && isset($r['decision'])) {
       return $r['decision'];
     }
   }
