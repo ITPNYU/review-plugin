@@ -25,7 +25,7 @@ function rp_form_seen_callback($e) {
 $form_seen = array_map('rp_form_seen_callback', $form_entries);
 
 // find all entries in the ITP Review API
-function get_reviews() {
+function get_review_entries() {
   $review_query = get_option('rp_review_api_url') . '/entry'
     . '?key=' . get_option('rp_review_api_key')
     . '&results_per_page=300';
@@ -47,7 +47,7 @@ function rp_review_seen_callback($e) {
   return $e['external_id'];
 }
 
-$review_entries = get_reviews();
+$review_entries = get_review_entries();
 
 $review_seen = array_map('rp_review_seen_callback', $review_entries);
 
@@ -72,11 +72,24 @@ foreach ($form_entries as $f) {
   }
 }
 
+function has_decision($f) {
+  global $review_entries; 
+
+  foreach ($review_entries as $r) {
+    if (isset($r['decision'])) {
+      return $r['decision'];
+    }
+  }
+  return NULL;
+}
+
+// FIXME: hard-coded field names 
 function render_form_entry($f) {
+  $decision = has_decision($f); 
   $output = '<tr>
 <td><strong>' . $f['id'] . ': ' . $f['1'] . ' ' . $f['2'] . '</strong></td><td>'; 
-  if (TRUE) { // has decision  FIXME: implement
-    $output = $output . 'has decision '; // FIXME: implement
+  if (isset($decision)) {
+    $output = $output . '<strong>Decision: ' . $decision['decision'] . '</strong>';
   }
   else {
     $output = $output . '<button type="button" class="btn btn-success">Accept</button>
