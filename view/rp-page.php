@@ -42,7 +42,7 @@ function get_reviews() {
 }
 
 function render_entry($f) {
-  print 'entry: ' . $f['id'] . '<br />';
+  include(plugin_dir_path(__FILE__) . '/view/rp-entry.php');
 }
 
 function rp_review_seen_callback($e) {
