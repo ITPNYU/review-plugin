@@ -24,23 +24,33 @@ function rp_form_seen_callback($e) {
 $form_seen = array_map('rp_form_seen_callback', $form_entries);
 
 // find all entries in the ITP Review API
-$review_query = get_option('rp_review_api_url') . '/entry'
-  . '?key=' . get_option('rp_review_api_key')
-  . '&results_per_page=300';
-$result = NULL;
-$ret = http_get($review_query, array('Accept' => 'application/json'));
-if ($ret != FALSE) {
-  $result = json_decode(http_parse_message($ret)->body, TRUE);
-}
-if (isset($result) && isset($result['objects'])) {
-  foreach ($result['objects'] as $e) {
-    array_push($review_entries, $e);
+function get_reviews() {
+  $review_query = get_option('rp_review_api_url') . '/entry'
+    . '?key=' . get_option('rp_review_api_key')
+    . '&results_per_page=300';
+  $result = NULL;
+  $ret = http_get($review_query, array('Accept' => 'application/json'));
+  if ($ret != FALSE) {
+    $result = json_decode(http_parse_message($ret)->body, TRUE);
   }
+  if (isset($result) && isset($result['objects'])) {
+    foreach ($result['objects'] as $e) {
+      array_push($review_entries, $e);
+    }
+  }
+  return $review_entries;
+}
+
+function render_entry($f) {
+  print 'entry: ' . $f['id'] . '<br />';
 }
 
 function rp_review_seen_callback($e) {
   return $e['external_id'];
 }
+
+$review_entries = get_reviews();
+
 $review_seen = array_map('rp_review_seen_callback', $review_entries);
 
 // find any new form entries that need a corresponding entry in the Review API
@@ -62,8 +72,9 @@ foreach ($form_entries as $f) {
       $result = json_decode(http_parse_message($ret)->body, TRUE);
     }
   }
-  
+  render_entry($f);
 }
+
 
 ?>
 <p>The review process is being built here.</p>
