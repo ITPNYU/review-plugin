@@ -76,9 +76,7 @@ foreach ($form_entries as $f) {
   }
 }
 
-function has_decision($f) {
-  global $review_entries; 
-
+function has_decision($f, $review_entries) {
   foreach ($review_entries as $r) {
     if (isset($r['decision'])) {
       return $r['decision'];
@@ -88,8 +86,8 @@ function has_decision($f) {
 }
 
 // FIXME: hard-coded field names 
-function render_form_entry($f) {
-  $decision = has_decision($f); 
+function render_form_entry($f, $review_entries) {
+  $decision = has_decision($f, $review_entries); 
   $output = '<tr>
 <td><strong>' . $f['id'] . ': ' . $f['1'] . ' ' . $f['2'] . '</strong></td><td>'; 
   if (isset($decision)) {
@@ -125,7 +123,7 @@ function render_form_entry($f) {
 <table class="table table-striped">
 <?php
 foreach ($form_entries as $f) {
-  echo render_form_entry($f);
+  echo render_form_entry($f, $review_entries);
 }
 
 ?>
