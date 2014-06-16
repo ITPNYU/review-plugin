@@ -99,7 +99,7 @@ function render_form_entry($f, $review_entries) {
 <button type="button" class="btn btn-default">Comp</button>';
   }
 
-  $output = $output . '<br /><ul class="list-unstyled">
+  $output = $output . '<br /><hr /><ul class="list-unstyled">
   <li><strong>Email</strong>: ' . $f['3'] . '</li>
   <li><strong>Mobile Phone</strong>: ' . $f['4'] . '</li>
   <li><strong>Location</strong>: ' . $f['5'] . '</li>
