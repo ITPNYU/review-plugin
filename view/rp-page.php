@@ -80,7 +80,10 @@ function render_form_entry($f) {
   return $output;
 
 }
+?>
 
+<table class="table table-striped">
+<?php
 foreach ($form_entries as $f) {
 ?>
 <div class="entry-<?php echo $f['id']; ?>">
@@ -91,3 +94,4 @@ foreach ($form_entries as $f) {
 }
 
 ?>
+</table>
