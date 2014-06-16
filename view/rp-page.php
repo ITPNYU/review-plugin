@@ -85,17 +85,17 @@ function render_form_entry($f) {
   }
 
   $output = $output . '<br /><ul class="list-unstyled">
-  <li>Email: ' . $f['3'] . '</li>
-  <li>Mobile Phone: ' . $f['4'] . '</li>
-  <li>Location: ' . $f['5'] . '</li>
-  <li>Work: ' . $f['6'] . '</li>
-  <li>Website: ' . $f['7'] . '</li>
-  <li>Links: ' . $f['8'] . '</li>
-  <li>Want to make/learn/do: ' . $f['9'] . '</li>
-  <li>Skills/knowledge/expertise: ' . $f['10'] . '</li>
-  <li>Who do you want to hear from: ' . $f['11'] . '</li>
-  <li>Proposed session: ' . $f['12'] . '</li>
-  <li>Anything else: ' . $f['13'] . '</li>
+  <li><strong>Email</strong>: ' . $f['3'] . '</li>
+  <li><strong>Mobile Phone</strong>: ' . $f['4'] . '</li>
+  <li><strong>Location</strong>: ' . $f['5'] . '</li>
+  <li><strong>Work</strong>: ' . $f['6'] . '</li>
+  <li><strong>Website</strong>: ' . $f['7'] . '</li>
+  <li><strong>Links</strong>: ' . $f['8'] . '</li>
+  <li><strong>Wants to make/learn/do</strong>: ' . $f['9'] . '</li>
+  <li><strong>Skills/knowledge/expertise</strong>: ' . $f['10'] . '</li>
+  <li><strong>Wants to hear from</strong>: ' . $f['11'] . '</li>
+  <li><strong>Proposed session</strong>: ' . $f['12'] . '</li>
+  <li><strong>Anything else</strong>: ' . $f['13'] . '</li>
 </ul>
 </td>
 
