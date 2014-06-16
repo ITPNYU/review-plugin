@@ -74,11 +74,31 @@ foreach ($form_entries as $f) {
 
 function render_form_entry($f) {
   $output = '<tr>
-<td><strong>' . $f['id'] . ': ' . $f['1'] . ' ' . $f['2'] . ' - ' . $f['3'] . '</strong></td>
-<td><button type="button" class="btn btn-success">Accept</button>
+<td><strong>' . $f['id'] . ': ' . $f['1'] . ' ' . $f['2'] . '</strong></td>'; 
+  if (TRUE) { // has decision  FIXME: implement
+    $output = $output . 'has decision '; // FIXME: implement
+  }
+  else {
+    $output = $output . '<td><button type="button" class="btn btn-success">Accept</button>
 <button type="button" class="btn btn-danger">Reject</button>
-<button type="button" class="btn btn-default">Comp</button>
+<button type="button" class="btn btn-default">Comp</button>';
+  }
+
+  $output = $output . '<br /><ul class="list-unstyled">
+  <li>Email: ' . $f['3'] . '</li>
+  <li>Mobile Phone: ' . $f['4'] . '</li>
+  <li>Location: ' . $f['5'] . '</li>
+  <li>Work: ' . $f['6'] . '</li>
+  <li>Website: ' . $f['7'] . '</li>
+  <li>Links: ' . $f['8'] . '</li>
+  <li>Want to make/learn/do: ' . $f['9'] . '</li>
+  <li>Skills/knowledge/expertise: ' . $f['10'] . '</li>
+  <li>Who do you want to hear from: ' . $f['11'] . '</li>
+  <li>Proposed session: ' . $f['12'] . '</li>
+  <li>Anything else: ' . $f['13'] . '</li>
+</ul>
 </td>
+
 
 </tr>' . "\n";
   return $output;
