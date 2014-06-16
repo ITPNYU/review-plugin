@@ -74,12 +74,12 @@ foreach ($form_entries as $f) {
 
 function render_form_entry($f) {
   $output = '<tr>
-<td><strong>' . $f['id'] . ': ' . $f['1'] . ' ' . $f['2'] . '</strong></td>'; 
+<td><strong>' . $f['id'] . ': ' . $f['1'] . ' ' . $f['2'] . '</strong></td><td>'; 
   if (TRUE) { // has decision  FIXME: implement
     $output = $output . 'has decision '; // FIXME: implement
   }
   else {
-    $output = $output . '<td><button type="button" class="btn btn-success">Accept</button>
+    $output = $output . '<button type="button" class="btn btn-success">Accept</button>
 <button type="button" class="btn btn-danger">Reject</button>
 <button type="button" class="btn btn-default">Comp</button>';
   }
@@ -98,7 +98,6 @@ function render_form_entry($f) {
   <li>Anything else: ' . $f['13'] . '</li>
 </ul>
 </td>
-
 
 </tr>' . "\n";
   return $output;
