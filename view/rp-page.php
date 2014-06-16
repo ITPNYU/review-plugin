@@ -84,7 +84,7 @@ foreach ($form_entries as $f) {
   entry: <?php echo $f['id']; ?>
 </div>
 <?php
-  echo $render_form_entry($f);
+  echo render_form_entry($f);
 }
 
 ?>
