@@ -96,7 +96,7 @@ function render_form_entry($f, $review_entries) {
   else {
     $output = $output . '<button type="button" class="btn btn-success">Accept</button>
 <button type="button" class="btn btn-danger">Reject</button>
-<button type="button" class="btn btn-default">Comp</button>';
+<button type="button" class="btn btn-primary">Comp</button>';
   }
 
   $output = $output . '<br /><hr /><ul class="list-unstyled">
