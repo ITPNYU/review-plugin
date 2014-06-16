@@ -37,6 +37,13 @@ function rp_gravity_public_key_callback() {
 
 function rp_menu() {
   $page_hook = add_management_page( 'ITP Review', 'ITP Review', 'manage_options', 'rp-review', 'rp_page');
+  add_action('admin_print_scripts-' . $page_hook, 'rp_script_load');
+}
+
+function rp_script_load() {
+  wp_enqueue_style('bootstrap', '//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css');
+  wp_register_script('bootstrap', '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js');
+  wp_enqueue_script('bootstrap');
 }
 
 function rp_page() {
