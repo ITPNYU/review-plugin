@@ -17,6 +17,7 @@ $app->post('/decision', function() use ($app) {
     if ($ret != FALSE) {
       $d_result = json_decode(http_parse_message($ret)->body, TRUE);
     }
+    var_dump($d_result);
 /*    if (isset($d_result)) {
       // check for existing payer record in paytrack
       $p_result = NULL;
