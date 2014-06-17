@@ -73,7 +73,7 @@ foreach ($form_entries as $f) {
     if ($ret != FALSE) {
       $result = json_decode(http_parse_message($ret)->body, TRUE);
     }
-    var_dump($result);
+    var_dump($ret);
   }
 }
 
