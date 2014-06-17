@@ -28,23 +28,22 @@ $app->post('/decision', function() use ($app) {
     else {
       $app->response->setStatus(500);
     }
-    if (isset($d_result)) {
-      // check for existing payer record in paytrack
-      $p_result = NULL;
-      $filter = urlencode(json_encode(array(
-        'filters' => array(
-          array(
-            'name' => 'email',
-            'op' => 'eq',
-            'val' => $b['args']['email']
-          )
+    // check for existing payer record in paytrack
+    $p_result = NULL;
+    $filter = urlencode(json_encode(array(
+      'filters' => array(
+        array(
+          'name' => 'email',
+          'op' => 'eq',
+          'val' => $b['args']['email']
         )
-      )));
-      $ret = http_get($b['config']['paytrackUrl'] . '/payer?key=' . $b['config']['paytrackKey'] + '&q=' + $filter,
-        array('Accept' => 'application/json'));
-      if ($ret != FALSE) {
-        $p_result = json_decode(http_parse_message($ret)->body, TRUE);
-      }
+      )
+    )));
+    $ret = http_get($b['config']['paytrackUrl'] . '/payer?key=' . $b['config']['paytrackKey'] + '&q=' + $filter,
+      array('Accept' => 'application/json'));
+    if ($ret != FALSE) {
+      $p_result = json_decode(http_parse_message($ret)->body, TRUE);
+    }
 /*      if (isset($p_result) && (count($p_result['objects']) == 1)) { // found payer record
         
       }
@@ -64,7 +63,6 @@ $app->post('/decision', function() use ($app) {
         }
       }
 */
-    }
   }
   else {
     $app->response->setStatus(400);
