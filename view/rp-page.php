@@ -103,7 +103,12 @@ function render_form_entry($f, $review_entries) {
   $e = has_review_entry($f, $review_entries); 
   $output = '<tr>
 <td><strong>' . $f['id'] . ': ' . $f['1'] . ' ' . $f['2'] . '</strong></td>
-<div data-rp-entry-id="' . $e['id'] .'"><td>'; 
+<div id="rp-entry-' . $e['id'] . '"'
+  . ' data-rp-entry_id="' . $e['id'] . '"'
+  . ' data-rp-entry-fname="' . $f['1'] . '"'
+  . ' data-rp-entry-lname="' . $f['2'] . '"'
+  . ' data-rp-entry-email="' . $f['3'] . '"'
+  . '><td>'; 
   if (isset($e['decision'])) {
     $output = $output . '<strong>Decision: ' . $e['decision']['decision'] . '</strong>';
   }
@@ -160,7 +165,10 @@ var createDecision = function(args) {
       'args': {
         'entry_id': args['entry'],
         'decision': args['action'],
-        'reviewer': '<?php global $current_user; get_currentuserinfo(); echo $current_user->user_login; ?>'
+        'reviewer': '<?php global $current_user; get_currentuserinfo(); echo $current_user->user_login; ?>',
+        'fname': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-fname'),
+        'lname': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-lname'),
+        'email': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-email'),
       },
       'config': config
     }),
