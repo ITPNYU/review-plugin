@@ -23,26 +23,27 @@ $app->post('/decision', function() use ($app) {
     if ($ret != FALSE) {
       //$app->response->setStatus(201);
       $d_result = json_decode(http_parse_message($ret)->body, TRUE);
-      echo(json_encode($d_result));
+      //echo(json_encode($d_result));
+
+      // check for existing payer record in paytrack
+      $p_result = NULL;
+      $filter = urlencode(json_encode(array(
+        'filters' => array(
+          array(
+            'name' => 'email',
+            'op' => 'eq',
+            'val' => $b['args']['email']
+          )
+        )
+      )));
+      $ret = http_get($b['config']['paytrackUrl'] . '/payer?key=' . $b['config']['paytrackKey'] + '&q=' + $filter,
+        array('Accept' => 'application/json'));
+      if ($ret != FALSE) {
+        $p_result = json_decode(http_parse_message($ret)->body, TRUE);
+      }
     }
     else {
       $app->response->setStatus(500);
-    }
-    // check for existing payer record in paytrack
-    $p_result = NULL;
-    $filter = urlencode(json_encode(array(
-      'filters' => array(
-        array(
-          'name' => 'email',
-          'op' => 'eq',
-          'val' => $b['args']['email']
-        )
-      )
-    )));
-    $ret = http_get($b['config']['paytrackUrl'] . '/payer?key=' . $b['config']['paytrackKey'] + '&q=' + $filter,
-      array('Accept' => 'application/json'));
-    if ($ret != FALSE) {
-      $p_result = json_decode(http_parse_message($ret)->body, TRUE);
     }
 /*      if (isset($p_result) && (count($p_result['objects']) == 1)) { // found payer record
         
