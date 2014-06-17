@@ -6,7 +6,7 @@ $app->setName('decision');
 
 $app->post('/decision', function() use ($app) {
   $p = $app->request->post();
-  $b = json_decode($app->request->getBody());
+  $b = json_decode($app->request->getBody(), TRUE);
   if (isset($b['args']) && isset($b['config'])) {
     // create decision
     $d_result = NULL;
