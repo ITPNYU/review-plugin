@@ -11,19 +11,24 @@ $app->post('/decision', function() use ($app) {
   if (isset($b['args']) && isset($b['config'])) {
     // create decision
     $d_result = NULL;
+    $d_body = json_encode(array(
+      'decision' => $b['args']['decision'],
+      'entry_id' => $b['args']['entry_id'],
+      'reviewer' => $b['args']['reviewer']
+    ));
     $ret = http_post_data($b['config']['reviewUrl'] . '/decision?key=' . $b['config']['reviewKey'],
-      json_encode($b['args']),
+      $d_body,
       array('headers' => array('Content-Type' => 'application/json'))
     );
     if ($ret != FALSE) {
       $app->response->setStatus(201);
       $d_result = json_decode(http_parse_message($ret)->body, TRUE);
-      echo(json_encode($d_result));
+      //echo(json_encode($d_result));
     }
     else {
       $app->response->setStatus(500);
     }
-/*    if (isset($d_result)) {
+    if (isset($d_result)) {
       // check for existing payer record in paytrack
       $p_result = NULL;
       $filter = urlencode(json_encode(array(
@@ -31,21 +36,26 @@ $app->post('/decision', function() use ($app) {
           array(
             'name' => 'email',
             'op' => 'eq',
-            'val' => $d_result['entry']['email']
+            'val' => $b['args']['email']
           )
         )
       )));
-      $ret = http_get_data($b['config']['paytrackUrl'] + '/payer?key=' + $b['config']['paytrackKey']
+      $ret = http_get_data($b['config']['paytrackUrl'] . '/payer?key=' . $b['config']['paytrackKey']
         + '&q=' + $filter);
       if ($ret != FALSE) {
         $p_result = json_decode(http_parse_message($ret)->body, TRUE);
       }
-      if (isset($p_result) && (count($p_result['objects']) == 1)) { // found payer record
+/*      if (isset($p_result) && (count($p_result['objects']) == 1)) { // found payer record
         
       }
       else { // create payer record in paytrack
         $p_create_result = NULL;
-        $ret = http_post_data($b['config']['paytrackUrl'] + '/payer?key=' + $b['config']['paytrackKey'],
+        $p_body = json_encode(array(
+          'fname' => $b['args']['fname'],
+          'lname' => $b['args']['lname'],
+          'email' => $b['args']['email'],
+        ));
+        $ret = http_post_data($b['config']['paytrackUrl'] . '/payer?key=' . $b['config']['paytrackKey'],
           json_encode(),
           array('headers' => array('Content-Type' => 'application/json'))
         );
@@ -53,7 +63,8 @@ $app->post('/decision', function() use ($app) {
           $p_create_result = json_decode(http_parse_message($ret)->body, TRUE);
         }
       }
-    }*/
+*/
+    }
   }
   else {
     $app->response->setStatus(400);
