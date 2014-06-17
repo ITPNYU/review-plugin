@@ -77,6 +77,9 @@ foreach ($form_entries as $f) {
   }
 }
 
+// refresh the review entries after any new form entries were POSTed
+$review_entries = get_review_entries($review_query);
+
 function has_decision($f, $review_entries) {
   foreach ($review_entries as $r) {
     if (($r['external_id'] == $f['id']) && isset($r['decision'])) {
