@@ -40,7 +40,7 @@ $app->post('/decision', function() use ($app) {
           )
         )
       )));
-      $ret = http_get_data($b['config']['paytrackUrl'] . '/payer?key=' . $b['config']['paytrackKey']
+      $ret = http_get($b['config']['paytrackUrl'] . '/payer?key=' . $b['config']['paytrackKey']
         + '&q=' + $filter);
       if ($ret != FALSE) {
         $p_result = json_decode(http_parse_message($ret)->body, TRUE);
