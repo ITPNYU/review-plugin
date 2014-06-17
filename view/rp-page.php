@@ -52,6 +52,9 @@ function get_review_entry_external_id($e) {
 $review_entries = get_review_entries();
 
 $review_seen = array_map('get_review_entry_external_id', $review_entries);
+var_dump($form_seen);
+echo '<br />';
+var_dump($review_seen);
 
 // find any new form entries that need a corresponding entry in the Review API
 $to_load = array_diff($form_seen, $review_seen);
@@ -59,7 +62,6 @@ if (!isset($to_load)) {
   $to_load = array();
 }
 
-var_dump($to_load);
 
 foreach ($form_entries as $f) {
   if (in_array($f['id'], $to_load)) {
