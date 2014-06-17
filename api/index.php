@@ -36,6 +36,7 @@ $app->post('/decision', function() use ($app) {
           )
         )
       )));
+      $ret = NULL;
       $ret = http_get($b['config']['paytrackUrl'] . '/payer?key=' . $b['config']['paytrackKey'] + '&q=' + $filter,
         array('Accept' => 'application/json'));
       var_dump($ret);
