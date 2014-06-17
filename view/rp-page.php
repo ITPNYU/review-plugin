@@ -24,12 +24,14 @@ function get_form_entry_id($e) {
 
 $form_seen = array_map('get_form_entry_id', $form_entries);
 
+$review_query = get_option('rp_review_api_url') . '/entry'
+  . '?key=' . get_option('rp_review_api_key')
+  . '&results_per_page=300';
+
 // find all entries in the ITP Review API
 function get_review_entries() {
   $review_entries = array();
-  $review_query = get_option('rp_review_api_url') . '/entry'
-    . '?key=' . get_option('rp_review_api_key')
-    . '&results_per_page=300';
+  global $review_query;
   $result = NULL;
   $ret = http_get($review_query, array('Accept' => 'application/json'));
   if ($ret != FALSE) {
@@ -73,7 +75,6 @@ foreach ($form_entries as $f) {
     if ($ret != FALSE) {
       $result = json_decode(http_parse_message($ret)->body, TRUE);
     }
-    var_dump($ret);
   }
 }
 
