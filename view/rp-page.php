@@ -160,7 +160,7 @@ var createDecision = function(args) {
       'args': {
         'entry_id': args['entry'],
         'decision': args['action'],
-        'reviewer': '<?php get_currentuserinfo(); echo $user_login; ?>'
+        'reviewer': '<?php global $current_user; get_currentuserinfo(); echo $current_user->user_login; ?>'
       },
       'config': config
     }),
