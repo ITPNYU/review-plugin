@@ -58,6 +58,8 @@ if (!isset($to_load)) {
   $to_load = array();
 }
 
+var_dump($to_load);
+
 foreach ($form_entries as $f) {
   if (in_array($f['id'], $to_load)) {
     $input = array(
