@@ -5,6 +5,7 @@ $app = new \Slim\Slim();
 $app->setName('decision');
 
 $app->post('/decision', function() use ($app) {
+  $app->response->headers->set('Content-Type', 'application/json');
   $p = $app->request->post();
   $b = json_decode($app->request->getBody(), TRUE);
   if (isset($b['args']) && isset($b['config'])) {
@@ -17,7 +18,7 @@ $app->post('/decision', function() use ($app) {
     if ($ret != FALSE) {
       $d_result = json_decode(http_parse_message($ret)->body, TRUE);
     }
-    var_dump($d_result);
+    echo(json_encode($d_result));
 /*    if (isset($d_result)) {
       // check for existing payer record in paytrack
       $p_result = NULL;
