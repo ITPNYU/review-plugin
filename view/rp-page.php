@@ -58,9 +58,8 @@ if (!isset($to_load)) {
   $to_load = array();
 }
 
-var_dump($to_load);
-
 foreach ($form_entries as $f) {
+  var_dump($f);
   if (in_array($f['id'], $to_load)) {
     $input = array(
       'name' => $f['1'] . ' ' . $f['2'] . ' <' . $f['3'] . '>',
