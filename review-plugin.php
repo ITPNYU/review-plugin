@@ -128,7 +128,7 @@ function rp_settings() {
     array('rp_message_server')
   );
 
-  add_settings_field('rp_message_server',
+  add_settings_field('rp_message_username',
     'Message email user name',
     'rp_input_setting_callback',
     'general',
