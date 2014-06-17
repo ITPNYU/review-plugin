@@ -49,6 +49,9 @@ $app->post('/decision', function() use ($app) {
       }
     }*/
   }
+  else {
+    $app->response->setStatus(400);
+  }
 
 });
 
