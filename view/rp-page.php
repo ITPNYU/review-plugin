@@ -2,7 +2,6 @@
 
 <?php
 $form_entries = array();
-$review_entries = array();
 
 // find all entries in Gravity for the target form
 $gravity_query = rp_gravity_query('forms/' . get_option('rp_gravity_form') . '/entries');
@@ -59,6 +58,8 @@ $to_load = array_diff($form_seen, $review_seen);
 if (!isset($to_load)) {
   $to_load = array();
 }
+
+var_dump($to_load);
 
 foreach ($form_entries as $f) {
   if (in_array($f['id'], $to_load)) {
