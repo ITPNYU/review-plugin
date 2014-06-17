@@ -60,7 +60,6 @@ if (!isset($to_load)) {
 
 foreach ($form_entries as $f) {
   if (in_array($f['id'], $to_load)) {
-    echo 'about to POST<br />';
     $input = array(
       'name' => $f['1'] . ' ' . $f['2'] . ' <' . $f['3'] . '>',
       'external_id' => $f['id'],
@@ -74,6 +73,7 @@ foreach ($form_entries as $f) {
     if ($ret != FALSE) {
       $result = json_decode(http_parse_message($ret)->body, TRUE);
     }
+    var_dump($result);
   }
 }
 
