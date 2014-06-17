@@ -46,6 +46,17 @@ function rp_input_setting_callback($arg) {
   echo "<input name=\"$option_name\" id=\"$option_name\" type=\"text\" $val />";
 }
 
+// set and display setting with input password
+function rp_password_setting_callback($arg) {
+  $option_name = $arg[0];
+  $option_data = get_option($option_name);
+  $val = '';
+  if (isset($option_data)) {
+    $val = 'value="' . $option_data . '"';
+  }
+  echo "<input name=\"$option_name\" id=\"$option_name\" type=\"password\" $val />";
+}
+
 // set and display setting with textarea
 function rp_textarea_setting_callback($arg) {
   $option_name = $arg[0];
@@ -109,10 +120,37 @@ function rp_settings() {
     array('rp_message_reject')
   );
 
+  add_settings_field('rp_message_server',
+    'Message email server name',
+    'rp_input_setting_callback',
+    'general',
+    'rp_message_section',
+    array('rp_message_server')
+  );
+
+  add_settings_field('rp_message_server',
+    'Message email user name',
+    'rp_input_setting_callback',
+    'general',
+    'rp_message_section',
+    array('rp_message_username')
+  );
+
+  add_settings_field('rp_message_password',
+    'Message email server name',
+    'rp_password_setting_callback',
+    'general',
+    'rp_message_section',
+    array('rp_message_password')
+  );
+
   register_setting('general', 'rp_register_url');
   register_setting('general', 'rp_message_accept');
   register_setting('general', 'rp_message_comp');
   register_setting('general', 'rp_message_reject');
+  register_setting('general', 'rp_message_server');
+  register_setting('general', 'rp_message_username');
+  register_setting('general', 'rp_message_password');
 
   // Gravity Forms API settings
   add_settings_section('rp_gravity_section',
@@ -214,6 +252,9 @@ function rp_setup() {
   add_option('rp_message_accept');
   add_option('rp_message_comp');
   add_option('rp_message_reject');
+  add_option('rp_message_server');
+  add_option('rp_message_username');
+  add_option('rp_message_password');
   add_option('rp_gravity_public_key');
   add_option('rp_gravity_private_key');
   add_option('rp_gravity_form');
