@@ -169,7 +169,8 @@ var createDecision = function(args) {
         'fname': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-fname'),
         'lname': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-lname'),
         'email': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-email'),
-        'account_id': 2
+        'account_id': 2,
+        'amount': 200
       },
       'config': config
     }),
