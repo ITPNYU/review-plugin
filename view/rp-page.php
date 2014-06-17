@@ -28,10 +28,8 @@ $review_query = get_option('rp_review_api_url') . '/entry'
   . '&results_per_page=300';
 
 // find all entries in the ITP Review API
-function get_review_entries() {
+function get_review_entries($review_query) {
   $review_entries = array();
-  global $review_query;
-  var_dump($review_query);
   $result = NULL;
   $ret = http_get($review_query, array('Accept' => 'application/json'));
   if ($ret != FALSE) {
@@ -50,12 +48,9 @@ function get_review_entry_external_id($e) {
   return $e['external_id'];
 }
 
-$review_entries = get_review_entries();
+$review_entries = get_review_entries($review_query);
 
 $review_seen = array_map('get_review_entry_external_id', $review_entries);
-var_dump($form_seen);
-echo '<br />';
-var_dump($review_seen);
 
 // find any new form entries that need a corresponding entry in the Review API
 $to_load = array_diff($form_seen, $review_seen);
