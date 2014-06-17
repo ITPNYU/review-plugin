@@ -18,11 +18,11 @@ if (isset($result) && isset($result['response']) && isset($result['response']['e
 }
 
 // used in array_map call to pull out form entry ID
-function rp_form_seen_callback($e) {
+function get_form_entry_id($e) {
   return $e['id'];
 }
 
-$form_seen = array_map('rp_form_seen_callback', $form_entries);
+$form_seen = array_map('get_form_entry_id', $form_entries);
 
 // find all entries in the ITP Review API
 function get_review_entries() {
@@ -43,14 +43,14 @@ function get_review_entries() {
   return $review_entries;
 }
 
-// used in array_map call to pull out review database ID
-function rp_review_seen_callback($e) {
+// used in array_map call to pull out review entry external ID (which is form entry ID)
+function get_review_entry_external_id($e) {
   return $e['external_id'];
 }
 
 $review_entries = get_review_entries();
 
-$review_seen = array_map('rp_review_seen_callback', $review_entries);
+$review_seen = array_map('get_review_entry_external_id', $review_entries);
 
 // find any new form entries that need a corresponding entry in the Review API
 $to_load = array_diff($form_seen, $review_seen);
@@ -85,18 +85,29 @@ function has_decision($f, $review_entries) {
   return NULL;
 }
 
-// FIXME: hard-coded field names 
+function has_review_entry($f, $review_entries) {
+  foreach ($review_entries as $r) {
+    if ($r['external_id'] == $f['id']){
+      return $r;
+    }
+  }
+  return NULL;
+}
+
+// FIXME: hard-coded field names, layout
 function render_form_entry($f, $review_entries) {
-  $decision = has_decision($f, $review_entries); 
+  $e = has_review_entry($f, $review_entries); 
   $output = '<tr>
-<td><strong>' . $f['id'] . ': ' . $f['1'] . ' ' . $f['2'] . '</strong></td><td>'; 
-  if (isset($decision)) {
-    $output = $output . '<strong>Decision: ' . $decision['decision'] . '</strong>';
+<td><strong>' . $f['id'] . ': ' . $f['1'] . ' ' . $f['2'] . '</strong></td>
+<div data-rp-entry-id="' . $e['id'] .'"><td>'; 
+  if (isset($e['decision'])) {
+    $output = $output . '<strong>Decision: ' . $e['decision']['decision'] . '</strong>';
   }
   else {
-    $output = $output . '<button type="button" class="btn btn-success">Accept</button>
-<button type="button" class="btn btn-danger">Reject</button>
-<button type="button" class="btn btn-primary">Comp</button>';
+    $output = $output . '
+<button type="button" data-rp-action="accept" data-rp-entry="' . $e['id'] . '" class="btn btn-success rp-button">Accept</button>
+<button type="button" data-rp-action="reject" data-rp-entry="' . $e['id'] . '" class="btn btn-danger rp-button">Reject</button>
+<button type="button" data-rp-action="comp" data-rp-entry="' . $e['id'] . '" class="btn btn-primary rp-button">Comp</button>';
   }
 
   $output = $output . '<br /><hr /><ul class="list-unstyled">
@@ -113,6 +124,7 @@ function render_form_entry($f, $review_entries) {
   <li><strong>Anything else</strong>: ' . $f['13'] . '</li>
 </ul>
 </td>
+</div>
 
 </tr>' . "\n";
   return $output;
@@ -128,3 +140,48 @@ foreach ($form_entries as $f) {
 
 ?>
 </table>
+
+<script type="text/javascript">
+var config = {
+  'paytrackUrl': '<?php echo get_option('rp_paytrack_url'); ?>',
+  'paytrackKey': '<?php echo get_option('rp_paytrack_key'); ?>',
+  'reviewUrl': '<?php echo get_option('rp_review_url'); ?>',
+  'reviewKey': '<?php echo get_option('rp_review_key'); ?>'
+};
+
+var createDecision = function(args) {
+  jQuery.ajax({
+    url: '<?php echo site_url() . 'wp-content/plugins/review-plugin/api/decision'; ?>',
+    data: JSON.stringify({
+      'args': {
+        'entry_id': args['entry'],
+        'decision': args['action'],
+        'reviewer': '<?php echo $user_login; ?>'
+      },
+      'config': config
+    }),
+    dataType: 'json',
+    type: 'POST',
+    contentType: 'application/json',
+    success: function(data) {
+      console.dir(data);
+    }
+  });
+
+}
+
+var rpButton = function(args) {
+  console.log('click ' + args['action'] + ' ' + args['entry']);
+  createDecision(args);
+};
+
+jQuery(document).ready(function() {
+  jQuery('button.rp-button').on('click', function() {
+    rpButton({
+      'action': jQuery(this).attr('data-rp-action'),
+      'entry': jQuery(this).attr('data-rp-entry')
+    });
+  });
+});
+
+</script>

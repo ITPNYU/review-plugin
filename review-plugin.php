@@ -16,41 +16,26 @@ register_activation_hook( __FILE__, 'rp_setup');
 add_action('admin_init', 'rp_settings');
 add_action('admin_menu', 'rp_menu');
 
-function rp_gravity_private_key_callback() {
-  $private_key = get_option('rp_gravity_private_key');
-  $val = '';
-  if (isset($private_key)) {
-    $val = 'value="' . $private_key . '"';
-  }
-  echo '<input name="rp_gravity_private_key" id="rp_gravity_private_key" type="text" ' . $val . ' />';
-}
-
-function rp_gravity_public_key_callback() {
-  $public_key = get_option('rp_gravity_public_key');
-  $val = '';
-  if (isset($public_key)) {
-    $val = 'value="' . $public_key . '"';
-  }
-  echo '<input name="rp_gravity_public_key" id="rp_gravity_public_key" type="text" ' . $val . ' />';
-}
-
-
 function rp_menu() {
   $page_hook = add_management_page( 'ITP Review', 'ITP Review', 'manage_options', 'rp-review', 'rp_page');
   add_action('admin_print_scripts-' . $page_hook, 'rp_script_load');
 }
 
+// load CSS and JavaScript for dashboard page
 function rp_script_load() {
   wp_enqueue_style('bootstrap', '//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css');
   wp_enqueue_style('bootstrap-theme', '//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css');
   wp_register_script('bootstrap', '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js');
+  wp_enqueue_script('jquery');
   wp_enqueue_script('bootstrap');
 }
 
+// display the dashboard page
 function rp_page() {
   include (plugin_dir_path(__FILE__) . '/view/rp-page.php');
 }
 
+// set and display setting with input text
 function rp_input_setting_callback($arg) {
   $option_name = $arg[0];
   $option_data = get_option($option_name);
@@ -61,24 +46,30 @@ function rp_input_setting_callback($arg) {
   echo "<input name=\"$option_name\" id=\"$option_name\" type=\"text\" $val />";
 }
 
+// set and display setting with textarea
 function rp_textarea_setting_callback($arg) {
   $option_name = $arg[0];
   $option_data = get_option($option_name);
   echo "<textarea name=\"$option_name\" id=\"$option_name\" rows=\"20\" cols=\"60\" />$option_data</textarea>";
 }
 
+// section callback (empty)
 function rp_message_section() {
 }
 
+// section callback (empty)
 function rp_gravity_section() {
 }
 
+// section callback (empty)
 function rp_review_api_section() {
 }
 
+// section callback (empty)
 function rp_paytrack_api_section() {
 }
 
+// load all the settings into dashboard settings
 function rp_settings() {
   add_settings_section('rp_message_section',
     'ITP Review: Message Settings',
@@ -217,6 +208,7 @@ function rp_settings() {
   register_setting ('general', 'rp_review_api_collection');
 }
 
+// make sure each setting is stored in options
 function rp_setup() {
   add_option('rp_register_url');
   add_option('rp_message_accept');
