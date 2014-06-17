@@ -11,11 +11,10 @@ $app->post('/decision', function() use ($app) {
   if (isset($b['args']) && isset($b['config'])) {
     // create decision
     $d_result = NULL;
-    $ret = http_post_data($b['config']['reviewUrl'] + '/decision?key=' + $b['config']['reviewKey'],
+    $ret = http_post_data($b['config']['reviewUrl'] . '/decision?key=' . $b['config']['reviewKey'],
       json_encode($b['args']),
       array('headers' => array('Content-Type' => 'application/json'))
     );
-    var_dump($b);
     if ($ret != FALSE) {
       $app->response->setStatus(201);
       $d_result = json_decode(http_parse_message($ret)->body, TRUE);
