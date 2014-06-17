@@ -137,7 +137,7 @@ function rp_settings() {
   );
 
   add_settings_field('rp_message_password',
-    'Message email server name',
+    'Message email password',
     'rp_password_setting_callback',
     'general',
     'rp_message_section',
