@@ -31,6 +31,7 @@ $review_query = get_option('rp_review_api_url') . '/entry'
 function get_review_entries() {
   $review_entries = array();
   global $review_query;
+  var_dump($review_query);
   $result = NULL;
   $ret = http_get($review_query, array('Accept' => 'application/json'));
   if ($ret != FALSE) {
