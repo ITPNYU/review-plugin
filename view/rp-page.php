@@ -143,15 +143,15 @@ foreach ($form_entries as $f) {
 
 <script type="text/javascript">
 var config = {
-  'paytrackUrl': '<?php echo get_option('rp_paytrack_url'); ?>',
-  'paytrackKey': '<?php echo get_option('rp_paytrack_key'); ?>',
-  'reviewUrl': '<?php echo get_option('rp_review_url'); ?>',
-  'reviewKey': '<?php echo get_option('rp_review_key'); ?>'
+  'paytrackUrl': '<?php echo get_option('rp_paytrack_api_url'); ?>',
+  'paytrackKey': '<?php echo get_option('rp_paytrack_api_key'); ?>',
+  'reviewUrl': '<?php echo get_option('rp_review_api_url'); ?>',
+  'reviewKey': '<?php echo get_option('rp_review_api_key'); ?>'
 };
 
 var createDecision = function(args) {
   jQuery.ajax({
-    url: '<?php echo site_url() . 'wp-content/plugins/review-plugin/api/decision'; ?>',
+    url: '<?php echo site_url() . '/wp-content/plugins/review-plugin/api/decision'; ?>',
     data: JSON.stringify({
       'args': {
         'entry_id': args['entry'],
