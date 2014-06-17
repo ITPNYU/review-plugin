@@ -59,8 +59,8 @@ if (!isset($to_load)) {
 }
 
 foreach ($form_entries as $f) {
-  var_dump($f);
   if (in_array($f['id'], $to_load)) {
+    echo 'about to POST<br />';
     $input = array(
       'name' => $f['1'] . ' ' . $f['2'] . ' <' . $f['3'] . '>',
       'external_id' => $f['id'],
