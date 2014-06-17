@@ -116,7 +116,7 @@ function render_form_entry($f, $review_entries) {
     $output = $output . '<div class="rp-buttons">
 <button type="button" data-rp-action="accept" data-rp-entry="' . $e['id'] . '" class="btn btn-success rp-button">Accept</button>
 <button type="button" data-rp-action="reject" data-rp-entry="' . $e['id'] . '" class="btn btn-danger rp-button">Reject</button>
-<button type="button" data-rp-action="comp" data-rp-entry="' . $e['id'] . '" class="btn btn-primary rp-button">Comp</button></div>';
+</div>';
   }
 
   $output = $output . '<br /><hr /><ul class="list-unstyled">
@@ -170,7 +170,12 @@ var createDecision = function(args) {
         'lname': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-lname'),
         'email': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-email'),
         'account_id': 2,
-        'amount': 200
+        'amount': 200,
+        'message': {
+          'accept': '<?php echo json_encode(get_option('rp_message_accept')); ?>',
+          'reject': '<?php echo json_encode(get_option('rp_message_reject')); ?>',
+          'comp': '<?php echo json_encode(get_option('rp_message_comp')); ?>'
+        }
       },
       'config': config
     }),
