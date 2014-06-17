@@ -56,4 +56,6 @@ $app->post('/decision', function() use ($app) {
 
 });
 
+$app->run();
+
 ?>
