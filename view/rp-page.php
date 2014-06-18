@@ -62,7 +62,8 @@ if (!isset($to_load)) {
 foreach ($form_entries as $f) {
   if (in_array($f['id'], $to_load)) {
     $input = array(
-      'name' => $f['1'] . ' ' . $f['2'] . ' <' . $f['3'] . '>',
+      'name' => $f['1'] . ' ' . $f['2'],
+      'email' => $f['3'],
       'external_id' => $f['id'],
       'collection_id' => get_option('rp_review_api_collection')
     );
