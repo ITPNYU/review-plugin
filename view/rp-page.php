@@ -117,6 +117,7 @@ function render_form_entry($f, $review_entries) {
     $output = $output . '<div class="rp-buttons">
 <button type="button" data-rp-action="accept" data-rp-entry="' . $e['id'] . '" class="btn btn-success rp-button">Accept</button>
 <button type="button" data-rp-action="reject" data-rp-entry="' . $e['id'] . '" class="btn btn-danger rp-button">Reject</button>
+<button type="button" data-rp-action="comp" data-rp-entry="' . $e['id'] . '" class="btn btn-default rp-button">Comp</button>
 </div>';
   }
 
