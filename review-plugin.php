@@ -140,7 +140,7 @@ function rp_settings() {
     'Message email server transport (must be ssl or tls)',
     'rp_input_setting_callback',
     'general',
-    'rp_message_transport',
+    'rp_message_section',
     array('rp_message_transport')
   );
 
