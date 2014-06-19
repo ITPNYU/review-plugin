@@ -26,6 +26,7 @@ $app->post('/decision', function() use ($app) {
     $mail->Password = $b['args']['credentials']['password'];
     $mail->SMTPSecure = $b['args']['credentials']['transport'];
     $mail->From = $b['args']['credentials']['username'];
+    $mail->addAddress($b['args']['email']);
     //$mail->addCC($b['args']['credentials']['username']);
 
     // create decision
