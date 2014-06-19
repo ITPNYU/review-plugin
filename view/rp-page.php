@@ -176,7 +176,15 @@ var createDecision = function(args) {
         'message': {
           'accept': '<?php echo json_encode(get_option('rp_message_accept')); ?>',
           'reject': '<?php echo json_encode(get_option('rp_message_reject')); ?>',
-          'comp': '<?php echo json_encode(get_option('rp_message_comp')); ?>'
+          'comp': '<?php echo json_encode(get_option('rp_message_comp')); ?>',
+          'register_link': '<?php echo json_encode(get_option('rp_message_register')); ?>'
+        },
+        'credentials': {
+          'server': '<?php echo json_encode(get_option('rp_message_server')); ?>',
+          'port': '<?php echo json_encode(get_option('rp_message_port')); ?>',
+          'transport': '<?php echo json_encode(get_option('rp_message_transport')); ?>',
+          'username': '<?php echo json_encode(get_option('rp_message_username')); ?>',
+          'password': '<?php echo json_encode(get_option('rp_message_password')); ?>'
         }
       },
       'config': config

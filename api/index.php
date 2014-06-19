@@ -1,5 +1,13 @@
 <?php
 require '../lib/Slim/Slim/Slim.php';
+
+$parse_uri = explode( 'wp-content', $_SERVER['SCRIPT_FILENAME'] );
+require_once( $parse_uri[0] . 'wp-load.php' );
+if (!current_user_can('activate_plugins')) { // indicates an administrator
+  exit;
+}
+
+require '../lib/PHPMailer/PHPMailerAutoload.php';
 \Slim\Slim::registerAutoloader();
 $app = new \Slim\Slim();
 $app->setName('decision');
@@ -9,6 +17,17 @@ $app->post('/decision', function() use ($app) {
   $p = $app->request->post();
   $b = json_decode($app->request->getBody(), TRUE);
   if (isset($b['args']) && isset($b['config'])) {
+    $mail = new PHPMailer;
+    $mail->isSMTP();
+    $mail->Host = $args['credentials']['server'];
+    $mail->Port = $args['credentials']['port'];
+    $mail->SMTPAuth = true;
+    $mail->Username = $args['credentials']['username'];
+    $mail->Password = $args['credentials']['password'];
+    $mail->SMTPSecure = $args['credentials']['transport'];
+    $mail->From = $args['credentials']['username'];
+    //$mail->addCC($b['args']['credentials']['username']);
+
     // create decision
     $d_result = NULL;
     $d_body = json_encode(array(
@@ -21,6 +40,12 @@ $app->post('/decision', function() use ($app) {
       array('headers' => array('Content-Type' => 'application/json'))
     );
     if ($b['args']['decision'] == 'reject') {
+      if (isset($b['args']['message']) && isset($b['args']['credentials'])) {
+        $mail->addAddress($b['args']['email'], $b['args']['fname'] . ' ' . $b['args']['lname']);
+        $mail->Subject = $b['args']['subject'];
+        $mail->Body = $b['args']['body'];
+        $mail->send();
+      }
       return;
     }
     if ($d_ret != FALSE) {
@@ -28,7 +53,14 @@ $app->post('/decision', function() use ($app) {
       $d_result = json_decode(http_parse_message($d_ret)->body, TRUE);
       //echo(json_encode($d_result));
       if (isset($d_result)) {
-        if ($d_result['decision'] == 'accept') {
+        $register_link_code = $b['config']['registerUrl'] . '/?code=' . $d_result['code'];
+        if ($d_result['decision'] == 'comp') {
+          $mail->addAddress($b['args']['email'], $b['args']['fname'] . ' ' . $b['args']['lname']);
+          $mail->Subject = $b['args']['subject'];
+          $mail->Body = $b['args']['body'] . "\n\n" . $register_link_code . "\n";
+          $mail->send();
+        }
+        else if ($d_result['decision'] == 'accept') {
           // check for existing payer record in paytrack
           $p_result = NULL;
           $filter = urlencode(json_encode(array(
@@ -97,6 +129,10 @@ $app->post('/decision', function() use ($app) {
               );
               if ($e_ret != FALSE) {
                 $decision_i_result = json_decode(http_parse_message($e_ret)->body, TRUE);
+                $mail->addAddress($b['args']['email'], $b['args']['fname'] . ' ' . $b['args']['lname']);
+                $mail->Subject = $b['args']['subject'];
+                $mail->Body = $b['args']['body'];
+                $mail->send();
               }
             }
           }

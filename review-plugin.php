@@ -149,6 +149,8 @@ function rp_settings() {
   register_setting('general', 'rp_message_comp');
   register_setting('general', 'rp_message_reject');
   register_setting('general', 'rp_message_server');
+  register_setting('general', 'rp_message_port');
+  register_setting('general', 'rp_message_transport');
   register_setting('general', 'rp_message_username');
   register_setting('general', 'rp_message_password');
 
@@ -253,6 +255,8 @@ function rp_setup() {
   add_option('rp_message_comp');
   add_option('rp_message_reject');
   add_option('rp_message_server');
+  add_option('rp_message_port');
+  add_option('rp_message_transport');
   add_option('rp_message_username');
   add_option('rp_message_password');
   add_option('rp_gravity_public_key');

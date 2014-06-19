@@ -1,3 +1,6 @@
 [submodule "lib/Slim"]
 	path = lib/Slim
 	url = https://github.com/codeguy/Slim.git
+[submodule "lib/PHPMailer"]
+	path = lib/PHPMailer
+	url = https://github.com/PHPMailer/PHPMailer.git
