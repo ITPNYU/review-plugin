@@ -128,6 +128,22 @@ function rp_settings() {
     array('rp_message_server')
   );
 
+  add_settings_field('rp_message_port',
+    'Message email server port',
+    'rp_input_setting_callback',
+    'general',
+    'rp_message_section',
+    array('rp_message_port')
+  );
+
+  add_settings_field('rp_message_transport',
+    'Message email server transport (must be ssl or tls)',
+    'rp_input_setting_callback',
+    'general',
+    'rp_message_transport',
+    array('rp_message_transport')
+  );
+
   add_settings_field('rp_message_username',
     'Message email user name',
     'rp_input_setting_callback',
