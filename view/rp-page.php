@@ -157,7 +157,8 @@ var config = {
   'paytrackUrl': '<?php echo get_option('rp_paytrack_api_url'); ?>',
   'paytrackKey': '<?php echo get_option('rp_paytrack_api_key'); ?>',
   'reviewUrl': '<?php echo get_option('rp_review_api_url'); ?>',
-  'reviewKey': '<?php echo get_option('rp_review_api_key'); ?>'
+  'reviewKey': '<?php echo get_option('rp_review_api_key'); ?>',
+  'registerUrl': '<?php echo get_option('rp_register_url'); ?>'
 };
 
 var createDecision = function(args) {
@@ -177,7 +178,6 @@ var createDecision = function(args) {
           'accept': '<?php echo json_encode(get_option('rp_message_accept')); ?>',
           'reject': '<?php echo json_encode(get_option('rp_message_reject')); ?>',
           'comp': '<?php echo json_encode(get_option('rp_message_comp')); ?>',
-          'register_link': '<?php echo json_encode(get_option('rp_message_register')); ?>'
         },
         'credentials': {
           'server': '<?php echo json_encode(get_option('rp_message_server')); ?>',
