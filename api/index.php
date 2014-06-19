@@ -19,13 +19,13 @@ $app->post('/decision', function() use ($app) {
   if (isset($b['args']) && isset($b['config'])) {
     $mail = new PHPMailer;
     $mail->isSMTP();
-    $mail->Host = $args['credentials']['server'];
-    $mail->Port = $args['credentials']['port'];
+    $mail->Host = $b['args']['credentials']['server'];
+    $mail->Port = $b['args']['credentials']['port'];
     $mail->SMTPAuth = true;
-    $mail->Username = $args['credentials']['username'];
-    $mail->Password = $args['credentials']['password'];
-    $mail->SMTPSecure = $args['credentials']['transport'];
-    $mail->From = $args['credentials']['username'];
+    $mail->Username = $b['args']['credentials']['username'];
+    $mail->Password = $b['args']['credentials']['password'];
+    $mail->SMTPSecure = $b['args']['credentials']['transport'];
+    $mail->From = $b['args']['credentials']['username'];
     //$mail->addCC($b['args']['credentials']['username']);
 
     // create decision
