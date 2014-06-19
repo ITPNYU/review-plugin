@@ -45,7 +45,7 @@ $app->post('/decision', function() use ($app) {
         $mail->addAddress($b['args']['email'], $b['args']['fname'] . ' ' . $b['args']['lname']);
         $mail->Subject = $b['args']['subject'];
         $mail->Body = $b['args']['body'];
-        $mail->send();
+        //$mail->send();
       }
       return;
     }
@@ -59,7 +59,7 @@ $app->post('/decision', function() use ($app) {
           $mail->addAddress($b['args']['email'], $b['args']['fname'] . ' ' . $b['args']['lname']);
           $mail->Subject = $b['args']['subject'];
           $mail->Body = $b['args']['body'] . "\n\n" . $register_link_code . "\n";
-          $mail->send();
+          //$mail->send();
         }
         else if ($d_result['decision'] == 'accept') {
           // check for existing payer record in paytrack
@@ -133,7 +133,7 @@ $app->post('/decision', function() use ($app) {
                 $mail->addAddress($b['args']['email'], $b['args']['fname'] . ' ' . $b['args']['lname']);
                 $mail->Subject = $b['args']['subject'];
                 $mail->Body = $b['args']['body'];
-                $mail->send();
+                //$mail->send();
               }
             }
           }
