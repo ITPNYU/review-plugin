@@ -7,7 +7,6 @@ if (!current_user_can('activate_plugins')) { // indicates an administrator
   exit;
 }
 
-require '../lib/PHPMailer/PHPMailerAutoload.php';
 \Slim\Slim::registerAutoloader();
 $app = new \Slim\Slim();
 $app->setName('decision');
@@ -17,6 +16,7 @@ $app->post('/decision', function() use ($app) {
   $p = $app->request->post();
   $b = json_decode($app->request->getBody(), TRUE);
   if (isset($b['args']) && isset($b['config'])) {
+    require '../lib/PHPMailer/PHPMailerAutoload.php';
     $mail = new PHPMailer;
     $mail->isSMTP();
     $mail->Host = $b['args']['credentials']['server'];
