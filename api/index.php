@@ -23,7 +23,7 @@ $app->post('/decision', function() use ($app) {
       $b['args']['credentials']['port'],
       $b['args']['credentials']['transport']
     );
-    $transport->setUsername($b['args']['credentials']['username']);
+    $transport->setUsername('edcamp@itp.nyu.edu');
     $transport->setPassword($b['args']['credentials']['password']);
 
     $mail = Swift_Message::newInstance();
