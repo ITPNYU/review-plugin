@@ -22,9 +22,9 @@ $app->post('/decision', function() use ($app) {
       $b['args']['credentials']['server'],
       $b['args']['credentials']['port'],
       $b['args']['credentials']['transport']
-    );
-    $transport->setUsername('edcamp@itp.nyu.edu');
-    $transport->setPassword($b['args']['credentials']['password']);
+    )
+    ->setUsername('edcamp@itp.nyu.edu')
+    ->setPassword($b['args']['credentials']['password']);
 
     $mail = Swift_Message::newInstance();
     $mail->setFrom(array('edcamp@itp.nyu.edu' => 'ITP Make Education Camp')); // FIXME: hardcoded
