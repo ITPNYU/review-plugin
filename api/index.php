@@ -11,24 +11,19 @@ if (!current_user_can('activate_plugins')) { // indicates an administrator
 $app = new \Slim\Slim();
 $app->setName('decision');
 
-require '../lib/PHPMailer/PHPMailerAutoload.php';
-$mail = new PHPMailer;
 
-$app->post('/decision', function() use ($app, $mail) {
+$app->post('/decision', function() use ($app) {
   $app->response->headers->set('Content-Type', 'application/json');
   $p = $app->request->post();
   $b = json_decode($app->request->getBody(), TRUE);
   if (isset($b['args']) && isset($b['config'])) {
-    $mail->isSMTP();
-    $mail->Host = $b['args']['credentials']['server'];
-    $mail->Port = $b['args']['credentials']['port'];
-    $mail->SMTPAuth = true;
-    $mail->Username = $b['args']['credentials']['username'];
-    $mail->Password = $b['args']['credentials']['password'];
-    $mail->SMTPSecure = $b['args']['credentials']['transport'];
-    $mail->From = $b['args']['credentials']['username'];
-    $mail->FromName = $b['args']['credentials']['username'];
-    $mail->addAddress($b['args']['email'], $b['args']['fname'] . ' ' . $b['args']['lname']);
+    $transport = Swift_SmtpTransport::newInstance($b['args']['credentials']['server'], $b['args']['credentials']['port']);
+    $transport->setUsername($b['args']['credentials']['username']);
+    $transport->setPassword($b['args']['credentials']['password']);
+    $transport->setSecure($b['args']['credentials']['transport']);
+    $mail = Swift_Message::newInstance();
+    $mail->setFrom = array($b['args']['credentials']['username'] => $b['args']['credentials']['username']);
+    $mail->setTo(array($b['args']['email'] => $b['args']['fname'] . ' ' . $b['args']['lname']));
     //$mail->addCC($b['args']['credentials']['username']);
 
     // create decision
@@ -44,9 +39,9 @@ $app->post('/decision', function() use ($app, $mail) {
     );
     if ($b['args']['decision'] == 'reject') {
       if (isset($b['args']['message']) && isset($b['args']['credentials'])) {
-        $mail->addAddress($b['args']['email'], $b['args']['fname'] . ' ' . $b['args']['lname']);
+        /*$mail->addAddress($b['args']['email'], $b['args']['fname'] . ' ' . $b['args']['lname']);
         $mail->Subject = $b['args']['subject'];
-        $mail->Body = $b['args']['body'];
+        $mail->Body = $b['args']['body'];*/
         //$mail->send();
       }
       return;
@@ -58,9 +53,9 @@ $app->post('/decision', function() use ($app, $mail) {
       if (isset($d_result)) {
         $register_link_code = $b['config']['registerUrl'] . '/?code=' . $d_result['code'];
         if ($b['args']['decision'] == 'comp') {
-          $mail->Subject = $b['args']['subject'];
-          $mail->Body = $b['args']['body'] . "\n\n" . $register_link_code . "\n";
-          $mail->send();
+          $mail->setSubject($b['args']['subject']);
+          $mail->setBody($b['args']['body'] . "\n\n" . $register_link_code . "\n");
+          $transport->send($mail);
         }
         else if ($d_result['decision'] == 'accept') {
           // check for existing payer record in paytrack
