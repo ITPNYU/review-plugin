@@ -17,6 +17,7 @@ $app->post('/decision', function() use ($app) {
   $p = $app->request->post();
   $b = json_decode($app->request->getBody(), TRUE);
   if (isset($b['args']) && isset($b['config'])) {
+    require_once('../lib/swiftmailer/lib/swift_required.php');
     $transport = Swift_SmtpTransport::newInstance($b['args']['credentials']['server'], $b['args']['credentials']['port']);
     $transport->setUsername($b['args']['credentials']['username']);
     $transport->setPassword($b['args']['credentials']['password']);
