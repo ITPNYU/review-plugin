@@ -18,10 +18,14 @@ $app->post('/decision', function() use ($app) {
   $b = json_decode($app->request->getBody(), TRUE);
   if (isset($b['args']) && isset($b['config'])) {
     require_once('../lib/swiftmailer/lib/swift_required.php');
-    $transport = Swift_SmtpTransport::newInstance($b['args']['credentials']['server'], $b['args']['credentials']['port']);
+    $transport = Swift_SmtpTransport::newInstance(
+      $b['args']['credentials']['server'],
+      $b['args']['credentials']['port'],
+      $b['args']['credentials']['transport']
+    );
     $transport->setUsername($b['args']['credentials']['username']);
     $transport->setPassword($b['args']['credentials']['password']);
-    $transport->setSecure($b['args']['credentials']['transport']);
+
     $mail = Swift_Message::newInstance();
     $mail->setFrom = array($b['args']['credentials']['username'] => $b['args']['credentials']['username']);
     $mail->setTo(array($b['args']['email'] => $b['args']['fname'] . ' ' . $b['args']['lname']));
