@@ -168,7 +168,7 @@ var createDecision = function(args) {
       'args': {
         'entry_id': args['entry'],
         'decision': args['action'],
-        'reviewer': <?php global $current_user; get_currentuserinfo(); echo $current_user->user_login; ?>,
+        'reviewer': '<?php global $current_user; get_currentuserinfo(); echo $current_user->user_login; ?>',
         'fname': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-fname'),
         'lname': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-lname'),
         'email': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-email'),
