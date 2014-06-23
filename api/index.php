@@ -63,7 +63,7 @@ $app->post('/decision', function() use ($app) {
         if ($b['args']['decision'] == 'comp') {
           $message->setSubject($b['args']['subject']);
           $message->setBody($b['args']['body'] . "\n\n" . $register_link_code . "\n");
-          $mailer->send($mail);
+          $mailer->send($message);
         }
         else if ($d_result['decision'] == 'accept') {
           // check for existing payer record in paytrack
