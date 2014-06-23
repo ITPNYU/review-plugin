@@ -11,13 +11,14 @@ if (!current_user_can('activate_plugins')) { // indicates an administrator
 $app = new \Slim\Slim();
 $app->setName('decision');
 
-$app->post('/decision', function() use ($app) {
+require '../lib/PHPMailer/PHPMailerAutoload.php';
+$mail = new PHPMailer;
+
+$app->post('/decision', function() use ($app, $mail) {
   $app->response->headers->set('Content-Type', 'application/json');
   $p = $app->request->post();
   $b = json_decode($app->request->getBody(), TRUE);
   if (isset($b['args']) && isset($b['config'])) {
-    require '../lib/PHPMailer/PHPMailerAutoload.php';
-    $mail = new PHPMailer;
     $mail->isSMTP();
     $mail->Host = $b['args']['credentials']['server'];
     $mail->Port = $b['args']['credentials']['port'];
