@@ -168,23 +168,23 @@ var createDecision = function(args) {
       'args': {
         'entry_id': args['entry'],
         'decision': args['action'],
-        'reviewer': '<?php global $current_user; get_currentuserinfo(); echo $current_user->user_login; ?>',
+        'reviewer': <?php global $current_user; get_currentuserinfo(); echo $current_user->user_login; ?>,
         'fname': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-fname'),
         'lname': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-lname'),
         'email': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-email'),
         'account_id': 2,
         'amount': 200,
         'message': {
-          'accept': '<?php echo json_encode(get_option('rp_message_accept')); ?>',
-          'reject': '<?php echo json_encode(get_option('rp_message_reject')); ?>',
-          'comp': '<?php echo json_encode(get_option('rp_message_comp')); ?>',
+          'accept': <?php echo json_encode(get_option('rp_message_accept')); ?>,
+          'reject': <?php echo json_encode(get_option('rp_message_reject')); ?>,
+          'comp': <?php echo json_encode(get_option('rp_message_comp')); ?>,
         },
         'credentials': {
-          'server': '<?php echo json_encode(get_option('rp_message_server')); ?>',
-          'port': '<?php echo json_encode(get_option('rp_message_port')); ?>',
-          'transport': '<?php echo json_encode(get_option('rp_message_transport')); ?>',
-          'username': '<?php echo json_encode(get_option('rp_message_username')); ?>',
-          'password': '<?php echo json_encode(get_option('rp_message_password')); ?>'
+          'server': <?php echo json_encode(get_option('rp_message_server')); ?>,
+          'port': <?php echo json_encode(get_option('rp_message_port')); ?>,
+          'transport': <?php echo json_encode(get_option('rp_message_transport')); ?>,
+          'username': <?php echo json_encode(get_option('rp_message_username')); ?>,
+          'password': <?php echo json_encode(get_option('rp_message_password')); ?>
         }
       },
       'config': config
