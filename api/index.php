@@ -28,6 +28,7 @@ $app->post('/decision', function() use ($app) {
 
     $mail = Swift_Message::newInstance();
     $mail->setFrom(array($b['args']['credentials']['username'] => 'ITP Make Education Camp')); // FIXME: hardcoded
+    $mail->setSender($b['args']['credentials']['username']);
     $mail->setTo(array($b['args']['email'] => $b['args']['fname'] . ' ' . $b['args']['lname']));
     //$mail->addCC($b['args']['credentials']['username']);
 
