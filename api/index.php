@@ -57,7 +57,7 @@ $app->post('/decision', function() use ($app, $mail) {
       //echo(json_encode($d_result));
       if (isset($d_result)) {
         $register_link_code = $b['config']['registerUrl'] . '/?code=' . $d_result['code'];
-        if ($d_result['decision'] == 'comp') {
+        if ($b['args']['decision'] == 'comp') {
           $mail->Subject = $b['args']['subject'];
           $mail->Body = $b['args']['body'] . "\n\n" . $register_link_code . "\n";
           $mail->send();
