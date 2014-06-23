@@ -30,9 +30,8 @@ $app->post('/decision', function() use ($app) {
 
     $message = Swift_Message::newInstance();
     $message->setFrom(array($b['args']['credentials']['username'] => 'ITP Make Education Camp')); // FIXME: hardcoded
-    //$message->setSender($b['args']['credentials']['username']);
     $message->setTo(array($b['args']['email'] => $b['args']['fname'] . ' ' . $b['args']['lname']));
-    //$message->addCC($b['args']['credentials']['username']);
+    //$message->setCc($b['args']['credentials']['username']);
 
     // create decision
     $d_result = NULL;
@@ -47,10 +46,9 @@ $app->post('/decision', function() use ($app) {
     );
     if ($b['args']['decision'] == 'reject') {
       if (isset($b['args']['message']) && isset($b['args']['credentials'])) {
-        /*$mail->addAddress($b['args']['email'], $b['args']['fname'] . ' ' . $b['args']['lname']);
-        $mail->Subject = $b['args']['subject'];
-        $mail->Body = $b['args']['body'];*/
-        //$mail->send();
+        $message->setSubject('ITP Make Education Camp application status'); // FIXME: hardcoded
+        $message->setBody($b['args']['message']['reject'] . "\n\n" . $register_link_code . "\n");
+        $mailer->send($message);
       }
       return;
     }
@@ -61,8 +59,8 @@ $app->post('/decision', function() use ($app) {
       if (isset($d_result)) {
         $register_link_code = $b['config']['registerUrl'] . '/?code=' . $d_result['code'];
         if ($b['args']['decision'] == 'comp') {
-          $message->setSubject($b['args']['subject']);
-          $message->setBody($b['args']['body'] . "\n\n" . $register_link_code . "\n");
+          $message->setSubject('Register for ITP Make Education Camp');
+          $message->setBody($b['args']['message']['comp'] . "\n\n" . $register_link_code . "\n");
           $mailer->send($message);
         }
         else if ($d_result['decision'] == 'accept') {
@@ -134,10 +132,9 @@ $app->post('/decision', function() use ($app) {
               );
               if ($e_ret != FALSE) {
                 $decision_i_result = json_decode(http_parse_message($e_ret)->body, TRUE);
-                $mail->addAddress($b['args']['email'], $b['args']['fname'] . ' ' . $b['args']['lname']);
-                $mail->Subject = $b['args']['subject'];
-                $mail->Body = $b['args']['body'];
-                //$mail->send();
+                $message->setSubject('Register for ITP Make Education Camp');
+                $message->setBody($b['args']['message']['accept'] . "\n\n" . $register_link_code . "\n");
+                $mailer->send($message);
               }
             }
           }
