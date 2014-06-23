@@ -26,7 +26,8 @@ $app->post('/decision', function() use ($app) {
     $mail->Password = $b['args']['credentials']['password'];
     $mail->SMTPSecure = $b['args']['credentials']['transport'];
     $mail->From = $b['args']['credentials']['username'];
-    $mail->addAddress($b['args']['email']);
+    $mail->FromName = $b['args']['credentials']['username'];
+    $mail->addAddress($b['args']['email'], $b['args']['fname'] . ' ' . $b['args']['lname']);
     //$mail->addCC($b['args']['credentials']['username']);
 
     // create decision
@@ -56,7 +57,6 @@ $app->post('/decision', function() use ($app) {
       if (isset($d_result)) {
         $register_link_code = $b['config']['registerUrl'] . '/?code=' . $d_result['code'];
         if ($d_result['decision'] == 'comp') {
-          $mail->addAddress($b['args']['email'], $b['args']['fname'] . ' ' . $b['args']['lname']);
           $mail->Subject = $b['args']['subject'];
           $mail->Body = $b['args']['body'] . "\n\n" . $register_link_code . "\n";
           $mail->send();
