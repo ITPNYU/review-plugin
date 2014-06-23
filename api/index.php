@@ -22,15 +22,17 @@ $app->post('/decision', function() use ($app) {
       $b['args']['credentials']['server'],
       $b['args']['credentials']['port'],
       $b['args']['credentials']['transport']
-    )
-    ->setUsername('edcamp@itp.nyu.edu')
-    ->setPassword($b['args']['credentials']['password']);
+    );
+    $transport->setUsername($b['args']['credentials']['username']);
+    $transport->setPassword($b['args']['credentials']['password']);
 
-    $mail = Swift_Message::newInstance();
-    $mail->setFrom(array('edcamp@itp.nyu.edu' => 'ITP Make Education Camp')); // FIXME: hardcoded
-    //$mail->setSender($b['args']['credentials']['username']);
-    $mail->setTo(array($b['args']['email'] => $b['args']['fname'] . ' ' . $b['args']['lname']));
-    //$mail->addCC($b['args']['credentials']['username']);
+    $mailer = Swift_Mailer::newInstance($transport);
+
+    $message = Swift_Message::newInstance();
+    $message->setFrom(array('edcamp@itp.nyu.edu' => 'ITP Make Education Camp')); // FIXME: hardcoded
+    //$message->setSender($b['args']['credentials']['username']);
+    $message->setTo(array($b['args']['email'] => $b['args']['fname'] . ' ' . $b['args']['lname']));
+    //$message->addCC($b['args']['credentials']['username']);
 
     // create decision
     $d_result = NULL;
@@ -59,9 +61,9 @@ $app->post('/decision', function() use ($app) {
       if (isset($d_result)) {
         $register_link_code = $b['config']['registerUrl'] . '/?code=' . $d_result['code'];
         if ($b['args']['decision'] == 'comp') {
-          $mail->setSubject($b['args']['subject']);
-          $mail->setBody($b['args']['body'] . "\n\n" . $register_link_code . "\n");
-          $transport->send($mail);
+          $message->setSubject($b['args']['subject']);
+          $message->setBody($b['args']['body'] . "\n\n" . $register_link_code . "\n");
+          $mailer->send($mail);
         }
         else if ($d_result['decision'] == 'accept') {
           // check for existing payer record in paytrack
