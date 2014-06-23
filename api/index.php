@@ -31,7 +31,7 @@ $app->post('/decision', function() use ($app) {
     $message = Swift_Message::newInstance();
     $message->setFrom(array($b['args']['credentials']['username'] => 'ITP Make Education Camp')); // FIXME: hardcoded
     $message->setTo(array($b['args']['email'] => $b['args']['fname'] . ' ' . $b['args']['lname']));
-    //$message->setCc($b['args']['credentials']['username']);
+    $message->addCc($b['args']['credentials']['username']);
 
     // create decision
     $d_result = NULL;
