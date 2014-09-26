@@ -90,7 +90,7 @@ function rp_paytrack_api_section() {
 // load all the settings into dashboard settings
 function rp_settings() {
   add_settings_section('rp_message_section',
-    'ITP Review: Message Settings',
+    'Message Settings',
     'rp_message_section',
     'rp-options'
   );
@@ -179,7 +179,7 @@ function rp_settings() {
 
   // Gravity Forms API settings
   add_settings_section('rp_gravity_section',
-    'ITP Review: Gravity Settings',
+    'Gravity Settings',
     'rp_gravity_section',
     'rp-options'
   );
@@ -214,18 +214,18 @@ function rp_settings() {
 
   // ITP Paytrack and Review API settings
   add_settings_section('rp_paytrack_api_section',
-    'ITP Review: Paytrack API Settings',
+    'Paytrack API Settings',
     'rp_paytrack_api_section',
     'rp-options'
   );
   add_settings_section('rp_review_api_section',
-    'ITP Review: Review API Settings',
+    'Review API Settings',
     'rp_review_api_section',
     'rp-options'
   );
 
   add_settings_field('rp_paytrack_api_url',
-    'ITP Review: Paytrack API URL',
+    'Paytrack API URL',
     'rp_input_setting_callback',
     'rp-options',
     'rp_paytrack_api_section',
@@ -233,7 +233,7 @@ function rp_settings() {
   );
 
   add_settings_field('rp_paytrack_api_key',
-    'ITP Review: Paytrack API Key',
+    'Paytrack API Key',
     'rp_input_setting_callback',
     'rp-options',
     'rp_paytrack_api_section',
@@ -241,7 +241,7 @@ function rp_settings() {
   );
 
   add_settings_field('rp_review_api_url',
-    'ITP Review: Review API URL',
+    'Review API URL',
     'rp_input_setting_callback',
     'rp-options',
     'rp_review_api_section',
@@ -249,7 +249,7 @@ function rp_settings() {
   );
 
   add_settings_field('rp_review_api_key',
-    'ITP Review: Review API Key',
+    'Review API Key',
     'rp_input_setting_callback',
     'rp-options',
     'rp_review_api_section',
@@ -257,7 +257,7 @@ function rp_settings() {
   );
 
   add_settings_field('rp_review_api_collection',
-    'ITP Review: Review API Collection ID (number)',
+    'Review API Collection ID (number)',
     'rp_input_setting_callback',
     'rp-options',
     'rp_review_api_section',
