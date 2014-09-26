@@ -31,7 +31,18 @@ $review_query = get_option('rp_review_api_url') . '/entry'
 function get_review_entries($review_query) {
   $review_entries = array();
   $result = NULL;
-  $ret = http_get($review_query, array('Accept' => 'application/json'));
+  $filters = urlencode(json_encode(array(
+      'filters' => array(
+        array(
+          'name' => 'collection_id',
+          'op' => 'eq',
+          'val' => get_option('rp_review_collection')
+        )
+      )
+    ))
+  );
+  $review_query_collection = $review_query . '&q=' . $filters;
+  $ret = http_get($review_query_collection, array('Accept' => 'application/json'));
   if ($ret != FALSE) {
     $result = json_decode(http_parse_message($ret)->body, TRUE);
   }
