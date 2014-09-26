@@ -18,7 +18,7 @@ add_action('admin_menu', 'rp_menu');
 
 function rp_menu() {
   $management_page_hook = add_management_page( 'ITP Review', 'ITP Review', 'manage_options', 'rp-review', 'rp_page');
-  $options_page_hook = add_options_page('ITP Review Settings', 'ITP Review', 'manage_options', 'rp-options');
+  $options_page_hook = add_options_page('ITP Review Settings', 'ITP Review', 'manage_options', 'rp-options', 'rp_options');
 
   add_action('admin_print_scripts-' . $management_page_hook, 'rp_script_load');
 }
@@ -35,6 +35,11 @@ function rp_script_load() {
 // display the dashboard page
 function rp_page() {
   include (plugin_dir_path(__FILE__) . '/view/rp-page.php');
+}
+
+// display the options page
+function rp_options() {
+  include (plugin_dir_path(__FILE__) . '/view/rp-options.php');
 }
 
 // set and display setting with input text
