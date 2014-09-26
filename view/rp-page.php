@@ -62,8 +62,8 @@ if (!isset($to_load)) {
 foreach ($form_entries as $f) {
   if (in_array($f['id'], $to_load)) {
     $input = array(
-      'name' => $f['1'] . ' ' . $f['2'],
-      'email' => $f['3'],
+      'name' => $f['1.3'] . ' ' . $f['1.6'],
+      'email' => $f['2'],
       'external_id' => $f['id'],
       'collection_id' => get_option('rp_review_api_collection')
     );
@@ -103,12 +103,12 @@ function has_review_entry($f, $review_entries) {
 function render_form_entry($f, $review_entries) {
   $e = has_review_entry($f, $review_entries); 
   $output = '<tr>
-<td><strong>' . $f['id'] . ': ' . $f['1'] . ' ' . $f['2'] . '</strong></td>
+<td><strong>' . $f['id'] . ': ' . $f['1.3'] . ' ' . $f['1.6'] . '</strong></td>
 <td><div id="rp-entry-' . $e['id'] . '"'
   . ' data-rp-entry_id="' . $e['id'] . '"'
-  . ' data-rp-entry-fname="' . $f['1'] . '"'
-  . ' data-rp-entry-lname="' . $f['2'] . '"'
-  . ' data-rp-entry-email="' . $f['3'] . '"'
+  . ' data-rp-entry-fname="' . $f['1.3'] . '"'
+  . ' data-rp-entry-lname="' . $f['1.6'] . '"'
+  . ' data-rp-entry-email="' . $f['2'] . '"'
   . '>'; 
   if (isset($e['decision'])) {
     $output = $output . '<strong>Decision: ' . $e['decision']['decision'] . '</strong>';
@@ -122,17 +122,19 @@ function render_form_entry($f, $review_entries) {
   }
 
   $output = $output . '<br /><hr /><ul class="list-unstyled">
-  <li><strong>Email</strong>: ' . $f['3'] . '</li>
-  <li><strong>Mobile Phone</strong>: ' . $f['4'] . '</li>
-  <li><strong>Location</strong>: ' . $f['5'] . '</li>
-  <li><strong>Work</strong>: ' . $f['6'] . '</li>
-  <li><strong>Website</strong>: ' . $f['7'] . '</li>
-  <li><strong>Links</strong>: ' . $f['8'] . '</li>
-  <li><strong>Wants to make/learn/do</strong>: ' . $f['9'] . '</li>
-  <li><strong>Skills/knowledge/expertise</strong>: ' . $f['10'] . '</li>
-  <li><strong>Wants to hear from</strong>: ' . $f['11'] . '</li>
-  <li><strong>Proposed session</strong>: ' . $f['12'] . '</li>
-  <li><strong>Anything else</strong>: ' . $f['13'] . '</li>
+  <li><strong>Email</strong>: ' . $f['2'] . '</li>
+  <li><strong>Website</strong>: ' . $f['3'] . '</li>
+  <li><strong>Affiliation</strong>: ' . $f['4'] . '</li>
+  <li><strong>School</strong>: ' . $f['5'] . '</li>
+  <li><strong>How did you hear about WE?</strong>: ' . $f['6'] . '</li>
+  <li><strong>What are you doing now?</strong>: ' . $f['7'] . '</li>
+  <li><strong>Other?:</strong>: ' . $f['8'] . '</li>
+  <li><strong>What stage are you in?:</strong>: ' . $f['9'] . '</li>
+  <li><strong>Other?:</strong>: ' . $f['10'] . '</li>
+  <li><strong>How will WE help you?</strong>: ' . $f['11'] . '</li>
+  <li><strong>What do you bring to WE?:</strong>: ' . $f['12'] . '</li>
+  <li><strong>Elevator pitch:</strong>: ' . $f['13'] . '</li>
+  <li><strong>Morning Panel</strong>: ' . $f['14'] . '</li>
 </ul>
 </td>
 </div>

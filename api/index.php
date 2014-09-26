@@ -29,7 +29,7 @@ $app->post('/decision', function() use ($app) {
     $mailer = Swift_Mailer::newInstance($transport);
 
     $message = Swift_Message::newInstance();
-    $message->setFrom(array($b['args']['credentials']['username'] => 'ITP Make Education Camp')); // FIXME: hardcoded
+    $message->setFrom(array($b['args']['credentials']['username'] => 'WE Festival')); // FIXME: hardcoded
     $message->setTo(array($b['args']['email'] => $b['args']['fname'] . ' ' . $b['args']['lname']));
     $message->addCc($b['args']['credentials']['username']);
 
@@ -46,7 +46,7 @@ $app->post('/decision', function() use ($app) {
     );
     if ($b['args']['decision'] == 'reject') {
       if (isset($b['args']['message']) && isset($b['args']['credentials'])) {
-        $message->setSubject('ITP Make Education Camp application status'); // FIXME: hardcoded
+        $message->setSubject('WE Festival application status'); // FIXME: hardcoded
         $message->setBody($b['args']['message']['reject'] . "\n\n" . $register_link_code . "\n");
         $mailer->send($message);
       }
@@ -59,7 +59,7 @@ $app->post('/decision', function() use ($app) {
       if (isset($d_result)) {
         $register_link_code = $b['config']['registerUrl'] . '/?code=' . $d_result['code'];
         if ($b['args']['decision'] == 'comp') {
-          $message->setSubject('Register for ITP Make Education Camp');
+          $message->setSubject('Register for WE'); // FIXME: hardcoded
           $message->setBody($b['args']['message']['comp'] . "\n\n" . $register_link_code . "\n");
           $mailer->send($message);
         }
@@ -132,7 +132,7 @@ $app->post('/decision', function() use ($app) {
               );
               if ($e_ret != FALSE) {
                 $decision_i_result = json_decode(http_parse_message($e_ret)->body, TRUE);
-                $message->setSubject('Register for ITP Make Education Camp');
+                $message->setSubject('Register for WE'); // FIXME: hardcoded
                 $message->setBody($b['args']['message']['accept'] . "\n\n" . $register_link_code . "\n");
                 $mailer->send($message);
               }
