@@ -21,8 +21,15 @@ function get_form_entry_id($e) {
   return $e['id'];
 }
 
-function rp_parse_opt($obj, $k) {
-  return 'yes';
+function rp_parse_opt($obj, $option) {
+  $result = NULL;
+
+  foreach ($obj as $k => $v) {
+    if (ereg('^' . $option . '\.', $k)) {
+      array_push($result, $v);
+    }
+  }
+  return implode(', ', $result);
 }
 
 $form_seen = array_map('get_form_entry_id', $form_entries);
