@@ -21,6 +21,10 @@ function get_form_entry_id($e) {
   return $e['id'];
 }
 
+function rp_parse_opt($obj, $k) {
+  return 'yes';
+}
+
 $form_seen = array_map('get_form_entry_id', $form_entries);
 
 $review_query = get_option('rp_review_api_url') . '/entry'
@@ -138,7 +142,7 @@ function render_form_entry($f, $review_entries) {
   <li><strong>Affiliation</strong>: ' . $f['4'] . '</li>
   <li><strong>School</strong>: ' . $f['5'] . '</li>
   <li><strong>How did you hear about WE?</strong>: ' . $f['6'] . '</li>
-  <li><strong>What are you doing now?</strong>: ' . $f['7.1']||$f['7.2']||$f['7.3']||$f['7.4']||$f['7.5']||$f['7.6'] . '</li>
+  <li><strong>What are you doing now?</strong>: ' . rp_parse_opt($f, '7') . '</li>
   <li><strong>Other?:</strong>: ' . $f['8'] . '</li>
   <li><strong>What stage are you in?:</strong>: ' . $f['9'] . '</li>
   <li><strong>Other?:</strong>: ' . $f['10'] . '</li>
