@@ -151,7 +151,7 @@ function render_form_entry($f, $review_entries) {
   <li><strong>How did you hear about WE?</strong>: ' . $f['6'] . '</li>
   <li><strong>What are you doing now?</strong>: ' . rp_parse_opt($f, '7') . '</li>
   <li><strong>Other?:</strong>: ' . $f['8'] . '</li>
-  <li><strong>What stage are you in?:</strong>: ' . $f['9'] . '</li>
+  <li><strong>What stage are you in?:</strong>: ' . rp_parse_opt($f, '9') . '</li>
   <li><strong>Other?:</strong>: ' . $f['10'] . '</li>
   <li><strong>How will WE help you?</strong>: ' . $f['11'] . '</li>
   <li><strong>What do you bring to WE?:</strong>: ' . $f['12'] . '</li>
