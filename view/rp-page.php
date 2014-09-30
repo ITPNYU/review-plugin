@@ -22,7 +22,7 @@ function get_form_entry_id($e) {
 }
 
 function rp_parse_opt($obj, $option) {
-  $result = NULL;
+  $result = array();
 
   foreach ($obj as $k => $v) {
     if (ereg('^' . $option . '\.', $k)) {
