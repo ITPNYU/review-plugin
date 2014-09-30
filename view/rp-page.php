@@ -25,9 +25,9 @@ function rp_parse_opt($obj, $option) {
   $result = NULL;
 
   foreach ($obj as $k => $v) {
-    echo "PARSE_OPT";
     var_dump($k);
     if (ereg('^' . $option . '\.', $k)) {
+      echo 'PARSE_OPT: ' . $k . '<br/>';
       array_push($result, $v);
     }
   }
