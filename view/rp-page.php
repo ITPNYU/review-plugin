@@ -1,5 +1,3 @@
-<h2>ITP Review</h2>
-
 <?php
 $form_entries = array();
 
@@ -136,12 +134,21 @@ function render_form_entry($f, $review_entries) {
     $output = $output . '<strong>Decision: ' . $e['decision']['decision'] . '</strong>';
   }
   else {
-    $output = $output . '<div class="rp-buttons">
+/*    $output = $output . '<div class="rp-buttons">
 <button type="button" data-rp-action="accept" data-rp-entry="' . $e['id'] . '" class="btn btn-success rp-button">Accept</button>
 <button type="button" data-rp-action="reject" data-rp-entry="' . $e['id'] . '" class="btn btn-danger rp-button">Reject</button>
 <button type="button" data-rp-action="comp" data-rp-entry="' . $e['id'] . '" class="btn btn-info rp-button">Comp</button>
-</div>';
+</div>';*/
   }
+
+  if (isset($e['review']) && (count($e['reviews'] > 0))) {
+    foreach ($e['review'] as $r) {
+      $output .= '<div>
+Review from ' . $r['reviewer'] . ': <b>' . $r['recommendation'] . '</b> - ' . $r['note'] .
+'</div>';
+    }
+  }
+
 
   $output = $output . '<br /><hr /><ul class="list-unstyled">
   <li><strong>Email</strong>: ' . $f['2'] . '</li>
