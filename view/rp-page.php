@@ -143,12 +143,15 @@ function render_form_entry($f, $review_entries) {
     $output .= '<strong>Decision: ' . $e['decision']['decision'] . '</strong>';
   }
   else {
-    $output .= '<em>Add a review:</em><br/><label>Recommendation:</label> <select>
+    $output .= '<hr /><em>Add a review:</em><br/>
+<label for="rp-review-select-' . $e['id'] . '">Recommendation:</label>
+<select name="rp-review-select-' . $e['id'] . '">
   <option value="yes">Yes</option>
   <option value="maybe">Maybe</option>
   <option value="no">No</option>
 </select>
-<label>Note:</label> <input type="text" size="100" />';
+<label for="rp-review-input-' . $e['id'] . '">Note:</label>
+<input name="rp-review-input-' . $e['id'] . '" type="text" size="100" />';
 
 /*    $output = $output . '<div class="rp-buttons">
 <button type="button" data-rp-action="accept" data-rp-entry="' . $e['id'] . '" class="btn btn-success rp-button">Accept</button>
