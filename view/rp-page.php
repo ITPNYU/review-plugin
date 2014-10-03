@@ -175,7 +175,7 @@ function render_form_entry($f, $review_entries) {
   <li><strong>How will WE help you?</strong>: ' . $f['11'] . '</li>
   <li><strong>What do you bring to WE?</strong>: ' . $f['12'] . '</li>
   <li><strong>Elevator pitch</strong>: ' . $f['13'] . '</li>
-  <li><strong>Morning Panel</strong>: ' . $f['14'] . '</li>
+  <li><strong>Morning Panel</strong>: ' . rp_parse_opt($f, '14') . '</li>
 </ul>
 </td>
 </div>
