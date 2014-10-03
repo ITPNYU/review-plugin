@@ -130,10 +130,26 @@ function render_form_entry($f, $review_entries) {
   . ' data-rp-entry-lname="' . $f['1.6'] . '"'
   . ' data-rp-entry-email="' . $f['2'] . '"'
   . '>'; 
+
+  if (isset($e['reviews']) && (count($e['reviews'] > 0))) {
+    foreach ($e['reviews'] as $r) {
+      $output .= '<div>
+<em>Review from ' . $r['reviewer'] . '</em>: <b>' . $r['recommendation'] . '</b> - ' . $r['note'] .
+
+'</div>';
+    }
+  }
   if (isset($e['decision'])) {
-    $output = $output . '<strong>Decision: ' . $e['decision']['decision'] . '</strong>';
+    $output .= '<strong>Decision: ' . $e['decision']['decision'] . '</strong>';
   }
   else {
+    $output .= 'Add a review: <select>
+  <option value="yes">Yes</option>
+  <option value="maybe">Maybe</option>
+  <option value="no">No</option>
+</select>
+<input type="text" size="100" />';
+
 /*    $output = $output . '<div class="rp-buttons">
 <button type="button" data-rp-action="accept" data-rp-entry="' . $e['id'] . '" class="btn btn-success rp-button">Accept</button>
 <button type="button" data-rp-action="reject" data-rp-entry="' . $e['id'] . '" class="btn btn-danger rp-button">Reject</button>
@@ -141,16 +157,9 @@ function render_form_entry($f, $review_entries) {
 </div>';*/
   }
 
-  if (isset($e['reviews']) && (count($e['reviews'] > 0))) {
-    foreach ($e['reviews'] as $r) {
-      $output .= '<div>
-Review from ' . $r['reviewer'] . ': <b>' . $r['recommendation'] . '</b> - ' . $r['note'] .
-'</div>';
-    }
-  }
 
 
-  $output = $output . '<br /><hr /><ul class="list-unstyled">
+  $output .= '<br /><hr /><ul class="list-unstyled">
   <li><strong>Email</strong>: ' . $f['2'] . '</li>
   <li><strong>Website</strong>: ' . $f['3'] . '</li>
   <li><strong>Affiliation</strong>: ' . $f['4'] . '</li>
