@@ -47,7 +47,7 @@ function get_review_entries($review_query) {
         array(
           'name' => 'collection_id',
           'op' => 'eq',
-          'val' => get_option('rp_review_collection')
+          'val' => get_option('rp_review_api_collection')
         )
       )
     ))
