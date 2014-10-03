@@ -149,7 +149,7 @@ function render_form_entry($f, $review_entries) {
   <option value="yes">Yes</option>
   <option value="maybe">Maybe</option>
   <option value="no">No</option>
-</select>
+</select><br />
 <label for="rp-review-input-' . $e['id'] . '">Note:</label>
 <input name="rp-review-input-' . $e['id'] . '" type="text" size="100" />';
 
