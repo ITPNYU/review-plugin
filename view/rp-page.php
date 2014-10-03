@@ -141,8 +141,8 @@ function render_form_entry($f, $review_entries) {
 </div>';*/
   }
 
-  if (isset($e['review']) && (count($e['reviews'] > 0))) {
-    foreach ($e['review'] as $r) {
+  if (isset($e['reviews']) && (count($e['reviews'] > 0))) {
+    foreach ($e['reviews'] as $r) {
       $output .= '<div>
 Review from ' . $r['reviewer'] . ': <b>' . $r['recommendation'] . '</b> - ' . $r['note'] .
 '</div>';
