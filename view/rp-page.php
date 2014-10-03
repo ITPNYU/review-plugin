@@ -143,7 +143,7 @@ function render_form_entry($f, $review_entries) {
     $output .= '<strong>Decision: ' . $e['decision']['decision'] . '</strong>';
   }
   else {
-    $output .= '<hr /><em>Add a review:</em><br/>
+    $output .= '<br /><em>Add a review:</em><br/>
 <label for="rp-review-select-' . $e['id'] . '">Recommendation:</label>
 <select name="rp-review-select-' . $e['id'] . '">
   <option value="yes">Yes</option>
@@ -162,7 +162,7 @@ function render_form_entry($f, $review_entries) {
 
 
 
-  $output .= '<br /><hr /><ul class="list-unstyled">
+  $output .= '<br /><br /><ul class="list-unstyled">
   <li><strong>Email</strong>: ' . $f['2'] . '</li>
   <li><strong>Website</strong>: ' . $f['3'] . '</li>
   <li><strong>Affiliation</strong>: ' . $f['4'] . '</li>
