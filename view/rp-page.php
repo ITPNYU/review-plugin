@@ -150,15 +150,14 @@ function render_form_entry($f, $review_entries) {
   <option value="maybe">Maybe</option>
   <option value="no">No</option>
 </select>
-<button type="button" name="rp-review-button-' . $e['id'] . '" class="btn btn-default">Save:</button>
-<br />
 <label for="rp-review-input-' . $e['id'] . '">Note:</label>
-<input name="rp-review-input-' . $e['id'] . '" type="text" size="100" />';
+<input name="rp-review-input-' . $e['id'] . '" type="text" size="100" />
+<button type="button" name="rp-review-button-' . $e['id'] . '" class="btn btn-default rp-review-button">Save</button>';
 
 /*    $output = $output . '<div class="rp-buttons">
-<button type="button" data-rp-action="accept" data-rp-entry="' . $e['id'] . '" class="btn btn-success rp-button">Accept</button>
-<button type="button" data-rp-action="reject" data-rp-entry="' . $e['id'] . '" class="btn btn-danger rp-button">Reject</button>
-<button type="button" data-rp-action="comp" data-rp-entry="' . $e['id'] . '" class="btn btn-info rp-button">Comp</button>
+<button type="button" data-rp-action="accept" data-rp-entry="' . $e['id'] . '" class="btn btn-success rp-decision-button">Accept</button>
+<button type="button" data-rp-action="reject" data-rp-entry="' . $e['id'] . '" class="btn btn-danger rp-decision-button">Reject</button>
+<button type="button" data-rp-action="comp" data-rp-entry="' . $e['id'] . '" class="btn btn-info rp-decision-button">Comp</button>
 </div>';*/
   }
 
@@ -244,17 +243,81 @@ var createDecision = function(args) {
 
 }
 
-var rpButton = function(args) {
-  console.log('click ' + args['action'] + ' ' + args['entry']);
-  createDecision(args);
-  jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-buttons').html('Decision: ' + args['action']);
+var rpDecisionButton = function(args) {
+  console.log('decision click ' + args['action'] + ' ' + args['entry']);
+  jQuery.ajax({
+    url: '<?php echo site_url() . '/wp-content/plugins/review-plugin/api/decision'; ?>',
+    data: JSON.stringify({
+      'args': {
+        'entry_id': args['entry'],
+        'decision': args['action'],
+        'reviewer': '<?php global $current_user; get_currentuserinfo(); echo $current_user->user_login; ?>',
+        'fname': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-fname'),
+        'lname': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-lname'),
+        'email': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-email'),
+        'account_id': 2,
+        'amount': 200,
+        'message': {
+          'accept': <?php echo json_encode(get_option('rp_message_accept')); ?>,
+          'reject': <?php echo json_encode(get_option('rp_message_reject')); ?>,
+          'comp': <?php echo json_encode(get_option('rp_message_comp')); ?>,
+        },
+        'credentials': {
+          'server': <?php echo json_encode(get_option('rp_message_server')); ?>,
+          'port': <?php echo json_encode(get_option('rp_message_port')); ?>,
+          'transport': <?php echo json_encode(get_option('rp_message_transport')); ?>,
+          'username': <?php echo json_encode(get_option('rp_message_username')); ?>,
+          'password': <?php echo json_encode(get_option('rp_message_password')); ?>
+        }
+      },
+      'config': config
+    }),
+    dataType: 'json',
+    type: 'POST',
+    contentType: 'application/json',
+    success: function(data) {
+      jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-decision-buttons').html('Decision: ' + args['action']);
+    }
+  });  
+};
+
+var rpReviewButton = function(args) {
+  console.log('review click ' + args['recommendation'] + ' ' + args['entry']);
+  jQuery.ajax({
+    url: '<?php echo site_url() . '/wp-content/plugins/review-plugin/api/review'; ?>',
+    data: JSON.stringify({
+      'args': {
+        'entry_id': args['entry'],
+//        'review': {
+        'recommendation': args['recommendation'],
+        'note': args['note'],
+//        },
+        'reviewer': '<?php global $current_user; get_currentuserinfo(); echo $current_user->user_login; ?>'
+      },
+      'config': config
+    }),
+    dataType: 'json',
+    type: 'POST',
+    contentType: 'application/json',
+    success: function(data) {
+      jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-review-buttons').html('Review: ' + args['recommendation'] + ' - ' + args['note']);
+    }
+  });
 };
 
 jQuery(document).ready(function() {
-  jQuery('button.rp-button').on('click', function() {
-    rpButton({
+  jQuery('button.rp-decision-button').on('click', function() {
+    rpDecisionButton({
       'action': jQuery(this).attr('data-rp-action'),
       'entry': jQuery(this).attr('data-rp-entry')
+    });
+  });
+
+  jQuery('button.rp-review-button').on('click', function() {
+    rpReviewButton({
+      'entry': jQuery(this).attr('data-rp-entry'),
+      'note': jQuery(this).attr('data-rp-entry'),
+      'recommendation': jQuery(this).attr('data-rp-action')
     });
   });
 });
