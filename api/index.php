@@ -153,6 +153,40 @@ $app->post('/decision', function() use ($app) {
   }
 });
 
+$app->post('/review', function() use ($app) {
+  $app->response->headers->set('Content-Type', 'application/json');
+  $p = $app->request->post();
+  $b = json_decode($app->request->getBody(), TRUE);
+  if (isset($b['args']) && isset($b['config'])) {
+    // create review
+    $r_result = NULL;
+    $r_body = json_encode(array(
+      'entry_id' => $b['args']['entry_id'],
+      'note' => $b['args']['note'],
+      'recommendation' => $b['args']['recommendation'],
+      'reviewer' => $b['args']['reviewer']
+    ));
+    $r_ret = http_post_data($b['config']['reviewUrl'] . '/review?key=' . $b['config']['reviewKey'],
+      $r_body,
+      array('headers' => array('Content-Type' => 'application/json'))
+    );
+    if ($r_ret != FALSE) {
+      //$app->response->setStatus(201);
+      $r_result = json_decode(http_parse_message($r_ret)->body, TRUE);
+      //echo(json_encode($r_result));
+      if (isset($r_result)) {
+        // FIXME: is any further error checking necessary?
+      }
+    }
+    else {
+      $app->response->setStatus(500);
+    }
+  }
+  else {
+    $app->response->setStatus(400);
+  }
+});
+
 $app->run();
 
 ?>
