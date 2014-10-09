@@ -78,6 +78,13 @@ if (!isset($to_load)) {
   $to_load = array();
 }
 
+echo 'form_seen: ';
+var_dump($form_seen);
+echo 'review_seen: ';
+var_dump($review_seen);
+echo 'to_load: ';
+var_dump($to_load);
+echo '<br />';
 
 foreach ($form_entries as $f) {
   if (in_array($f['id'], $to_load)) {
@@ -316,8 +323,8 @@ jQuery(document).ready(function() {
   jQuery('button.rp-review-button').on('click', function() {
     rpReviewButton({
       'entry': jQuery(this).attr('data-rp-entry'),
-      'note': jQuery(this).attr('data-rp-entry'),
-      'recommendation': jQuery(this).attr('data-rp-action')
+      'note': jQuery(this).attr('data-rp-note'),
+      'recommendation': jQuery(this).attr('data-rp-recommendation')
     });
   });
 });
