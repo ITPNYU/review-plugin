@@ -187,10 +187,6 @@ $app->post('/review', function() use ($app) {
   }
 });
 
-$app->get('/hello', function() {
-  echo 'hello';
-});
-
 $app->run();
 
 ?>
