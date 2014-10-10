@@ -245,7 +245,7 @@ var createDecision = function(args) {
 var rpDecisionButton = function(args) {
   console.log('decision click ' + args['action'] + ' ' + args['entry']);
   jQuery.ajax({
-    url: '<?php echo network_site_url() . '/wp-content/plugins/review-plugin/api/decision'; ?>',
+    url: '<?php echo plugins_url('api/decision', dirname(__FILE__)); ?>',
     data: JSON.stringify({
       'args': {
         'entry_id': args['entry'],
@@ -283,7 +283,7 @@ var rpDecisionButton = function(args) {
 var rpReviewButton = function(args) {
   console.log('review click ' + args['recommendation'] + ' ' + args['entry']);
   jQuery.ajax({
-    url: '<?php echo site_url() . '/wp-content/plugins/review-plugin/api/review'; ?>',
+    url: '<?php echo plugins_url('api/review', dirname(__FILE__)); ?>',
     data: JSON.stringify({
       'args': {
         'entry_id': args['entry'],
