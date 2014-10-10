@@ -143,15 +143,15 @@ function render_form_entry($f, $review_entries) {
   }
   else {
     $output .= '<br /><em>Add a review:</em><br/>
-<label for="rp-review-select-' . $e['id'] . '">Recommendation:</label>
-<select name="rp-review-select-' . $e['id'] . '">
+<label for="rp-review-recommendation-' . $e['id'] . '">Recommendation:</label>
+<select id="rp-review-recommendation-' . $e['id'] . '" class="rp-review-recommendation">
   <option value="yes">Yes</option>
   <option value="maybe">Maybe</option>
   <option value="no">No</option>
 </select>
-<label for="rp-review-input-' . $e['id'] . '">Note:</label>
-<input name="rp-review-input-' . $e['id'] . '" type="text" size="100" />
-<button type="button" name="rp-review-button-' . $e['id'] . '" class="btn btn-default rp-review-button">Save</button>';
+<label for="rp-review-note-' . $e['id'] . '">Note:</label>
+<input id="rp-review-note-' . $e['id'] . '" class="rp-review-note=" type="text" size="100" />
+<button type="button" id="rp-review-button-' . $e['id'] . '" data-rp-entry="' . $e['id'] . '" class="btn btn-default rp-review-button">Save</button>';
 
 /*    $output = $output . '<div class="rp-buttons">
 <button type="button" data-rp-action="accept" data-rp-entry="' . $e['id'] . '" class="btn btn-success rp-decision-button">Accept</button>
@@ -313,10 +313,12 @@ jQuery(document).ready(function() {
   });
 
   jQuery('button.rp-review-button').on('click', function() {
+    var note = jQuery(this).siblings('.rp-review-note').first().val();
+    var recommendation = jQuery(this).siblings('.rp-review-recommendation').first().val();
     rpReviewButton({
       'entry': jQuery(this).attr('data-rp-entry'),
-      'note': jQuery(this).attr('data-rp-note'),
-      'recommendation': jQuery(this).attr('data-rp-recommendation')
+      'note': note,
+      'recommendation': recommendation
     });
   });
 });
