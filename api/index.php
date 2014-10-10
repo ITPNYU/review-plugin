@@ -2,7 +2,6 @@
 require '../lib/Slim/Slim/Slim.php';
 
 $parse_uri = explode( 'wp-content', $_SERVER['SCRIPT_FILENAME'] );
-var_dump($parse_uri);
 require_once( $parse_uri[0] . 'wp-load.php' );
 if (!current_user_can('activate_plugins')) { // indicates an administrator
   exit;
