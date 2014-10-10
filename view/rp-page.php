@@ -206,7 +206,7 @@ var config = {
 
 var createDecision = function(args) {
   jQuery.ajax({
-    url: '<?php echo site_url() . '/wp-content/plugins/review-plugin/api/decision'; ?>',
+    url: '<?php echo network_site_url() . '/wp-content/plugins/review-plugin/api/decision'; ?>',
     data: JSON.stringify({
       'args': {
         'entry_id': args['entry'],
