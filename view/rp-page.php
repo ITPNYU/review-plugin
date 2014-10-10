@@ -142,7 +142,7 @@ function render_form_entry($f, $review_entries) {
     $output .= '<strong>Decision: ' . $e['decision']['decision'] . '</strong>';
   }
   else {
-    $output .= '<br /><em>Add a review:</em><br/>
+    $output .= '<br /><div class="rp-review-buttons"><em>Add a review:</em><br/>
 <label for="rp-review-recommendation-' . $e['id'] . '">Recommendation:</label>
 <select id="rp-review-recommendation-' . $e['id'] . '" class="rp-review-recommendation">
   <option value="yes">Yes</option>
@@ -151,7 +151,7 @@ function render_form_entry($f, $review_entries) {
 </select>
 <label for="rp-review-note-' . $e['id'] . '">Note:</label>
 <input id="rp-review-note-' . $e['id'] . '" class="rp-review-note" type="text" size="100" />
-<button type="button" id="rp-review-button-' . $e['id'] . '" data-rp-entry="' . $e['id'] . '" class="btn btn-default rp-review-button">Save</button>';
+<button type="button" id="rp-review-button-' . $e['id'] . '" data-rp-entry="' . $e['id'] . '" class="btn btn-default rp-review-button">Save</button></div>';
 
 /*    $output = $output . '<div class="rp-buttons">
 <button type="button" data-rp-action="accept" data-rp-entry="' . $e['id'] . '" class="btn btn-success rp-decision-button">Accept</button>
