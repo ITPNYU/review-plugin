@@ -150,7 +150,7 @@ function render_form_entry($f, $review_entries) {
   <option value="no">No</option>
 </select>
 <label for="rp-review-note-' . $e['id'] . '">Note:</label>
-<input id="rp-review-note-' . $e['id'] . '" class="rp-review-note=" type="text" size="100" />
+<input id="rp-review-note-' . $e['id'] . '" class="rp-review-note" type="text" size="100" />
 <button type="button" id="rp-review-button-' . $e['id'] . '" data-rp-entry="' . $e['id'] . '" class="btn btn-default rp-review-button">Save</button>';
 
 /*    $output = $output . '<div class="rp-buttons">
