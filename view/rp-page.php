@@ -299,7 +299,7 @@ var rpReviewButton = function(args) {
     type: 'POST',
     contentType: 'application/json',
     success: function(data) {
-      jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-review-buttons').html('Review: ' + args['recommendation'] + ' - ' + args['note']);
+      jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-review-buttons').html('<em>Review from: ' + args['reviewer'] + '</em>: ' + args['recommendation'] + ' - ' + args['note']);
     }
   });
 };
