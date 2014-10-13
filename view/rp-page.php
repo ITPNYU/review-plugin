@@ -276,6 +276,9 @@ var rpDecisionButton = function(args) {
     contentType: 'application/json',
     success: function(data) {
       jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-decision-buttons').html('Decision: ' + args['action']);
+    },
+    error: function(xhr, status, errorThrown) {
+      alert('There was an error saving this decision: ' + errorThrown);
     }
   });  
 };
@@ -300,6 +303,9 @@ var rpReviewButton = function(args) {
     contentType: 'application/json',
     success: function(data) {
       jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-review-buttons').html('<em>Review from ' + '<?php echo $current_user->user_login; ?>' + '</em>: <b>' + args['recommendation'] + '</b> - ' + args['note']);
+    },
+    error: function(xhr, status, errorThrown) {
+      alert('There was an error saving this review: ' + errorThrown);
     }
   });
 };
