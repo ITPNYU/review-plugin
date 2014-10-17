@@ -123,7 +123,9 @@ function render_form_entry($f, $review_entries) {
   $e = has_review_entry($f, $review_entries);
   $output = '<tr>
 <td><strong>' . $f['id'] . ': ' . $f['1.3'] . ' ' . $f['1.6'] . '</strong></td>
-<td><div id="rp-entry-' . $e['id'] . '"'
+<td>
+<strong>' . $f['id'] . ': ' . $f['1.3'] . ' ' . $f['1.6'] . '</strong>
+<div id="rp-entry-' . $e['id'] . '"'
   . ' data-rp-entry_id="' . $e['id'] . '"'
   . ' data-rp-entry-fname="' . $f['1.3'] . '"'
   . ' data-rp-entry-lname="' . $f['1.6'] . '"'
