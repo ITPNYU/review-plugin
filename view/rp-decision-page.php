@@ -172,7 +172,7 @@ var config = {
 var rpDecisionButton = function(args) {
   console.log('decision click ' + args['action'] + ' ' + args['entry']);
   jQuery.ajax({
-    url: '<?php echo network_site_url() . '/wp-content/plugins/review-plugin/api/decision'; ?>',
+    url: '<?php echo network_site_url() . 'wp-content/plugins/review-plugin/api/decision'; ?>',
     data: JSON.stringify({
       'args': {
         'entry_id': args['entry'],
