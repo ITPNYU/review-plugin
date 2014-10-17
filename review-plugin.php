@@ -18,7 +18,7 @@ add_action('admin_menu', 'rp_menu');
 
 function rp_menu() {
   $management_page_hook = add_management_page( 'ITP Review', 'ITP Review', 'manage_options', 'rp-review', 'rp_review_page');
-  $management_page_hook = add_management_page( 'ITP Decision', 'ITP Decision', 'manage_options', 'rp-review', 'rp_decision_page');
+  $management_page_hook = add_management_page( 'ITP Decision', 'ITP Decision', 'manage_options', 'rp-decision', 'rp_decision_page');
   $options_page_hook = add_options_page('ITP Review Settings', 'ITP Review', 'manage_options', 'rp-options', 'rp_options');
 
   add_action('admin_print_scripts-' . $management_page_hook, 'rp_script_load');
