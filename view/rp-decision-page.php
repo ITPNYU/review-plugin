@@ -120,7 +120,7 @@ function render_form_entry($f, $review_entries) {
     $output .= '<strong>Decision: ' . $e['decision']['decision'] . '</strong>';
   }
   else {
-    $output = $output . '<div class="rp-buttons">
+    $output = $output . '<div class="rp-decisions-buttons">
 <button type="button" data-rp-action="accept" data-rp-entry="' . $e['id'] . '" class="btn btn-success rp-decision-button">Accept</button>
 <button type="button" data-rp-action="reject" data-rp-entry="' . $e['id'] . '" class="btn btn-danger rp-decision-button">Reject</button>
 <button type="button" data-rp-action="comp" data-rp-entry="' . $e['id'] . '" class="btn btn-info rp-decision-button">Comp</button>
