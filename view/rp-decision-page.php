@@ -202,7 +202,7 @@ var rpDecisionButton = function(args) {
     type: 'POST',
     contentType: 'application/json',
     success: function(data) {
-      jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-decision-buttons').html('Decision: ' + args['action']);
+      jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-decision-buttons').html('<b>Decision:</b> ' + args['action']);
     },
     error: function(xhr, status, errorThrown) {
       alert('There was an error saving this decision: ' + errorThrown);
