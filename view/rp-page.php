@@ -132,10 +132,7 @@ function render_form_entry($f, $review_entries) {
 
   if (isset($e['reviews']) && (count($e['reviews'] > 0))) {
     foreach ($e['reviews'] as $r) {
-      $output .= '<div>
-<em>Review from ' . $r['reviewer'] . '</em>: <b>' . $r['recommendation'] . '</b> - ' . $r['note'] .
-
-'</div>';
+      $output .= '<div><em>Review from ' . $r['reviewer'] . '</em>: <b>' . $r['recommendation'] . '</b> - ' . $r['note'] . '</div>';
     }
   }
   if (isset($e['decision'])) {
@@ -177,8 +174,8 @@ function render_form_entry($f, $review_entries) {
   <li><strong>Elevator pitch</strong>: ' . $f['13'] . '</li>
   <li><strong>Morning Panel</strong>: ' . rp_parse_opt($f, '14') . '</li>
 </ul>
-</td>
 </div>
+</td>
 
 </tr>' . "\n";
   return $output;
