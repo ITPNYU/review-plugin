@@ -171,7 +171,7 @@ var config = {
 
 var rpDecisionButton = function(args) {
   console.log('decision click ' + args['action'] + ' ' + args['entry']);
-  jQuery.ajax({
+/*  jQuery.ajax({
     url: '<?php echo network_site_url() . '/wp-content/plugins/review-plugin/api/decision'; ?>',
     data: JSON.stringify({
       'args': {
@@ -207,7 +207,7 @@ var rpDecisionButton = function(args) {
     error: function(xhr, status, errorThrown) {
       alert('There was an error saving this decision: ' + errorThrown);
     }
-  });
+  });*/
 };
 
 jQuery(document).ready(function() {
