@@ -78,28 +78,6 @@ if (!isset($to_load)) {
   $to_load = array();
 }
 
-foreach ($form_entries as $f) {
-  if (in_array($f['id'], $to_load)) {
-    $input = array(
-      'name' => $f['1.3'] . ' ' . $f['1.6'],
-      'email' => $f['2'],
-      'external_id' => $f['id'],
-      'collection_id' => get_option('rp_review_api_collection')
-    );
-    $result = NULL;
-    $ret = http_post_data($review_query,
-      json_encode($input),
-      array('headers' => array('Content-Type' => 'application/json'))
-    );
-    if ($ret != FALSE) {
-      $result = json_decode(http_parse_message($ret)->body, TRUE);
-    }
-  }
-}
-
-// refresh the review entries after any new form entries were POSTed
-$review_entries = get_review_entries($review_query);
-
 function has_decision($f, $review_entries) {
   foreach ($review_entries as $r) {
     if (($r['external_id'] == $f['id']) && isset($r['decision'])) {
@@ -142,25 +120,12 @@ function render_form_entry($f, $review_entries) {
     $output .= '<strong>Decision: ' . $e['decision']['decision'] . '</strong>';
   }
   else {
-    $output .= '<br /><div class="rp-review-buttons"><em>Add a review:</em><br/>
-<label for="rp-review-recommendation-' . $e['id'] . '">Recommendation:</label>
-<select id="rp-review-recommendation-' . $e['id'] . '" class="rp-review-recommendation">
-  <option value="yes">Yes</option>
-  <option value="maybe">Maybe</option>
-  <option value="no">No</option>
-</select><br />
-<label for="rp-review-note-' . $e['id'] . '">Note:</label>
-<input id="rp-review-note-' . $e['id'] . '" class="rp-review-note" type="text" size="100" />
-<button type="button" id="rp-review-button-' . $e['id'] . '" data-rp-entry="' . $e['id'] . '" class="btn btn-default rp-review-button">Save</button></div>';
-
-/*    $output = $output . '<div class="rp-buttons">
+    $output = $output . '<div class="rp-buttons">
 <button type="button" data-rp-action="accept" data-rp-entry="' . $e['id'] . '" class="btn btn-success rp-decision-button">Accept</button>
 <button type="button" data-rp-action="reject" data-rp-entry="' . $e['id'] . '" class="btn btn-danger rp-decision-button">Reject</button>
 <button type="button" data-rp-action="comp" data-rp-entry="' . $e['id'] . '" class="btn btn-info rp-decision-button">Comp</button>
-</div>';*/
+</div>';
   }
-
-
 
   $output .= '<br /><br /><ul class="list-unstyled">
   <li><strong>Email</strong>: ' . $f['2'] . '</li>

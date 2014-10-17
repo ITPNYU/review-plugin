@@ -17,7 +17,8 @@ add_action('admin_init', 'rp_settings');
 add_action('admin_menu', 'rp_menu');
 
 function rp_menu() {
-  $management_page_hook = add_management_page( 'ITP Review', 'ITP Review', 'manage_options', 'rp-review', 'rp_page');
+  $management_page_hook = add_management_page( 'ITP Review', 'ITP Review', 'manage_options', 'rp-review', 'rp_review_page');
+  $management_page_hook = add_management_page( 'ITP Decision', 'ITP Review', 'manage_options', 'rp-review', 'rp_decision_page');
   $options_page_hook = add_options_page('ITP Review Settings', 'ITP Review', 'manage_options', 'rp-options', 'rp_options');
 
   add_action('admin_print_scripts-' . $management_page_hook, 'rp_script_load');
@@ -32,8 +33,14 @@ function rp_script_load() {
   wp_enqueue_script('bootstrap');
 }
 
-// display the dashboard page
-function rp_page() {
+// display the decision dashboard page
+function rp_decision_page() {
+  include (plugin_dir_path(__FILE__) . '/view/rp-decision-page.php');
+}
+
+
+// display the review dashboard page
+function rp_review_page() {
   include (plugin_dir_path(__FILE__) . '/view/rp-page.php');
 }
 
@@ -191,7 +198,7 @@ function rp_settings() {
     'rp_gravity_section',
     array('rp_gravity_public_key')
   );
-  
+
   add_settings_field('rp_gravity_private_key',
     'Gravity Forms API Private Key',
     'rp_input_setting_callback',
@@ -290,6 +297,6 @@ function rp_setup() {
   add_option('rp_review_api_url');
   add_option('rp_review_api_key');
   add_option('rp_review_api_collection');
-} 
+}
 
 ?>
