@@ -124,7 +124,6 @@ function render_form_entry($f, $review_entries) {
   $output = '<tr>
 <td><strong>' . $f['id'] . ': ' . $f['1.3'] . ' ' . $f['1.6'] . '</strong></td>
 <td>
-<strong>' . $f['id'] . ': ' . $f['1.3'] . ' ' . $f['1.6'] . '</strong>
 <div id="rp-entry-' . $e['id'] . '"'
   . ' data-rp-entry_id="' . $e['id'] . '"'
   . ' data-rp-entry-fname="' . $f['1.3'] . '"'
@@ -132,7 +131,7 @@ function render_form_entry($f, $review_entries) {
   . ' data-rp-entry-email="' . $f['2'] . '"'
   . '>';
 
-  $output .= '<br /><br /><ul class="list-unstyled">
+  $output .= '<ul class="list-unstyled">
   <li><strong>Email</strong>: ' . $f['2'] . '</li>
   <li><strong>Website</strong>: ' . $f['3'] . '</li>
   <li><strong>Affiliation</strong>: ' . $f['4'] . '</li>
