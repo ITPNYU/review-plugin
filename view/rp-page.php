@@ -177,6 +177,7 @@ function render_form_entry($f, $review_entries) {
   <li><strong>Morning Panel</strong>: ' . rp_parse_opt($f, '14') . '</li>
 </ul>
 </div>
+</div>
 <hr />
 </td>
 
