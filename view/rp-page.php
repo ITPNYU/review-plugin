@@ -212,8 +212,8 @@ var rpReviewButton = function(args) {
     success: function(data) {
       jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-reviews')
         .append('<div><em><b>New</b> review from ' + '<?php echo $current_user->user_login; ?>' + '</em>: <b>' + args['recommendation'] + '</b> - ' + args['note'] + '</div>');
-      jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-review-recommendation').val(null);
-      jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-review-note').val(null);
+      jQuery('div#rp-entry-' + args['entry'] + ' > select.rp-review-recommendation').val(null);
+      jQuery('div#rp-entry-' + args['entry'] + ' > input.rp-review-note').val(null);
     },
     error: function(xhr, status, errorThrown) {
       alert('There was an error saving this review: ' + errorThrown);
