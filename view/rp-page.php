@@ -132,35 +132,6 @@ function render_form_entry($f, $review_entries) {
   . ' data-rp-entry-email="' . $f['2'] . '"'
   . '>';
 
-  if (isset($e['reviews']) && (count($e['reviews'] > 0))) {
-    foreach ($e['reviews'] as $r) {
-      $output .= '<div><em>Review from ' . $r['reviewer'] . '</em>: <b>' . $r['recommendation'] . '</b> - ' . $r['note'] . '</div>';
-    }
-  }
-  if (isset($e['decision'])) {
-    $output .= '<strong>Decision: ' . $e['decision']['decision'] . '</strong>';
-  }
-  else {
-    $output .= '<br /><div class="rp-review-buttons"><em>Add a review:</em><br/>
-<label for="rp-review-recommendation-' . $e['id'] . '">Recommendation:</label>
-<select id="rp-review-recommendation-' . $e['id'] . '" class="rp-review-recommendation">
-  <option value="yes">Yes</option>
-  <option value="maybe">Maybe</option>
-  <option value="no">No</option>
-</select><br />
-<label for="rp-review-note-' . $e['id'] . '">Note:</label>
-<input id="rp-review-note-' . $e['id'] . '" class="rp-review-note" type="text" size="100" />
-<button type="button" id="rp-review-button-' . $e['id'] . '" data-rp-entry="' . $e['id'] . '" class="btn btn-default rp-review-button">Save</button></div>';
-
-/*    $output = $output . '<div class="rp-buttons">
-<button type="button" data-rp-action="accept" data-rp-entry="' . $e['id'] . '" class="btn btn-success rp-decision-button">Accept</button>
-<button type="button" data-rp-action="reject" data-rp-entry="' . $e['id'] . '" class="btn btn-danger rp-decision-button">Reject</button>
-<button type="button" data-rp-action="comp" data-rp-entry="' . $e['id'] . '" class="btn btn-info rp-decision-button">Comp</button>
-</div>';*/
-  }
-
-
-
   $output .= '<br /><br /><ul class="list-unstyled">
   <li><strong>Email</strong>: ' . $f['2'] . '</li>
   <li><strong>Website</strong>: ' . $f['3'] . '</li>
@@ -176,13 +147,30 @@ function render_form_entry($f, $review_entries) {
   <li><strong>Elevator pitch</strong>: ' . $f['13'] . '</li>
   <li><strong>Morning Panel</strong>: ' . rp_parse_opt($f, '14') . '</li>
 </ul>
-</div>
+<br />
+<div class="rp-reviews"><b>Reviews for ' . $f['1.3'] . ' ' . $f['1.6'] . ':</b>';
+  if (isset($e['reviews']) && (count($e['reviews'] > 0))) {
+    foreach ($e['reviews'] as $r) {
+      $output .= '<div><em>Review from ' . $r['reviewer'] . '</em>: <b>' . $r['recommendation'] . '</b> - ' . $r['note'] . '</div>';
+    }
+  }
+  $output .= '</div>';
+  $output .= '<br /><div class="rp-review-buttons"><em>Add a review:</em><br/>
+<label for="rp-review-recommendation-' . $e['id'] . '">Recommendation:</label>
+<select id="rp-review-recommendation-' . $e['id'] . '" class="rp-review-recommendation">
+  <option value="yes">Yes</option>
+  <option value="maybe">Maybe</option>
+  <option value="no">No</option>
+</select><br />
+<label for="rp-review-note-' . $e['id'] . '">Note:</label>
+<input id="rp-review-note-' . $e['id'] . '" class="rp-review-note" type="text" size="100" />
+<button type="button" id="rp-review-button-' . $e['id'] . '" data-rp-entry="' . $e['id'] . '" class="btn btn-default rp-review-button">Save</button></div>';
+
+  $output .= '</div>
 <hr />
 </td>
-
 </tr>' . "\n";
   return $output;
-
 }
 ?>
 
@@ -204,85 +192,6 @@ var config = {
   'registerUrl': '<?php echo get_option('rp_register_url'); ?>'
 };
 
-var createDecision = function(args) {
-  jQuery.ajax({
-    url: '<?php echo network_site_url() . '/wp-content/plugins/review-plugin/api/decision'; ?>',
-    data: JSON.stringify({
-      'args': {
-        'entry_id': args['entry'],
-        'decision': args['action'],
-        'reviewer': '<?php global $current_user; get_currentuserinfo(); echo $current_user->user_login; ?>',
-        'fname': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-fname'),
-        'lname': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-lname'),
-        'email': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-email'),
-        'account_id': 2,
-        'amount': 200,
-        'message': {
-          'accept': <?php echo json_encode(get_option('rp_message_accept')); ?>,
-          'reject': <?php echo json_encode(get_option('rp_message_reject')); ?>,
-          'comp': <?php echo json_encode(get_option('rp_message_comp')); ?>,
-        },
-        'credentials': {
-          'server': <?php echo json_encode(get_option('rp_message_server')); ?>,
-          'port': <?php echo json_encode(get_option('rp_message_port')); ?>,
-          'transport': <?php echo json_encode(get_option('rp_message_transport')); ?>,
-          'username': <?php echo json_encode(get_option('rp_message_username')); ?>,
-          'password': <?php echo json_encode(get_option('rp_message_password')); ?>
-        }
-      },
-      'config': config
-    }),
-    dataType: 'json',
-    type: 'POST',
-    contentType: 'application/json',
-    success: function(data) {
-      console.dir(data);
-    }
-  });
-
-}
-
-var rpDecisionButton = function(args) {
-  console.log('decision click ' + args['action'] + ' ' + args['entry']);
-  jQuery.ajax({
-    url: '<?php echo plugins_url('api/decision', dirname(__FILE__)); ?>',
-    data: JSON.stringify({
-      'args': {
-        'entry_id': args['entry'],
-        'decision': args['action'],
-        'reviewer': '<?php global $current_user; get_currentuserinfo(); echo $current_user->user_login; ?>',
-        'fname': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-fname'),
-        'lname': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-lname'),
-        'email': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-email'),
-        'account_id': 2,
-        'amount': 200,
-        'message': {
-          'accept': <?php echo json_encode(get_option('rp_message_accept')); ?>,
-          'reject': <?php echo json_encode(get_option('rp_message_reject')); ?>,
-          'comp': <?php echo json_encode(get_option('rp_message_comp')); ?>,
-        },
-        'credentials': {
-          'server': <?php echo json_encode(get_option('rp_message_server')); ?>,
-          'port': <?php echo json_encode(get_option('rp_message_port')); ?>,
-          'transport': <?php echo json_encode(get_option('rp_message_transport')); ?>,
-          'username': <?php echo json_encode(get_option('rp_message_username')); ?>,
-          'password': <?php echo json_encode(get_option('rp_message_password')); ?>
-        }
-      },
-      'config': config
-    }),
-    dataType: 'json',
-    type: 'POST',
-    contentType: 'application/json',
-    success: function(data) {
-      jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-decision-buttons').html('Decision: ' + args['action']);
-    },
-    error: function(xhr, status, errorThrown) {
-      alert('There was an error saving this decision: ' + errorThrown);
-    }
-  });
-};
-
 var rpReviewButton = function(args) {
   console.log('review click ' + args['recommendation'] + ' ' + args['entry']);
   jQuery.ajax({
@@ -302,7 +211,10 @@ var rpReviewButton = function(args) {
     type: 'POST',
     contentType: 'application/json',
     success: function(data) {
-      jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-review-buttons').html('<em>Review from ' + '<?php echo $current_user->user_login; ?>' + '</em>: <b>' + args['recommendation'] + '</b> - ' + args['note']);
+      jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-reviews')
+        .append('<div><em><b>New</b> review from ' + '<?php echo $current_user->user_login; ?>' + '</em>: <b>' + args['recommendation'] + '</b> - ' + args['note'] + '</div>');
+      jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-review-recommendation').val(null);
+      jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-review-note').val(null);
     },
     error: function(xhr, status, errorThrown) {
       alert('There was an error saving this review: ' + errorThrown);
@@ -311,13 +223,6 @@ var rpReviewButton = function(args) {
 };
 
 jQuery(document).ready(function() {
-  jQuery('button.rp-decision-button').on('click', function() {
-    rpDecisionButton({
-      'action': jQuery(this).attr('data-rp-action'),
-      'entry': jQuery(this).attr('data-rp-entry')
-    });
-  });
-
   jQuery('button.rp-review-button').on('click', function() {
     var note = jQuery(this).siblings('.rp-review-note').first().val();
     var recommendation = jQuery(this).siblings('.rp-review-recommendation').first().val();
