@@ -1,52 +1,5 @@
 <?php
 
-function rp_create_user($fname, $lname, $email, $blog) {
-  $user_login_prefix = preg_replace('/\W/', '', strtolower(substr($fname, 0, 1) . $lname));
-  $user_pass = wp_generate_password( $length=12, $include_standard_special_chars=false );
-
-  $user_id = email_exists($user_email);
-  if ($user_id == 'admin') {
-    return;
-  }
-  if ($user_id) { // user already exists
-    $user_info = get_userdata($user_id);
-    $user_login = $user_info->user_login;
-    wp_update_user(array( 'ID' => $user_id, 'user_pass' => $user_pass));
-    add_user_to_blog( $blog, $user_id, "author" ) ;
-  }
-  else { // user does not exist
-    if (username_exists( $user_login )) { // but user name is in use already
-      // generate a username with random number suffix
-      do {
-        $user_login = $user_login_prefix . rand(1, 99);
-      } while (username_exists($user_login));
-    }
-    else {
-      $user_login = $user_login_prefix;
-    }
-
-    $user_info = array(
-      'user_login' => $user_login,
-      'user_pass' => $user_pass,
-      'user_email' => $email,
-      'first_name' => $fname,
-      'last_name' => $lname,
-      'nickname' => $fname . " " . $lname
-    );
-
-    $user_id = wp_insert_user( $user_info );
-    if (is_wp_error($user_id)) {
-      return null;
-    }
-    else {
-      $user_info['wpid'] = $user_id;
-      add_user_to_blog( $blog, $user_id, "author" ) ;
-      remove_user_from_blog($user_id, 1); // hack, must manually remove from main blog
-    }
-  }
-  return $user_info;
-}
-
 // used in array_map call to pull out form entry ID
 function get_form_entry_id($e) {
   return $e['id'];
