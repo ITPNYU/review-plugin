@@ -36,6 +36,7 @@ function rp_script_load() {
 
 // display the decision dashboard page
 function rp_decision_page() {
+  include (plugin_dir_path(__FILE__) . '/rp-common.php');
   include (plugin_dir_path(__FILE__) . '/view/rp-decision-page.php');
 }
 
