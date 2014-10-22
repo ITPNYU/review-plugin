@@ -87,10 +87,12 @@ $app->post('/decision', function() use ($app) {
       'entry_id' => $b['args']['entry_id'],
       'reviewer' => $b['args']['reviewer']
     ));
-    $d_ret = http_post_data($b['config']['reviewUrl'] . '/decision?key=' . $b['config']['reviewKey'],
+    $d_ret = http_post_data(
+      $b['config']['reviewUrl'] . '/decision?key=' . $b['config']['reviewKey'],
       $d_body,
       array('headers' => array('Content-Type' => 'application/json'))
     );
+    $user_info = NULL; // will hold username and password for WP user
     if ($b['args']['decision'] == 'reject') {
       if (isset($b['args']['message']) && isset($b['args']['credentials'])) {
         $message->setSubject('WE Festival application status'); // FIXME: hardcoded
@@ -98,6 +100,27 @@ $app->post('/decision', function() use ($app) {
         $mailer->send($message);
       }
       return;
+    }
+    else {
+      // create/update user if decision is accept/comp
+      $user_info = $app->rp_create_user(
+        $b['args']['fname'],
+        $b['args']['lname'],
+        $b['args']['email'],
+        6 // FIXME: hardcoded blog ID
+      );
+      $e_result = NULL;
+      $e_body = json_encode(array(
+        'external_data' => array(
+          'username' => $user_info['user_login'],
+          'password' => $user_info['user_pass']
+        )
+      ));
+      $e_ret = http_put_data(
+        $b['config']['reviewUrl'] . '/entry/' . $b['args']['entry_id'] . '?key=' . $b['config']['reviewKey'],
+        $e_body,
+        array('headers' => array('Content-Type' => 'application/json'))
+      );
     }
     if ($d_ret != FALSE) {
       //$app->response->setStatus(201);
