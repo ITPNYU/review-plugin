@@ -16,7 +16,7 @@ $app->rp_create_user = function ($fname, $lname, $email, $blog) {
   $user_login_prefix = preg_replace('/\W/', '', strtolower(substr($fname, 0, 1) . $lname));
   $user_pass = wp_generate_password( $length=12, $include_standard_special_chars=false );
 
-  $user_id = email_exists($user_email);
+  $user_id = email_exists($email);
   if ($user_id == 'admin') {
     return;
   }
