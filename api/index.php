@@ -12,7 +12,7 @@ $app = new \Slim\Slim();
 $app->setName('decision');
 
 # Create/update WP user
-$app->rp_create_user = function ($fname, $lname, $email, $blog) {
+function rp_create_user ($fname, $lname, $email, $blog) {
   $user_login_prefix = preg_replace('/\W/', '', strtolower(substr($fname, 0, 1) . $lname));
   $user_pass = wp_generate_password( $length=12, $include_standard_special_chars=false );
 
@@ -103,7 +103,7 @@ $app->post('/decision', function() use ($app) {
     }
     else {
       // create/update user if decision is accept/comp
-      $user_info = $app->rp_create_user(
+      $user_info = rp_create_user(
         $b['args']['fname'],
         $b['args']['lname'],
         $b['args']['email'],
