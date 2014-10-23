@@ -111,10 +111,10 @@ $app->post('/decision', function() use ($app) {
       );
       $e_result = NULL;
       $e_body = json_encode(array(
-        'external_data' => array(
+        'external_data' => json_encode(array(
           'username' => $user_info['user_login'],
           'password' => $user_info['user_pass']
-        )
+        ))
       ));
       $e_ret = http_put_data(
         $b['config']['reviewUrl'] . '/entry/' . $b['args']['entry_id'] . '?key=' . $b['config']['reviewKey'],
