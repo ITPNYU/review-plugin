@@ -110,10 +110,12 @@ $app->post('/decision', function() use ($app) {
         6 // FIXME: hardcoded blog ID
       );
       $e_result = NULL;
+      $user_login = $user_info['user_login'];
+      $user_pass = $user_info['user_pass'];
       $e_body = json_encode(array(
         'external_data' => json_encode(array(
-          'username' => $user_info['user_login'],
-          'password' => $user_info['user_pass']
+          'username' => $user_login,
+          'password' => $user_pass
         ))
       ));
       $e_ret = http_put_data(
