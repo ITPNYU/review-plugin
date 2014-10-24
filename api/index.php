@@ -23,6 +23,7 @@ function rp_create_user ($fname, $lname, $email, $blog) {
   }
   if ($user_id) { // user already exists
     $user_info = get_userdata($user_id);
+    $user_info->__set('user_pass_clear', $user_pass_clear);
     $user_login = $user_info->user_login;
     wp_update_user(array( 'ID' => $user_id, 'user_pass' => $user_pass));
     add_user_to_blog( $blog, $user_id, "author" ) ;
@@ -48,6 +49,7 @@ function rp_create_user ($fname, $lname, $email, $blog) {
     );
 
     $user_id = wp_insert_user( $user_info );
+    $user_info['user_pass_clear'] = $user_pass_clear;
     if (is_wp_error($user_id)) {
       return null;
     }
@@ -57,7 +59,7 @@ function rp_create_user ($fname, $lname, $email, $blog) {
       remove_user_from_blog($user_id, 1); // workaround, must manually remove from main blog
     }
   }
-  $user_info['user_pass_clear'] = $user_pass_clear;
+
   return $user_info;
 };
 
