@@ -14,8 +14,7 @@ $app->setName('decision');
 # Create/update WP user
 function rp_create_user ($fname, $lname, $email, $blog) {
   $user_login_prefix = preg_replace('/\W/', '', strtolower(substr($fname, 0, 1) . $lname));
-  $user_pass_clear = substr(base64_encode(openssl_random_pseudo_bytes(30)), 0, 12);
-  $user_pass = wp_hash_password($user_pass_clear);
+  $user_pass = wp_generate_password(12, FALSE);
 
   $user_id = email_exists($email);
   if ($user_id == 'admin') {
@@ -23,7 +22,7 @@ function rp_create_user ($fname, $lname, $email, $blog) {
   }
   if ($user_id) { // user already exists
     $user_info = get_userdata($user_id);
-    $user_info->__set('user_pass_clear', $user_pass_clear);
+    $user_info->__set('user_pass_clear', $user_pass);
     $user_login = $user_info->user_login;
     wp_update_user(array( 'ID' => $user_id, 'user_pass' => $user_pass));
     add_user_to_blog( $blog, $user_id, "author" ) ;
@@ -49,7 +48,7 @@ function rp_create_user ($fname, $lname, $email, $blog) {
     );
 
     $user_id = wp_insert_user( $user_info );
-    $user_info['user_pass_clear'] = $user_pass_clear;
+    $user_info['user_pass_clear'] = $user_pass;
     if (is_wp_error($user_id)) {
       return null;
     }
