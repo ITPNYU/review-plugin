@@ -14,7 +14,8 @@ $app->setName('decision');
 # Create/update WP user
 function rp_create_user ($fname, $lname, $email, $blog) {
   $user_login_prefix = preg_replace('/\W/', '', strtolower(substr($fname, 0, 1) . $lname));
-  $user_pass = wp_generate_password(12, FALSE);
+  $user_pass_clear = substr(base64_encode(openssl_random_pseudo_bytes(30)), 0, 12);
+  $user_pass = wp_hash_password($user_pass_clear);
 
   $user_id = email_exists($email);
   if ($user_id == 'admin') {
@@ -52,10 +53,11 @@ function rp_create_user ($fname, $lname, $email, $blog) {
     }
     else {
       $user_info['wpid'] = $user_id;
-      add_user_to_blog( $blog, $user_id, "author" ) ;
-      remove_user_from_blog($user_id, 1); // hack, must manually remove from main blog
+      add_user_to_blog( $blog, $user_id, "subscriber" ) ;
+      remove_user_from_blog($user_id, 1); // workaround, must manually remove from main blog
     }
   }
+  $user_info['user_pass_clear'] = $user_pass_clear;
   return $user_info;
 };
 
@@ -111,11 +113,11 @@ $app->post('/decision', function() use ($app) {
       );
       $e_result = NULL;
       $user_login = $user_info->get('user_login');
-      $user_pass = $user_info->get('user_pass');
+      $user_pass_clear = $user_info->get('user_pass_clear');
       $e_body = json_encode(array(
         'external_data' => json_encode(array(
           'username' => $user_login,
-          'password' => $user_pass
+          'password' => $user_pass_clear
         ))
       ));
       $e_ret = http_put_data(
