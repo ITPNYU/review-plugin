@@ -17,7 +17,8 @@ function rp_create_user ($fname, $lname, $email, $blog) {
   $user_pass = wp_generate_password(12, FALSE);
 
   $user_id = email_exists($email);
-  if ($user_id == 'admin') {
+  if (($user_id == 'admin') || (user_can($user_id, 'activate_plugins'))) {
+    // do not allow any changes to administrator accounts
     return;
   }
   if ($user_id) { // user already exists
@@ -25,7 +26,7 @@ function rp_create_user ($fname, $lname, $email, $blog) {
     $user_info->__set('user_pass_clear', $user_pass);
     $user_login = $user_info->user_login;
     wp_update_user(array( 'ID' => $user_id, 'user_pass' => $user_pass));
-    add_user_to_blog( $blog, $user_id, "author" ) ;
+    add_user_to_blog( $blog, $user_id, "subscriber" ) ;
   }
   else { // user does not exist
     if (username_exists( $user_login )) { // but user name is in use already
