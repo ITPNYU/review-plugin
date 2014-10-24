@@ -14,7 +14,7 @@ function rp_gravity_query($route) {
   $method = "GET";
   date_default_timezone_set('America/New_York'); # FIXME: get from Wordpress
   $expires = strtotime("+300 mins");
-  $paging = '200'; # limit API to this many results
+  $paging = '300'; # limit API to this many results
   $string_to_sign = sprintf("%s:%s:%s:%s", $public_key, $method, $route, $expires);
   $sig = calculate_signature($string_to_sign, $private_key);
   $query_url = site_url() . "/gravityformsapi/" . $route . "?api_key=" . $public_key . "&signature=" . $sig . "&expires=" . $expires . "&paging[page_size]=" . $paging;
