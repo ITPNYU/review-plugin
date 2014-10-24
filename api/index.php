@@ -113,8 +113,14 @@ $app->post('/decision', function() use ($app) {
         6 // FIXME: hardcoded blog ID
       );
       $e_result = NULL;
-      $user_login = $user_info->get('user_login');
-      $user_pass_clear = $user_info->get('user_pass_clear');
+      if (is_array($user_info)) {
+        $user_login = $user_info['user_login'];
+        $user_pass_clear = $user_info['user_pass_clear'];
+      }
+      else {
+        $user_login = $user_info->get('user_login');
+        $user_pass_clear = $user_info->get('user_pass_clear');
+      }
       $e_body = json_encode(array(
         'external_data' => json_encode(array(
           'username' => $user_login,
