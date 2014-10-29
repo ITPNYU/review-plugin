@@ -89,7 +89,8 @@ $app->post('/decision', function() use ($app) {
     $d_body = json_encode(array(
       'decision' => $b['args']['decision'],
       'entry_id' => $b['args']['entry_id'],
-      'reviewer' => $b['args']['reviewer']
+      'reviewer' => $b['args']['reviewer'],
+      'note' => $b['args']['note']
     ));
     $d_ret = http_post_data(
       $b['config']['reviewUrl'] . '/decision?key=' . $b['config']['reviewKey'],
