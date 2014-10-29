@@ -49,7 +49,7 @@ function rp_render_editor($e, $f) {
     $output .= '<option value="' . $k . '" ' . $selected . '>' . $k . '</option>';
   }
   $output .= '</select></li>
-<li>Set invoice amount: <input class="rp-amount-input" id="rp-entry-' . $e['id'] . '-amount" data-rp-entry="' . $e['id'] . '" type="text" value="' . $affiliation_amount[$f[4]] . '"></li>
+<li>Set invoice amount: $ <input class="rp-amount-input" id="rp-entry-' . $e['id'] . '-amount" data-rp-entry="' . $e['id'] . '" type="text" value="' . $affiliation_amount[$f[4]] . '"></li>
 </ul>
 </div><!-- .rp-editor-controls -->';
   return $output;
