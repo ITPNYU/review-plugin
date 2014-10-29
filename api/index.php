@@ -101,7 +101,7 @@ $app->post('/decision', function() use ($app) {
       if (isset($b['args']['message']) && isset($b['args']['credentials'])) {
         $message->setSubject('WE Festival application status'); // FIXME: hardcoded
         $message->setBody($b['args']['message']['reject'] . "\n\n" . $register_link_code . "\n");
-        $mailer->send($message);
+        //$mailer->send($message); // mail disabled
       }
       return;
     }
@@ -143,7 +143,7 @@ $app->post('/decision', function() use ($app) {
         if ($b['args']['decision'] == 'comp') {
           $message->setSubject('Register for WE'); // FIXME: hardcoded
           $message->setBody($b['args']['message']['comp'] . "\n\n" . $register_link_code . "\n");
-          $mailer->send($message);
+          //$mailer->send($message); // mail disabled
         }
         else if ($d_result['decision'] == 'accept') {
           // check for existing payer record in paytrack
@@ -216,7 +216,7 @@ $app->post('/decision', function() use ($app) {
                 $decision_i_result = json_decode(http_parse_message($e_ret)->body, TRUE);
                 $message->setSubject('Register for WE'); // FIXME: hardcoded
                 $message->setBody($b['args']['message']['accept'] . "\n\n" . $register_link_code . "\n");
-                $mailer->send($message);
+                //$mailer->send($message); // mail disabled
               }
             }
           }
