@@ -77,6 +77,7 @@ function render_form_entry($f, $review_entries) {
   }
   if (isset($e['decision'])) {
     $output .= '<strong>Decision: ' . $e['decision']['decision'] . '</strong>';
+    $output .= '<br />Note: ' . $e['decision']['note'] . '<br />';
   }
   else {
     $output .= rp_render_editor($e, $f);
@@ -90,7 +91,14 @@ function render_form_entry($f, $review_entries) {
   $output .= '<br /><br /><ul class="list-unstyled">
   <li><strong>Email</strong>: ' . $f['2'] . '</li>
   <li><strong>Website</strong>: ' . $f['3'] . '</li>
-  <li><strong>Affiliation</strong>: ' . $f['4'] . '</li>
+  <li><strong>Affiliation</strong>: ';
+  if (isset($e['decision'])) {
+    $output .= $e['decision']['note'];
+  }
+  else {
+   $output .= $f['4'];
+  }
+  $output .= '</li>
   <li><strong>School</strong>: ' . $f['5'] . '</li>
   <li><strong>How did you hear about WE?</strong>: ' . $f['6'] . '</li>
   <li><strong>What are you doing now?</strong>: ' . rp_parse_opt($f, '7') . '</li>
