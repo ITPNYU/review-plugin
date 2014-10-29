@@ -38,7 +38,7 @@ function rp_render_editor($e, $f) {
     'NYU Faculty or WE Alumni' => 200,
     'Member of general public' => 350
   );
-  $output ='<div class="rp-editor-controls">
+  $output ='<br /><div class="rp-editor-controls">
 <ul class="list-unstyled">
 <li>Set affiliation: <select class="rp-affiliation-select" id="rp-entry-' . $e['id'] . '-affiliation" data-rp-entry="' . $e['id'] . '">';
   foreach (array_keys($affiliation_amount) as $k) {
