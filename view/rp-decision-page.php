@@ -151,9 +151,13 @@ var rpAffiliationSelect = function(args) {
 
 var rpDecisionButton = function(args) {
   console.log('decision click ' + args['action'] + ' ' + args['entry']);
+  var affiliation = jQuery('select#rp-entry-' + args['entry'] + '-affiliation').val();
+  var amount = jQuery('input#rp-entry-' + args['entry'] + '-amount').val();
+  if (args['action'] === 'comp') {
+    amount = 0;
+  }
   // make a note of the affiliation and amount set at decision time
-  var note = 'affiliation: "' + jQuery('select#rp-entry-' + args['entry'] + '-affiliation').val() + '", '
-    + 'amount: $' + jQuery('input#rp-entry-' + args['entry'] + '-amount').val();
+  var note = 'affiliation: "' + affiliation + '", amount: $' + amount;
   jQuery.ajax({
     url: '<?php echo network_site_url() . 'wp-content/plugins/review-plugin/api/decision'; ?>',
     data: JSON.stringify({
@@ -165,12 +169,12 @@ var rpDecisionButton = function(args) {
         'lname': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-lname'),
         'email': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-email'),
         'account_id': 3,
-        'amount': jQuery('input#rp-entry-' + args['entry'] + '-amount').val(),
+        'amount': amount,
         'note': note,
         'message': {
           'accept': <?php echo json_encode(get_option('rp_message_accept')); ?>,
           'reject': <?php echo json_encode(get_option('rp_message_reject')); ?>,
-          'comp': <?php echo json_encode(get_option('rp_message_comp')); ?>,
+          'comp': <?php echo json_encode(get_option('rp_message_comp')); ?>
         },
         'credentials': {
           'server': <?php echo json_encode(get_option('rp_message_server')); ?>,
