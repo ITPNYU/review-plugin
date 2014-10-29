@@ -192,6 +192,8 @@ var rpDecisionButton = function(args) {
     success: function(data) {
       jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-decision-buttons')
       .html('<b>Decision:</b> ' + args['action'] + '<br />Note: ' + note);
+      jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-editor-controls')
+      .html('');
     },
     error: function(xhr, status, errorThrown) {
       alert('There was an error saving this decision: ' + errorThrown);
