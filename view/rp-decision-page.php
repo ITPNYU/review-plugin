@@ -158,6 +158,9 @@ var rpDecisionButton = function(args) {
   }
   // make a note of the affiliation and amount set at decision time
   var note = 'affiliation: "' + affiliation + '", amount: $' + amount;
+  if (args['action'] === 'reject') {
+    note = null;
+  }
   jQuery.ajax({
     url: '<?php echo network_site_url() . 'wp-content/plugins/review-plugin/api/decision'; ?>',
     data: JSON.stringify({
