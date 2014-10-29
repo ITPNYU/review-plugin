@@ -30,6 +30,30 @@ if (!isset($to_load)) {
   $to_load = array();
 }
 
+function rp_render_editor($e, $f) {
+  $affiliation_amount = array(
+    'Current Matriculated ITP or NYU student' => 50,
+    'Current Matriculated non-NYU student' => 75,
+    'ITP alumni' => 125,
+    'NYU Faculty or WE Alumni' => 200,
+    'Member of general public' => 350
+  );
+  $output ='<div class="rp-editor-controls">
+<ul class="list-unstyled">
+<li>Set affiliation: <select class="rp-affiliation-select" id="rp-entry-' . $e['id'] . '-affiliation" data-rp-entry="' . $e['id'] . '">';
+  foreach (array_keys($affiliation_amount) as $k) {
+    $selected = '';
+    if ($k === $f[4]) {
+      $selected = 'selected';
+    }
+    $output .= '<option value="' . $k . '" ' . $selected . '>' . $k . '</option>';
+  }
+  $output .= '</select></li>
+<li>Set invoice amount: <input class="rp-amount-input" id="rp-entry-' . $e['id'] . '-amount" data-rp-entry="' . $e['id'] . '" type="text" value="' . $affiliation_amount[$f[4]] . '"></li>
+</ul>
+</div><!-- .rp-editor-controls -->';
+}
+
 // FIXME: hard-coded field names, layout
 function render_form_entry($f, $review_entries) {
   $e = has_review_entry($f, $review_entries);
@@ -54,7 +78,8 @@ function render_form_entry($f, $review_entries) {
     $output .= '<strong>Decision: ' . $e['decision']['decision'] . '</strong>';
   }
   else {
-    $output = $output . '<div class="rp-decision-buttons">
+    $output .= rp_render_editor($e, $f);
+    $output .= '<div class="rp-decision-buttons">
 <button type="button" data-rp-action="accept" data-rp-entry="' . $e['id'] . '" class="btn btn-success rp-decision-button">Accept</button>
 <button type="button" data-rp-action="reject" data-rp-entry="' . $e['id'] . '" class="btn btn-danger rp-decision-button">Reject</button>
 <button type="button" data-rp-action="comp" data-rp-entry="' . $e['id'] . '" class="btn btn-info rp-decision-button">Comp</button>
@@ -103,8 +128,23 @@ var config = {
   'registerUrl': '<?php echo get_option('rp_register_url'); ?>'
 };
 
+var rpAffiliationSelect = function(args) {
+  console.log('affiliation change for entry ' + args['entry']);
+  var affiliationAmount = {
+    'Current Matriculated ITP or NYU student': 50,
+    'Current Matriculated non-NYU student': 75,
+    'ITP alumni': 125,
+    'NYU Faculty or WE Alumni': 200,
+    'Member of general public': 350
+  };
+  jQuery('input#rp-entry-' + args['entry'] + '-amount').val(affiliationAmount[args['affiliation']]);
+};
+
 var rpDecisionButton = function(args) {
   console.log('decision click ' + args['action'] + ' ' + args['entry']);
+  // make a note of the affiliation and amount set at decision time
+  var note = 'affiliation: "' + jQuery('select#rp-entry-' + args['entry'] + '-affiliation').val() + '", '
+    + 'amount: $' + jQuery('input#rp-entry-' + args['entry'] + '-amount').val();
   jQuery.ajax({
     url: '<?php echo network_site_url() . 'wp-content/plugins/review-plugin/api/decision'; ?>',
     data: JSON.stringify({
@@ -116,7 +156,8 @@ var rpDecisionButton = function(args) {
         'lname': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-lname'),
         'email': jQuery('div#rp-entry-' + args['entry']).attr('data-rp-entry-email'),
         'account_id': 3,
-        'amount': 200,
+        'amount': jQuery('input#rp-entry-' + args['entry'] + '-amount').val(),
+        'note': note,
         'message': {
           'accept': <?php echo json_encode(get_option('rp_message_accept')); ?>,
           'reject': <?php echo json_encode(get_option('rp_message_reject')); ?>,
@@ -136,7 +177,8 @@ var rpDecisionButton = function(args) {
     type: 'POST',
     contentType: 'application/json',
     success: function(data) {
-      jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-decision-buttons').html('<b>Decision:</b> ' + args['action']);
+      jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-decision-buttons')
+      .html('<b>Decision:</b> ' + args['action'] + '<br />Note: ' + note);
     },
     error: function(xhr, status, errorThrown) {
       alert('There was an error saving this decision: ' + errorThrown);
@@ -151,6 +193,13 @@ jQuery(document).ready(function() {
       'entry': jQuery(this).attr('data-rp-entry')
     });
   });
+
+  jQuery('select.rp-affiliation-select').on('change', function() {
+    rpAffiliationSelect({
+      'entry': jQuery(this).attr('data-rp-entry'),
+      'affiliation': jQuery(this).val()
+    });
+  })
 });
 
 </script>
