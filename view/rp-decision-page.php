@@ -77,7 +77,9 @@ function render_form_entry($f, $review_entries) {
   }
   if (isset($e['decision'])) {
     $output .= '<strong>Decision: ' . $e['decision']['decision'] . '</strong>';
-    $output .= '<br />Note: ' . $e['decision']['note'] . '<br />';
+    if (isset($e['decision']['note']) && ($e['decision']['note'] !== '')) {
+      $output .= '<br />Note: ' . $e['decision']['note'] . '<br />';
+    }
   }
   else {
     $output .= rp_render_editor($e, $f);
@@ -194,7 +196,7 @@ var rpDecisionButton = function(args) {
     contentType: 'application/json',
     success: function(data) {
       jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-decision-buttons')
-      .html('<b>Decision:</b> ' + args['action'] + '<br />Note: ' + note);
+      .html('<b>Decision:</b> ' + args['action'] + '<br />Note: ' + (note || ''));
       jQuery('div#rp-entry-' + args['entry'] + ' > div.rp-editor-controls')
       .html('');
     },
