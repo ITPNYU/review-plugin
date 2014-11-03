@@ -4,3 +4,6 @@
 [submodule "lib/swiftmailer"]
 	path = lib/swiftmailer
 	url = https://github.com/swiftmailer/swiftmailer.git
+[submodule "lib/mustache.php"]
+	path = lib/mustache.php
+	url = https://github.com/bobthecow/mustache.php.git
