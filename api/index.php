@@ -1,7 +1,7 @@
 <?php
 require '../lib/Slim/Slim/Slim.php';
 
-require '../lib/mustache/src/Mustache/Autoloader.php';
+require '../lib/mustache.php/src/Mustache/Autoloader.php';
 Mustache_Autoloader::register();
 
 $parse_uri = explode( 'wp-content', $_SERVER['SCRIPT_FILENAME'] );
