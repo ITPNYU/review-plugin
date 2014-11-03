@@ -1,6 +1,9 @@
 <?php
 require '../lib/Slim/Slim/Slim.php';
 
+require '../lib/mustache/src/Mustache/Autoloader.php';
+Mustache_Autoloader::register();
+
 $parse_uri = explode( 'wp-content', $_SERVER['SCRIPT_FILENAME'] );
 require_once( $parse_uri[0] . 'wp-load.php' );
 if (!current_user_can('activate_plugins')) { // indicates an administrator
@@ -142,8 +145,11 @@ $app->post('/decision', function() use ($app) {
       if (isset($d_result)) {
         $register_link_code = $b['config']['registerUrl'] . '/?code=' . $d_result['code'];
         if ($b['args']['decision'] == 'comp') {
+          $m = new Mustache_Engine;
           $message->setSubject('Register for WE'); // FIXME: hardcoded
-          $message->setBody($b['args']['message']['comp'] . "\n\n" . $register_link_code . "\n");
+          $message->setBody($m->render($b['args']['message']['comp'],
+            array('register_link_code' => $register_link_code))
+          );
           //$mailer->send($message); // mail disabled
         }
         else if ($d_result['decision'] == 'accept') {
@@ -215,8 +221,11 @@ $app->post('/decision', function() use ($app) {
               );
               if ($e_ret != FALSE) {
                 $decision_i_result = json_decode(http_parse_message($e_ret)->body, TRUE);
+                $m = new Mustache_Engine;
                 $message->setSubject('Register for WE'); // FIXME: hardcoded
-                $message->setBody($b['args']['message']['accept'] . "\n\n" . $register_link_code . "\n");
+                $message->setBody($m->render($b['args']['message']['accept'],
+                  array('register_link_code' => $register_link_code))
+                );
                 //$mailer->send($message); // mail disabled
               }
             }
