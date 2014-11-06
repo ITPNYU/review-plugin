@@ -105,7 +105,7 @@ $app->post('/decision', function() use ($app) {
       if (isset($b['args']['message']) && isset($b['args']['credentials'])) {
         $message->setSubject('WE Festival application status'); // FIXME: hardcoded
         $message->setBody($b['args']['message']['reject'] . "\n\n" . $register_link_code . "\n");
-        //$mailer->send($message); // mail disabled
+        $mailer->send($message); // mail disabled
       }
       return;
     }
@@ -150,7 +150,7 @@ $app->post('/decision', function() use ($app) {
           $message->setBody($m->render($b['args']['message']['comp'],
             array('register_link_code' => $register_link_code))
           );
-          //$mailer->send($message); // mail disabled
+          $mailer->send($message); // mail disabled
         }
         else if ($d_result['decision'] == 'accept') {
           // check for existing payer record in paytrack
@@ -226,7 +226,7 @@ $app->post('/decision', function() use ($app) {
                 $message->setBody($m->render($b['args']['message']['accept'],
                   array('register_link_code' => $register_link_code))
                 );
-                //$mailer->send($message); // mail disabled
+                $mailer->send($message); // mail disabled
               }
             }
           }
