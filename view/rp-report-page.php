@@ -56,6 +56,15 @@ function render_form_entry($f, $review_entries) {
   $output .= '</td>';
 
   $output .= '<td>';
+  if (isset($e['decision'])) {
+    if (isset($e['decision']['entry']['response'])) {
+      $output .= $e['decision']['entry']['response'];
+    };
+  }
+  $output .= '</td>';
+
+
+  $output .= '<td>';
   if (isset($e['reviews']) && (count($e['reviews'] > 0))) {
     foreach ($e['reviews'] as $r) {
       $output .= $r['reviewer'] . ': ' . $r['recommendation'] . ' ';
@@ -76,13 +85,36 @@ function render_form_entry($f, $review_entries) {
 }
 ?>
 
+<div>
+  <h4>Summary</h4>
+  <ul class="list-unstyled">
+    <li>Accepted: N (N paid)</li>
+    <li>Comp: N (N accepted, N declined)</li>
+    <li>Rejected: N</li>
+    <li>Total confirmed attendees: N</li>
+    <li>Total payments received: $N</li>
+  </ul>
+</div>
+
 <table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Applicant</th>
+      <th>Decision</th>
+      <th>Paid/Accepted</th>
+      <th>Reviews</th>
+      <th>Affiliation</th>
+    </tr>
+  </thead>
+  <tbody>
 <?php
 foreach ($form_entries as $f) {
   echo render_form_entry($f, $review_entries);
 }
 
 ?>
+  </tbody>
 </table>
 
 <script type="text/javascript">
