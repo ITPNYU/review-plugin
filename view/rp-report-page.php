@@ -43,6 +43,7 @@ function render_form_entry($f, $review_entries) {
     }
   }
   $output .= '>'; // closing tr tag
+  $output .= '<td>' . $f['id'] . '</td>';
   $output .= '<td><strong>' . $f['1.3'] . ' ' . $f['1.6'] . '<br />' . $f['2'] . '</strong></td>';
 
   $output .= '<td>';
