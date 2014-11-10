@@ -164,7 +164,7 @@ $app->post('/decision', function() use ($app) {
               )
             )
           )));
-          $p_ret = http_get($b['config']['paytrackUrl'] . '/payer?key=' . $b['config']['paytrackKey'] . '&q=' + $filter,
+          $p_ret = http_get($b['config']['paytrackUrl'] . '/payer?key=' . $b['config']['paytrackKey'] . '&q=' . $filter,
             array('Accept' => 'application/json'));
           if ($p_ret != FALSE) {
             $p_result = json_decode(http_parse_message($p_ret)->body, TRUE);
