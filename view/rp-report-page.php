@@ -33,8 +33,17 @@ if (!isset($to_load)) {
 // FIXME: hard-coded field names, layout
 function render_form_entry($f, $review_entries) {
   $e = has_review_entry($f, $review_entries);
-  $output = '<tr>
-<td><strong>' . $f['1.3'] . ' ' . $f['1.6'] . '</strong></td>';
+  $output = '<tr ';
+  if (isset($e['decision'])) {
+    if (($e['decision'] === 'accept') || ($e['decision'] === 'comp')) {
+      $output .= 'class="success"';
+    }
+    else if ($e['decision'] === 'reject') {
+      $output .= 'class="danger"';
+    }
+  }
+  $output .= '>'; // closing tr tag
+  $output .= '<td><strong>' . $f['1.3'] . ' ' . $f['1.6'] . '<br />' . $f['2'] . '</strong></td>';
 
   $output .= '<td>';
   if (isset($e['decision'])) {
@@ -53,9 +62,7 @@ function render_form_entry($f, $review_entries) {
   }
   $output .= '</td>';
 
-  // email
-  $output .= '<td>' . $f['2'] . '</td>
-  <td>';
+  $output .= '<td>';
   // affiliation
   if (isset($e['decision'])) {
     $output .= $e['decision']['note'];
