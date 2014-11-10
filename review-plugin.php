@@ -19,10 +19,12 @@ add_action('admin_menu', 'rp_menu');
 function rp_menu() {
   $management_review_page_hook = add_management_page( 'ITP Review', 'ITP Review', 'manage_options', 'rp-review', 'rp_review_page');
   $management_decision_page_hook = add_management_page( 'ITP Decision', 'ITP Decision', 'manage_options', 'rp-decision', 'rp_decision_page');
+  $management_report_page_hook = add_management_page( 'ITP Report', 'ITP Report', 'manage_options', 'rp-report', 'rp_report_page');
   $options_page_hook = add_options_page('ITP Review Settings', 'ITP Review', 'manage_options', 'rp-options', 'rp_options');
 
   add_action('admin_print_scripts-' . $management_review_page_hook, 'rp_script_load');
   add_action('admin_print_scripts-' . $management_decision_page_hook, 'rp_script_load');
+  add_action('admin_print_scripts-' . $management_report_page_hook, 'rp_script_load');
 }
 
 // load CSS and JavaScript for dashboard page
@@ -40,6 +42,11 @@ function rp_decision_page() {
   include (plugin_dir_path(__FILE__) . '/view/rp-decision-page.php');
 }
 
+// display the report dashboard page
+function rp_report_page() {
+  include (plugin_dir_path(__FILE__) . '/rp-common.php');
+  include (plugin_dir_path(__FILE__) . '/view/rp-report-page.php');
+}
 
 // display the review dashboard page
 function rp_review_page() {
