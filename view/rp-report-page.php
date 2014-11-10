@@ -35,10 +35,10 @@ function render_form_entry($f, $review_entries) {
   $e = has_review_entry($f, $review_entries);
   $output = '<tr ';
   if (isset($e['decision'])) {
-    if (($e['decision'] === 'accept') || ($e['decision'] === 'comp')) {
+    if (($e['decision']['decision'] === 'accept') || ($e['decision']['decision'] === 'comp')) {
       $output .= 'class="success"';
     }
-    else if ($e['decision'] === 'reject') {
+    else if ($e['decision']['decision'] === 'reject') {
       $output .= 'class="danger"';
     }
   }
