@@ -106,7 +106,7 @@ function render_form_entry($f, $review_entries) {
   </thead>
   <tbody>
 <?php
-foreach ($form_entries as $f) {
+foreach (array_reverse($form_entries, TRUE) as $f) {
   echo render_form_entry($f, $review_entries);
 }
 
