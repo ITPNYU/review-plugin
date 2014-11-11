@@ -20,6 +20,38 @@ $review_query = get_option('rp_review_api_url') . '/entry'
 
 $review_entries = get_review_entries($review_query);
 
+$invoice_query = get_option('rp_paytrack_api_url') . '/invoice'
+  . '?key=' . get_option('rp_paytrack_api_key')
+  . '&results_per_page=300';
+
+$invoices = get_invoices($invoice_query);
+
+// find all invoices in the ITP Paytrack API
+function get_invoices($invoice_query) {
+  $invoices = array();
+  $result = NULL;
+  $invoice_filters = urlencode(json_encode(array(
+    'filters' => array(
+      array(
+        'name' => 'account_id',
+        'op' => 'eq',
+        'val' => 3 // FIXME: hardcoded
+      )
+    )
+  )));
+  $invoice_query .= '&q=' . $invoice_filters;
+  $ret = http_get($invoice_query, array('Accept' => 'application/json'));
+  if ($ret != FALSE) {
+    $result = json_decode(http_parse_message($ret)->body, TRUE);
+  }
+  if (isset($result) && isset($result['objects'])) {
+    foreach ($result['objects'] as $i) {
+      array_push($invoices, $i);
+    }
+  }
+  return $invoices;
+}
+
 function get_summary($review_data) {
   $summary = array(
     'accept' => 0,
@@ -118,7 +150,7 @@ $summary = get_summary($review_entries);
 <div>
   <h4>Summary</h4>
   <ul class="list-unstyled">
-    <li>Accepted: <?php echo $summary['accept']; ?>(<?php echo $summary['paid']; ?> paid)</li>
+    <li>Accepted: <?php echo $summary['accept']; ?> (<?php echo $summary['paid']; ?> paid)</li>
     <li>Comp: <?php echo $summary['comp']; ?> (<?php echo $summary['response_accept']; ?> accepted, <?php echo $summary['response_decline']; ?> declined)</li>
     <li>Rejected: <?php echo $summary['reject']; ?></li>
     <li>Total confirmed attendees: <?php echo ($summary['paid'] + $summary['response_accept']); ?></li>
