@@ -53,7 +53,6 @@ function get_invoices($invoice_query) {
 }
 
 function get_summary($review_data, $invoices) {
-  var_dump($review_data);
   $summary = array(
     'accept' => 0,
     'comp' => 0,
