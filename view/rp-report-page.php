@@ -25,6 +25,7 @@ $invoice_query = get_option('rp_paytrack_api_url') . '/invoice'
   . '&results_per_page=300';
 
 $invoices = get_invoices($invoice_query);
+var_dump($invoices);
 
 // find all invoices in the ITP Paytrack API
 function get_invoices($invoice_query) {
