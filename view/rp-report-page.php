@@ -25,7 +25,6 @@ $invoice_query = get_option('rp_paytrack_api_url') . '/invoice'
   . '&results_per_page=300';
 
 $invoices = get_invoices($invoice_query);
-var_dump($invoices);
 
 // find all invoices in the ITP Paytrack API
 function get_invoices($invoice_query) {
@@ -53,7 +52,7 @@ function get_invoices($invoice_query) {
   return $invoices;
 }
 
-function get_summary($review_data) {
+function get_summary($review_data, $invoices) {
   $summary = array(
     'accept' => 0,
     'comp' => 0,
@@ -66,11 +65,11 @@ function get_summary($review_data) {
   foreach ($review_data as $r) {
     if (isset($r['decision']['decision'])) {
       $summary[$r['decision']['decision']] += 1;
-      if (isset($r['decision']['entry']['response'])) {
-        if ($r['decision']['entry']['response'] == 'accept') {
+      if (isset($r['entry']['response'])) {
+        if ($r['entry']['response'] == 'accept') {
           $summary['response_accept'] += 1;
         }
-        else if ($r['decision']['entry']['response'] === 'decline') {
+        else if ($r['entry']['response'] === 'decline') {
           $summary['response_decline'] += 1;
         }
       }
@@ -145,7 +144,7 @@ function render_form_entry($f, $review_entries) {
   return $output;
 }
 
-$summary = get_summary($review_entries);
+$summary = get_summary($review_entries, $invoices);
 ?>
 
 <div>
