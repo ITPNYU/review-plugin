@@ -121,7 +121,7 @@ $summary = get_summary($review_entries);
     <li>Accepted: <?php echo $summary['accept']; ?>(<?php echo $summary['paid']; ?> paid)</li>
     <li>Comp: <?php echo $summary['comp']; ?> (<?php echo $summary['response_accept']; ?> accepted, <?php echo $summary['response_decline']; ?> declined)</li>
     <li>Rejected: <?php echo $summary['reject']; ?></li>
-    <li>Total confirmed attendees: <?php echo ($summary['accept'] + $summary['comp']); ?></li>
+    <li>Total confirmed attendees: <?php echo ($summary['paid'] + $summary['response_accept']); ?></li>
     <li>Total payments received: $<?php echo $summary['revenue']; ?></li>
   </ul>
 </div>
