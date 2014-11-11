@@ -61,6 +61,7 @@ function get_summary($review_data, $invoices) {
     'response_decline' => 0,
     'paid' => 0,
     'revenue' => 0,
+    'individual' => array()
   );
   foreach ($review_data as $r) {
     if (isset($r['decision']['decision'])) {
@@ -68,9 +69,11 @@ function get_summary($review_data, $invoices) {
       if (isset($r['response'])) {
         if ($r['response'] == 'accept') {
           $summary['response_accept'] += 1;
+          $summary['individual'][$r['external_id']] = array('status' => 'accept');
         }
         else if ($r['response'] === 'decline') {
           $summary['response_decline'] += 1;
+          $summary['individual'][$r['external_id']] = array('status' => 'decline');
         }
       }
       if ($r['decision']['decision'] === 'accept') {
@@ -80,6 +83,7 @@ function get_summary($review_data, $invoices) {
             if ($i['paid'] === TRUE) {
               $summary['paid'] += 1;
               $summary['revenue'] += $i['amount'];
+              $summary['individual'][$r['external_id']] = array('status' => 'paid $' . $i['amount']);
             }
           }
         }
@@ -98,7 +102,7 @@ function shorten($input) {
 }
 
 // FIXME: hard-coded field names, layout
-function render_form_entry($f, $review_entries) {
+function render_form_entry($f, $review_entries, $summary) {
   $e = has_review_entry($f, $review_entries);
   $output = '<tr ';
   if (isset($e['decision'])) {
@@ -121,10 +125,8 @@ function render_form_entry($f, $review_entries) {
   $output .= '</td>';
 
   $output .= '<td>';
-  if (isset($e['decision'])) {
-    if (isset($e['decision']['entry']['response'])) {
-      $output .= $e['decision']['entry']['response'];
-    };
+  if (isset($summary['individual'][$e['external_id']])) {
+    $output .= $summary['individual'][$e['external_id']]['status'];
   }
   $output .= '</td>';
 
@@ -178,7 +180,7 @@ $summary = get_summary($review_entries, $invoices);
   <tbody>
 <?php
 foreach (array_reverse($form_entries, TRUE) as $f) {
-  echo render_form_entry($f, $review_entries);
+  echo render_form_entry($f, $review_entries, $summary);
 }
 
 ?>
