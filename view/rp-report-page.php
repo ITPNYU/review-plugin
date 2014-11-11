@@ -14,21 +14,11 @@ if (isset($result) && isset($result['response']) && isset($result['response']['e
   }
 }
 
-$form_seen = array_map('get_form_entry_id', $form_entries);
-
 $review_query = get_option('rp_review_api_url') . '/entry'
   . '?key=' . get_option('rp_review_api_key')
   . '&results_per_page=300';
 
 $review_entries = get_review_entries($review_query);
-
-$review_seen = array_map('get_review_entry_external_id', $review_entries);
-
-// find any new form entries that need a corresponding entry in the Review API
-$to_load = array_diff($form_seen, $review_seen);
-if (!isset($to_load)) {
-  $to_load = array();
-}
 
 // FIXME: hard-coded field names, layout
 function render_form_entry($f, $review_entries) {
@@ -49,9 +39,6 @@ function render_form_entry($f, $review_entries) {
   $output .= '<td>';
   if (isset($e['decision'])) {
     $output .= $e['decision']['decision'] . '</strong>';
-/*    if (isset($e['decision']['note']) && ($e['decision']['note'] !== '')) {
-      $output .= '<br />Note: ' . $e['decision']['note'] . '<br />';
-    }*/
   }
   $output .= '</td>';
 
@@ -66,9 +53,11 @@ function render_form_entry($f, $review_entries) {
 
   $output .= '<td>';
   if (isset($e['reviews']) && (count($e['reviews'] > 0))) {
+    $review_list = array();
     foreach ($e['reviews'] as $r) {
-      $output .= $r['reviewer'] . ': ' . $r['recommendation'] . ' ';
+      array_push($review_list, $r['reviewer'] . ': ' . $r['recommendation'] . substr($r['note'], 15));
     }
+    $output .= implode('<br />', $review_list);
   }
   $output .= '</td>';
 
