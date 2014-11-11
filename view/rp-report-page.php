@@ -20,6 +20,14 @@ $review_query = get_option('rp_review_api_url') . '/entry'
 
 $review_entries = get_review_entries($review_query);
 
+function shorten($input) {
+  $trunc_input = substr($input, 0, 15);
+  if (strlen($input) > 15) {
+    $trunc_input .= '...';
+  }
+  return $trunc_input;
+}
+
 // FIXME: hard-coded field names, layout
 function render_form_entry($f, $review_entries) {
   $e = has_review_entry($f, $review_entries);
@@ -34,7 +42,8 @@ function render_form_entry($f, $review_entries) {
   }
   $output .= '>'; // closing tr tag
   $output .= '<td>' . $f['id'] . '</td>';
-  $output .= '<td><strong>' . $f['1.3'] . ' ' . $f['1.6'] . '<br />' . $f['2'] . '</strong></td>';
+  // name and email
+  $output .= '<td><strong>' . $f['1.3'] . ' ' . $f['1.6'] . '</strong><br />' . $f['2'] . '</td>';
 
   $output .= '<td>';
   if (isset($e['decision'])) {
@@ -50,12 +59,11 @@ function render_form_entry($f, $review_entries) {
   }
   $output .= '</td>';
 
-
   $output .= '<td>';
   if (isset($e['reviews']) && (count($e['reviews'] > 0))) {
     $review_list = array();
     foreach ($e['reviews'] as $r) {
-      array_push($review_list, $r['reviewer'] . ': ' . $r['recommendation'] . substr($r['note'], 15));
+      array_push($review_list, '<em>' . $r['reviewer'] . '</em>: <strong>' . $r['recommendation'] . '</strong> - ' . shorten($r['note']));
     }
     $output .= implode('<br />', $review_list);
   }
