@@ -20,6 +20,37 @@ $review_query = get_option('rp_review_api_url') . '/entry'
 
 $review_entries = get_review_entries($review_query);
 
+function get_summary($review_data) {
+  $summary = array(
+    'accept' => 0,
+    'comp' => 0,
+    'reject' => 0,
+    'response_accept' => 0,
+    'response_decline' => 0,
+    'paid' => 0,
+    'revenue' => 0,
+  );
+  foreach ($review_data as $r) {
+    if (isset($r['decision']['decision'])) {
+      $summary[$r['decision']['decision']] += 1;
+      if (isset($r['decision']['entry']['response'])) {
+        if ($r['decision']['entry']['response'] == 'accept') {
+          $summary['response_accept'] += 1;
+        }
+        else if ($r['decision']['entry']['response'] === 'decline') {
+          $summary['response_decline'] += 1;
+        }
+      }
+      if ($r['decision']['decision'] === 'accept') {
+        // lookup invoice
+        // if paid, increment $summary['paid']
+        // if paid, check payment status and add payment amount to $summary['revenue']
+      }
+    }
+  }
+  return $summary;
+}
+
 function shorten($input) {
   $trunc_input = substr($input, 0, 25);
   if (strlen($input) > 25) {
@@ -80,16 +111,18 @@ function render_form_entry($f, $review_entries) {
   $output .= '</td></tr>' . "\n";
   return $output;
 }
+
+$summary = get_summary($review_entries);
 ?>
 
 <div>
   <h4>Summary</h4>
   <ul class="list-unstyled">
-    <li>Accepted: N (N paid)</li>
-    <li>Comp: N (N accepted, N declined)</li>
-    <li>Rejected: N</li>
-    <li>Total confirmed attendees: N</li>
-    <li>Total payments received: $N</li>
+    <li>Accepted: <?php echo $summary['accept']; ?>(<?php echo $summary['paid']; ?> paid)</li>
+    <li>Comp: <?php echo $summary['comp']; ?> (<?php echo $summary['response_accept']; ?> accepted, <?php echo $summary['response_decline']; ?> declined)</li>
+    <li>Rejected: <?php echo $summary['reject']; ?></li>
+    <li>Total confirmed attendees: <?php echo ($summary['accept'] + $summary['comp']); ?></li>
+    <li>Total payments received: $<?php echo $summary['revenue']; ?></li>
   </ul>
 </div>
 
