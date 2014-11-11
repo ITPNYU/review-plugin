@@ -76,18 +76,10 @@ function get_summary($review_data, $invoices) {
       if ($r['decision']['decision'] === 'accept') {
         $invoice = NULL;
         foreach ($invoices as $i) {
-          // lookup invoice
           if ($i['code'] === $r['invoice']) {
-            // if paid, increment $summary['paid']
             if ($i['paid'] === TRUE) {
-              // if paid, check payment status and add payment amount to $summary['revenue']
-              $paid_sum = 0;
-              foreach ($i['payments'] as $p) {
-                if ($p['status'] === 'paid') {
-                  $paid_sum += $p['amount'];
-                }
-              }
-              $summary['revenue'] += $paid_sum;
+              $summary['paid'] += 1;
+              $summary['revenue'] += $i['amount'];
             }
           }
         }
