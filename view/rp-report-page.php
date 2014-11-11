@@ -21,8 +21,8 @@ $review_query = get_option('rp_review_api_url') . '/entry'
 $review_entries = get_review_entries($review_query);
 
 function shorten($input) {
-  $trunc_input = substr($input, 0, 15);
-  if (strlen($input) > 15) {
+  $trunc_input = substr($input, 0, 25);
+  if (strlen($input) > 25) {
     $trunc_input .= '...';
   }
   return $trunc_input;
