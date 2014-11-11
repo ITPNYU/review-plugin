@@ -53,6 +53,7 @@ function get_invoices($invoice_query) {
 }
 
 function get_summary($review_data, $invoices) {
+  var_dump($review_data);
   $summary = array(
     'accept' => 0,
     'comp' => 0,
@@ -65,11 +66,11 @@ function get_summary($review_data, $invoices) {
   foreach ($review_data as $r) {
     if (isset($r['decision']['decision'])) {
       $summary[$r['decision']['decision']] += 1;
-      if (isset($r['entry']['response'])) {
-        if ($r['entry']['response'] == 'accept') {
+      if (isset($r['response'])) {
+        if ($r['response'] == 'accept') {
           $summary['response_accept'] += 1;
         }
-        else if ($r['entry']['response'] === 'decline') {
+        else if ($r['response'] === 'decline') {
           $summary['response_decline'] += 1;
         }
       }
