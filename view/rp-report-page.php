@@ -179,29 +179,35 @@ $summary = get_summary($review_entries, $invoices);
 
 <div>
   <h4>Summary</h4>
-  <ul>
-    <li>Accepted: <?php echo $summary['accept']; ?> (<?php echo $summary['paid']; ?> paid)
-      <ul>
+  <dl class="dl-horizontal">
+    <dt>Accepted</dt>
+    <dd><?php echo $summary['accept']; ?> (<?php echo $summary['paid']; ?> paid)
+      <dl class="dl-horizontal">
       <?php foreach (array_keys($summary['accept_breakdown']) as $a) {
-        echo '<li>' . $a . ': ' . $summary['accept_breakdown'][$a] . '</li>';
+        echo '<dt>' . $a . '</dt>';
+        echo '<dd>' . $summary['accept_breakdown'][$a] . '</dd>';
       }
       ?>
-      </ul>
-    </li>
-    <li>Comp: <?php echo $summary['comp']; ?> (<?php echo $summary['response_accept']; ?> accepted, <?php echo $summary['response_decline']; ?> declined)</li>
-    <li>Rejected: <?php echo $summary['reject']; ?></li>
-    <li>Total confirmed attendees: <?php echo ($summary['paid'] + $summary['response_accept']); ?></li>
-    <li>Total payments received: $<?php echo $summary['revenue']; ?>
-      <ul>
+      </dl>
+    </dd>
+    <dt>Comp</dt>
+    <dd><?php echo $summary['comp']; ?> (<?php echo $summary['response_accept']; ?> accepted, <?php echo $summary['response_decline']; ?> declined)</dd>
+    <dt>Rejected</dt>
+    <dd><?php echo $summary['reject']; ?></dd>
+    <dt>Total confirmed attendees</dt>
+    <dd><?php echo ($summary['paid'] + $summary['response_accept']); ?></dd>
+    <dt>Total payments received</dt>
+    <dd>$<?php echo $summary['revenue']; ?>
+      <dl class="dl-horizontal">
       <?php foreach (array_keys($summary['paid_breakdown']) as $a) {
-        echo '<li>' . $a . ': '
-        . $summary['paid_breakdown'][$a]['count']
-        . ' ($' . $summary['paid_breakdown'][$a]['amount'] . ')' . '</li>';
+        echo '<dt>' . $a . '</dt>';
+        echo '<dd>' . $summary['paid_breakdown'][$a]['count']
+        . ' ($' . $summary['paid_breakdown'][$a]['amount'] . ')' . '</dd>';
       }
       ?>
-      </ul>
-    </li>
-  </ul>
+      </dl>
+    </dd>
+  </dl>
 </div>
 
 <table class="table table-striped">
