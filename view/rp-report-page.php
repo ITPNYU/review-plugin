@@ -193,9 +193,9 @@ $summary = get_summary($review_entries, $invoices);
     <dd><?php echo $summary['comp']; ?> (<?php echo $summary['response_accept']; ?> accepted, <?php echo $summary['response_decline']; ?> declined)</dd>
     <dt>Rejected</dt>
     <dd><?php echo $summary['reject']; ?></dd>
-    <dt>Total confirmed attendees</dt>
+    <dt>Confirmed attendees</dt>
     <dd><?php echo ($summary['paid'] + $summary['response_accept']); ?></dd>
-    <dt>Total payments received</dt>
+    <dt>Payments received</dt>
     <dd>$<?php echo $summary['revenue']; ?>
       <ul>
       <?php foreach (array_keys($summary['paid_breakdown']) as $a) {
