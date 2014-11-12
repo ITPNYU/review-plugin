@@ -179,7 +179,7 @@ $summary = get_summary($review_entries, $invoices);
 
 <div>
   <h4>Summary</h4>
-  <ul class="list-unstyled">
+  <ul>
     <li>Accepted: <?php echo $summary['accept']; ?> (<?php echo $summary['paid']; ?> paid)</li>
     <ul>
       <?php foreach (array_keys($summary['accept_breakdown']) as $a) {
