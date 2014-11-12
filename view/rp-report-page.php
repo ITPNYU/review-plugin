@@ -180,27 +180,25 @@ $summary = get_summary($review_entries, $invoices);
 <div>
   <h4>Summary</h4>
   <ul class="list-unstyled">
-    <li>Accepted: <?php echo $summary['accept']; ?> (<?php echo $summary['paid']; ?> paid)
-      <ul>
+    <li>Accepted: <?php echo $summary['accept']; ?> (<?php echo $summary['paid']; ?> paid)</li>
+    <ul>
       <?php foreach (array_keys($summary['accept_breakdown']) as $a) {
         echo '<li>' . $a . ': ' . $summary['accept_breakdown'][$a] . '</li>';
       }
       ?>
-      </ul>
-    </li>
+    </ul>
     <li>Comp: <?php echo $summary['comp']; ?> (<?php echo $summary['response_accept']; ?> accepted, <?php echo $summary['response_decline']; ?> declined)</li>
     <li>Rejected: <?php echo $summary['reject']; ?></li>
     <li>Total confirmed attendees: <?php echo ($summary['paid'] + $summary['response_accept']); ?></li>
-    <li>Total payments received: $<?php echo $summary['revenue']; ?>
-      <ul>
+    <li>Total payments received: $<?php echo $summary['revenue']; ?></li>
+    <ul>
       <?php foreach (array_keys($summary['paid_breakdown']) as $a) {
         echo '<li>' . $a . ': '
         . $summary['paid_breakdown'][$a]['count']
         . ' ($' . $summary['paid_breakdown'][$a]['amount'] . ')' . '</li>';
       }
       ?>
-      </ul>
-    </li>
+    </ul>
   </ul>
 </div>
 
