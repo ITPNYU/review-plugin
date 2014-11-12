@@ -182,13 +182,12 @@ $summary = get_summary($review_entries, $invoices);
   <dl class="dl-horizontal">
     <dt>Accepted</dt>
     <dd><?php echo $summary['accept']; ?> (<?php echo $summary['paid']; ?> paid)
-      <dl class="dl-horizontal">
+      <ul>
       <?php foreach (array_keys($summary['accept_breakdown']) as $a) {
-        echo '<dt>' . $a . '</dt>';
-        echo '<dd>' . $summary['accept_breakdown'][$a] . '</dd>';
+        echo '<li>' . $summary['accept_breakdown'][$a] . ' ' . $a . '</li>';
       }
       ?>
-      </dl>
+      </ul>
     </dd>
     <dt>Comp</dt>
     <dd><?php echo $summary['comp']; ?> (<?php echo $summary['response_accept']; ?> accepted, <?php echo $summary['response_decline']; ?> declined)</dd>
@@ -198,14 +197,13 @@ $summary = get_summary($review_entries, $invoices);
     <dd><?php echo ($summary['paid'] + $summary['response_accept']); ?></dd>
     <dt>Total payments received</dt>
     <dd>$<?php echo $summary['revenue']; ?>
-      <dl class="dl-horizontal">
+      <ul>
       <?php foreach (array_keys($summary['paid_breakdown']) as $a) {
-        echo '<dt>' . $a . '</dt>';
-        echo '<dd>' . $summary['paid_breakdown'][$a]['count']
-        . ' ($' . $summary['paid_breakdown'][$a]['amount'] . ')' . '</dd>';
+        echo '<li>' . $summary['paid_breakdown'][$a]['count']
+        . ' ' . $a . ' ($' . $summary['paid_breakdown'][$a]['amount'] . ')</li>';
       }
       ?>
-      </dl>
+      </ul>
     </dd>
   </dl>
 </div>
