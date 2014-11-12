@@ -61,7 +61,19 @@ function get_summary($review_data, $invoices) {
     'response_decline' => 0,
     'paid' => 0,
     'revenue' => 0,
-    'individual' => array()
+    'individual' => array(),
+    'accept_breakdown' => array(
+      'Current Matriculated ITP or NYU student' => 0,
+      'ITP alumni' => 0,
+      'NYU Faculty or WE Alumni' => 0,
+      'Member of general public' => 0
+    ),
+    'paid_breakdown' => array(
+      'Current Matriculated ITP or NYU student' => array('amount' => 0, 'count' => 0),
+      'ITP alumni' => array('amount' => 0, 'count' => 0),
+      'NYU Faculty or WE Alumni' => array('amount' => 0, 'count' => 0),
+      'Member of general public' => array('amount' => 0, 'count' => 0)
+    )
   );
   foreach ($review_data as $r) {
     if (isset($r['decision']['decision'])) {
@@ -77,13 +89,23 @@ function get_summary($review_data, $invoices) {
         }
       }
       if ($r['decision']['decision'] === 'accept') {
-        $invoice = NULL;
-        foreach ($invoices as $i) {
-          if ($i['code'] === $r['invoice']) {
-            if ($i['paid'] === TRUE) {
-              $summary['paid'] += 1;
-              $summary['revenue'] += $i['amount'];
-              $summary['individual'][$r['external_id']] = array('status' => 'paid $' . $i['amount']);
+        $affiliation = $r['affiliation'];
+        $a = preg_split('/"/', $r['decision']['note']);
+        if (count($a) === 3) {
+          $affiliation = $a[1];
+        }
+        $summary['accept_breakdown'][$affiliation] += 1;
+        if ($r['decision']['decision'] === 'accept') {
+          $invoice = NULL;
+          foreach ($invoices as $i) {
+            if ($i['code'] === $r['invoice']) {
+              if ($i['paid'] === TRUE) {
+                $summary['paid'] += 1;
+                $summary['revenue'] += $i['amount'];
+                $summary['individual'][$r['external_id']] = array('status' => 'paid $' . $i['amount']);
+                $summary['paid_breakdown'][$affiliation]['count'] += 1;
+                $summary['paid_breakdown'][$affiliation]['amount'] += $i['amount'];
+              }
             }
           }
         }
@@ -158,11 +180,27 @@ $summary = get_summary($review_entries, $invoices);
 <div>
   <h4>Summary</h4>
   <ul class="list-unstyled">
-    <li>Accepted: <?php echo $summary['accept']; ?> (<?php echo $summary['paid']; ?> paid)</li>
+    <li>Accepted: <?php echo $summary['accept']; ?> (<?php echo $summary['paid']; ?> paid)
+      <ul>
+      <?php foreach (array_keys($summary['accept_breakdown']) as $a) {
+        echo '<li>' . $a . ': ' . $summary['accept_breakdown'][$a] . '</li>';
+      }
+      ?>
+      </ul>
+    </li>
     <li>Comp: <?php echo $summary['comp']; ?> (<?php echo $summary['response_accept']; ?> accepted, <?php echo $summary['response_decline']; ?> declined)</li>
     <li>Rejected: <?php echo $summary['reject']; ?></li>
     <li>Total confirmed attendees: <?php echo ($summary['paid'] + $summary['response_accept']); ?></li>
-    <li>Total payments received: $<?php echo $summary['revenue']; ?></li>
+    <li>Total payments received: $<?php echo $summary['revenue']; ?>
+      <ul>
+      <?php foreach (array_keys($summary['paid_breakdown']) as $a) {
+        echo '<li>' . $a . ': '
+        . $summary['paid_breakdown'][$a]['count']
+        . ' ($' . $summary['paid_breakdown'][$a]['amount'] . ')' . '</li>';
+      }
+      ?>
+      </ul>
+    </li>
   </ul>
 </div>
 
