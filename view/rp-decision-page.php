@@ -18,7 +18,7 @@ $form_seen = array_map('get_form_entry_id', $form_entries);
 
 $review_query = get_option('rp_review_api_url') . '/entry'
   . '?key=' . get_option('rp_review_api_key')
-  . '&results_per_page=300';
+  . '&results_per_page=600';
 
 $review_entries = get_review_entries($review_query);
 

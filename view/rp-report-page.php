@@ -16,13 +16,13 @@ if (isset($result) && isset($result['response']) && isset($result['response']['e
 
 $review_query = get_option('rp_review_api_url') . '/entry'
   . '?key=' . get_option('rp_review_api_key')
-  . '&results_per_page=300';
+  . '&results_per_page=600';
 
 $review_entries = get_review_entries($review_query);
 
 $invoice_query = get_option('rp_paytrack_api_url') . '/invoice'
   . '?key=' . get_option('rp_paytrack_api_key')
-  . '&results_per_page=300';
+  . '&results_per_page=600';
 
 $invoices = get_invoices($invoice_query);
 
