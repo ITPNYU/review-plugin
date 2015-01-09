@@ -82,7 +82,7 @@ function get_summary($review_data, $invoices) {
         if ($r['response'] == 'accept') {
           $summary['response_accept'] += 1;
           $u_ext = json_decode($r['external_data'], TRUE);
-          echo $u_ext['username'] . "<br\>\n";
+          echo $u_ext['username'] . "<br>\n";
           $summary['individual'][$r['external_id']] = array('status' => 'accept');
         }
         else if ($r['response'] === 'decline') {
