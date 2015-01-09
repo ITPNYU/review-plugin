@@ -82,7 +82,8 @@ function get_summary($review_data, $invoices) {
         if ($r['response'] == 'accept') {
           $summary['response_accept'] += 1;
           $u_ext = json_decode($r['external_data'], TRUE);
-          echo $u_ext['username'] . "<br>\n";
+          $u = get_user_by('login', $u_ext['username']);
+          add_user_meta($u->ID, 'rpstatus_we2015', 'confirmed'); // FIXME: hardcoded year
           $summary['individual'][$r['external_id']] = array('status' => 'accept');
         }
         else if ($r['response'] === 'decline') {
