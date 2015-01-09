@@ -108,6 +108,9 @@ function get_summary($review_data, $invoices) {
                 $summary['individual'][$r['external_id']] = array('status' => 'paid $' . $i['amount']);
                 $summary['paid_breakdown'][$affiliation]['count'] += 1;
                 $summary['paid_breakdown'][$affiliation]['amount'] += $i['amount'];
+                $u_ext = json_decode($r['external_data'], TRUE);
+                $u = get_user_by('login', $u_ext['username']);
+                add_user_meta($u->ID, 'rpstatus_we2015', 'confirmed', TRUE); // FIXME: hardcoded year
               }
             }
           }
