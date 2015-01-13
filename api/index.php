@@ -32,14 +32,12 @@ function rp_create_user ($fname, $lname, $email, $blog) {
     add_user_to_blog( $blog, $user_id, "subscriber" ) ;
   }
   else { // user does not exist
+    $user_login = $user_login_prefix;
     if (username_exists( $user_login )) { // but user name is in use already
       // generate a username with random number suffix
       do {
         $user_login = $user_login_prefix . rand(1, 99);
       } while (username_exists($user_login));
-    }
-    else {
-      $user_login = $user_login_prefix;
     }
 
     $user_info = array(
